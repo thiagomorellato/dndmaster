@@ -647,6 +647,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ characterId, o
       source={getCharacterBackground(character.characterClass)}
       style={styles.container}
       imageStyle={styles.bgImageStyles}
+      resizeMode="cover"
     >
       <View style={styles.overlay}>
       {/* Header */}
@@ -1099,10 +1100,10 @@ const styles = StyleSheet.create({
   overlay: {
     flex: 1,
     paddingTop: 48,
-    backgroundColor: 'rgba(15, 23, 42, 0.65)',
+    backgroundColor: 'rgba(15, 23, 42, 0.72)',
   },
   bgImageStyles: {
-    opacity: 0.18,
+    opacity: 0.12,
   },
   loaderContainer: {
     flex: 1,
