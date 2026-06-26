@@ -23,6 +23,9 @@
     },
     "experiments": {
       "baseUrl": "/dnd-sheet"
-    }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

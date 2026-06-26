@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Platform } from 'react-native';
+import { StyleSheet, View, Platform, ActivityIndicator } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { useFonts } from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
 
 // Hide Metro Fast Refresh indicator overlay on web
 if (Platform.OS === 'web' && typeof document !== 'undefined') {
@@ -20,6 +22,18 @@ import { CharacterCreationScreen } from './src/screens/CharacterCreationScreen';
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<'home' | 'dashboard' | 'create'>('home');
   const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>(null);
+
+  const [fontsLoaded] = useFonts({
+    ...Ionicons.font,
+  });
+
+  if (!fontsLoaded) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color="#60A5FA" />
+      </View>
+    );
+  }
 
   const handleSelectCharacter = (id: string) => {
     setSelectedCharacterId(id);
