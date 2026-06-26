@@ -8,6 +8,11 @@ import {
   ActivityIndicator,
   Alert,
   ImageBackground,
+  Modal,
+  TextInput,
+  LayoutAnimation,
+  Platform,
+  UIManager,
 } from 'react-native';
 import { Character, HP, Resources, CombatLogEntry, ActionType, CombatConfig, EquipmentItem, BaseStats, Coins } from '../types/character';
 import { StorageService } from '../services/storage';
@@ -17,6 +22,12 @@ import { ResourceTracker } from '../components/ResourceTracker';
 import { EquipmentTracker } from '../components/EquipmentTracker';
 import { Ionicons } from '@expo/vector-icons';
 import { getHitDieType, getArmorCategory } from '../utils/dndRules';
+
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 interface DashboardScreenProps {
   characterId: string;
@@ -52,6 +63,120 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ characterId, o
   useEffect(() => {
     loadData();
   }, [characterId]);
+
+  const [multiplier, setMultiplier] = useState<1 | 5 | 10 | 20>(1);
+  const [coinsModalVisible, setCoinsModalVisible] = useState(false);
+  const [hpModalVisible, setHpModalVisible] = useState(false);
+
+  const [editCP, setEditCP] = useState('0');
+  const [editSP, setEditSP] = useState('0');
+  const [editEP, setEditEP] = useState('0');
+  const [editGP, setEditGP] = useState('0');
+  const [editPP, setEditPP] = useState('0');
+
+  const [editCurrentHP, setEditCurrentHP] = useState('0');
+  const [editMaxHP, setEditMaxHP] = useState('0');
+  const [editTempHP, setEditTempHP] = useState('0');
+
+  const handleSaveCoins = async () => {
+    if (!character) return;
+    const updatedCoins = {
+      cp: parseInt(editCP, 10) || 0,
+      sp: parseInt(editSP, 10) || 0,
+      ep: parseInt(editEP, 10) || 0,
+      gp: parseInt(editGP, 10) || 0,
+      pp: parseInt(editPP, 10) || 0,
+    };
+    await handleUpdateCoins(updatedCoins);
+    setCoinsModalVisible(false);
+  };
+
+  const handleOpenHPModal = () => {
+    if (!character) return;
+    setEditCurrentHP(String(character.hp.current));
+    setEditMaxHP(String(character.hp.max));
+    setEditTempHP(String(character.hp.temp || 0));
+    setHpModalVisible(true);
+  };
+
+  const handleSaveHP = async () => {
+    if (!character) return;
+    const nextMax = Math.max(1, parseInt(editMaxHP, 10) || 1);
+    let nextCurrent = parseInt(editCurrentHP, 10) || 0;
+    let nextTemp = Math.max(0, parseInt(editTempHP, 10) || 0);
+
+    // Overflow extra healing/current HP into temporary HP
+    if (nextCurrent > nextMax) {
+      nextTemp += (nextCurrent - nextMax);
+      nextCurrent = nextMax;
+    } else if (nextCurrent < 0) {
+      nextCurrent = 0;
+    }
+
+    const oldTotal = character.hp.current + (character.hp.temp || 0);
+    const newTotal = nextCurrent + nextTemp;
+    const change = newTotal - oldTotal;
+
+    if (change !== 0 || character.hp.max !== nextMax) {
+      await handleUpdateHP(
+        { current: nextCurrent, max: nextMax, temp: nextTemp },
+        Math.abs(change),
+        change > 0
+      );
+    }
+    setHpModalVisible(false);
+  };
+
+  const cycleMultiplier = () => {
+    setMultiplier(prev => {
+      if (prev === 1) return 5;
+      if (prev === 5) return 10;
+      if (prev === 10) return 20;
+      return 1;
+    });
+  };
+
+  const handleAdjust = async (isHeal: boolean) => {
+    if (!character) return;
+    const amount = multiplier;
+    let nextHp = character.hp.current;
+    let nextTemp = character.hp.temp || 0;
+
+    if (isHeal) {
+      if (nextHp < character.hp.max) {
+        const needed = character.hp.max - nextHp;
+        if (amount <= needed) {
+          nextHp += amount;
+        } else {
+          nextHp = character.hp.max;
+          nextTemp += (amount - needed);
+        }
+      } else {
+        nextTemp += amount;
+      }
+    } else {
+      if (nextTemp > 0) {
+        if (amount <= nextTemp) {
+          nextTemp -= amount;
+        } else {
+          const remainingDamage = amount - nextTemp;
+          nextTemp = 0;
+          nextHp = Math.max(0, nextHp - remainingDamage);
+        }
+      } else {
+        nextHp = Math.max(0, nextHp - amount);
+      }
+    }
+
+    const change = (nextHp + nextTemp) - (character.hp.current + (character.hp.temp || 0));
+    if (change === 0) return;
+
+    await handleUpdateHP(
+      { ...character.hp, current: nextHp, temp: nextTemp },
+      Math.abs(change),
+      change > 0
+    );
+  };
 
   // Calculates base D&D 5e Armor Class based on equipped gear (armor, shields, rings, etc.)
   const calculateBaseAC = (baseStats: BaseStats, equipment: EquipmentItem[]): number => {
@@ -528,18 +653,10 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ characterId, o
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {activeTab === 'tatico' && (
           <VitalsWidget
-            hp={character.hp}
             combat={character.combat}
-            characterName={character.name}
-            characterClass={character.characterClass}
-            onUpdateHP={handleUpdateHP}
             stats={character.baseStats}
             proficiencies={character.proficiencies}
             level={character.level}
-            coins={character.coins || { cp: 0, sp: 0, ep: 0, gp: 0, pp: 0 }}
-            onUpdateCoins={handleUpdateCoins}
-            hitDice={character.hitDice}
-            onUpdateHitDice={handleUpdateHitDice}
           />
         )}
 
@@ -621,6 +738,131 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ characterId, o
         )}
       </ScrollView>
 
+      {/* HP & Moedas Sticky Footer */}
+      {activeTab === 'tatico' && (
+        <View style={styles.hpStickyFooter}>
+          {/* Coins container (transparent background, no borders) */}
+          <TouchableOpacity 
+            style={styles.coinsContainerBottom} 
+            onPress={() => {
+              setEditCP(String(character.coins?.cp || 0));
+              setEditSP(String(character.coins?.sp || 0));
+              setEditEP(String(character.coins?.ep || 0));
+              setEditGP(String(character.coins?.gp || 0));
+              setEditPP(String(character.coins?.pp || 0));
+              setCoinsModalVisible(true);
+            }}
+            activeOpacity={0.8}
+          >
+            <View style={styles.coinBadgeCompact}>
+              <View style={[styles.coinDot, { backgroundColor: '#F59E0B' }]} />
+              <Text style={styles.coinTextCompact}>{(character.coins?.gp || 0)} gp</Text>
+            </View>
+            <View style={styles.coinBadgeCompact}>
+              <View style={[styles.coinDot, { backgroundColor: '#E2E8F0' }]} />
+              <Text style={styles.coinTextCompact}>{(character.coins?.pp || 0)} pp</Text>
+            </View>
+            <View style={styles.coinBadgeCompact}>
+              <View style={[styles.coinDot, { backgroundColor: '#A78BFA' }]} />
+              <Text style={styles.coinTextCompact}>{(character.coins?.ep || 0)} ep</Text>
+            </View>
+            <View style={styles.coinBadgeCompact}>
+              <View style={[styles.coinDot, { backgroundColor: '#94A3B8' }]} />
+              <Text style={styles.coinTextCompact}>{(character.coins?.sp || 0)} sp</Text>
+            </View>
+            <View style={styles.coinBadgeCompact}>
+              <View style={[styles.coinDot, { backgroundColor: '#B45309' }]} />
+              <Text style={styles.coinTextCompact}>{(character.coins?.cp || 0)} cp</Text>
+            </View>
+          </TouchableOpacity>
+
+          {/* HP Progress Bar */}
+          {(() => {
+            const hpPercentage = Math.max(0, Math.min(100, (character.hp.current / character.hp.max) * 100));
+            const getHpColor = () => {
+              if (hpPercentage > 50) return '#10B981';
+              if (hpPercentage > 20) return '#F59E0B';
+              return '#EF4444';
+            };
+            const hdCurrent = character.hitDice ? character.hitDice.current : character.level;
+            const hdMax = character.level;
+            const hdType = character.hitDice ? character.hitDice.dieType : getHitDieType(character.characterClass);
+
+            return (
+              <>
+                <View style={styles.progressBarBg}>
+                  <View
+                    style={[
+                      styles.progressBarFill,
+                      { width: `${hpPercentage}%`, backgroundColor: getHpColor() },
+                    ]}
+                  />
+                </View>
+
+                <View style={styles.hpControlsRow}>
+                  {/* Left: HP values editing trigger */}
+                  <TouchableOpacity style={styles.hpValuesWrapper} onPress={handleOpenHPModal} activeOpacity={0.7}>
+                    <Text style={styles.hpCurrentLabel}>
+                      {(character.hp.temp ?? 0) > 0 ? (character.hp.current + (character.hp.temp ?? 0)) : character.hp.current}
+                    </Text>
+                    <Text style={styles.hpMaxLabel}>
+                      /{character.hp.max}{(character.hp.temp ?? 0) > 0 ? ` (+${character.hp.temp})` : ''} HP
+                    </Text>
+                    <Ionicons name="create-outline" size={10} color="#64748B" style={{ marginLeft: 3, alignSelf: 'center' }} />
+                  </TouchableOpacity>
+
+                  {/* Middle: HP Adjustments (- / + / Multiplier) */}
+                  <View style={styles.quickControls}>
+                    <TouchableOpacity style={[styles.controlBtnCompact, styles.btnDamageCompact]} onPress={() => handleAdjust(false)}>
+                      <Ionicons name="remove" size={14} color="#F8FAFC" />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={[styles.controlBtnCompact, styles.btnHealCompact]} onPress={() => handleAdjust(true)}>
+                      <Ionicons name="add" size={14} color="#F8FAFC" />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.multiplierBtnCompact} onPress={cycleMultiplier}>
+                      <Text style={styles.multiplierValCompact}>{multiplier}x</Text>
+                    </TouchableOpacity>
+                  </View>
+
+                  {/* Right: Hit Dice Section (visual icons above numeric text) */}
+                  <View style={styles.hitDiceSection}>
+                    <TouchableOpacity
+                      style={styles.hitDiceInteractiveContainer}
+                      onPress={() => {
+                        if (hdCurrent > 0) {
+                          handleUpdateHitDice(hdCurrent - 1);
+                        } else {
+                          handleUpdateHitDice(hdMax);
+                        }
+                      }}
+                      activeOpacity={0.7}
+                    >
+                      {/* Row of cubes above text */}
+                      <View style={styles.hitDiceCubesRow}>
+                        {Array.from({ length: hdMax }).map((_, idx) => (
+                          <Ionicons
+                            key={idx}
+                            name={idx < hdCurrent ? "cube" : "cube-outline"}
+                            size={10}
+                            color={idx < hdCurrent ? "#EF4444" : "#475569"}
+                            style={{ marginRight: 2 }}
+                          />
+                        ))}
+                      </View>
+                      <Text style={styles.hitDiceTextCompact}>
+                        {hdCurrent}/{hdMax} ({hdType})
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </>
+            );
+          })()}
+        </View>
+      )}
+
       {/* Bottom Tab Navigation Bar */}
       <View style={styles.tabBar}>
         <TouchableOpacity
@@ -683,6 +925,148 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ characterId, o
           </Text>
         </TouchableOpacity>
       </View>
+
+      {/* Coins Editing Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={coinsModalVisible}
+        onRequestClose={() => setCoinsModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Gerenciador de Moedas</Text>
+              <TouchableOpacity onPress={() => setCoinsModalVisible(false)}>
+                <Ionicons name="close" size={22} color="#94A3B8" />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.coinInputsContainer}>
+              <View style={styles.coinInputRow}>
+                <View style={[styles.coinDot, { backgroundColor: '#F59E0B' }]} />
+                <Text style={styles.coinInputLabel}>Ouro (PO):</Text>
+                <TextInput
+                  style={styles.coinTextInput}
+                  keyboardType="numeric"
+                  value={editGP}
+                  onChangeText={setEditGP}
+                />
+              </View>
+              <View style={styles.coinInputRow}>
+                <View style={[styles.coinDot, { backgroundColor: '#E2E8F0' }]} />
+                <Text style={styles.coinInputLabel}>Platina (PL):</Text>
+                <TextInput
+                  style={styles.coinTextInput}
+                  keyboardType="numeric"
+                  value={editPP}
+                  onChangeText={setEditPP}
+                />
+              </View>
+              <View style={styles.coinInputRow}>
+                <View style={[styles.coinDot, { backgroundColor: '#A78BFA' }]} />
+                <Text style={styles.coinInputLabel}>Electro (PE):</Text>
+                <TextInput
+                  style={styles.coinTextInput}
+                  keyboardType="numeric"
+                  value={editEP}
+                  onChangeText={setEditEP}
+                />
+              </View>
+              <View style={styles.coinInputRow}>
+                <View style={[styles.coinDot, { backgroundColor: '#94A3B8' }]} />
+                <Text style={styles.coinInputLabel}>Prata (PP):</Text>
+                <TextInput
+                  style={styles.coinTextInput}
+                  keyboardType="numeric"
+                  value={editSP}
+                  onChangeText={setEditSP}
+                />
+              </View>
+              <View style={styles.coinInputRow}>
+                <View style={[styles.coinDot, { backgroundColor: '#B45309' }]} />
+                <Text style={styles.coinInputLabel}>Cobre (PC):</Text>
+                <TextInput
+                  style={styles.coinTextInput}
+                  keyboardType="numeric"
+                  value={editCP}
+                  onChangeText={setEditCP}
+                />
+              </View>
+            </View>
+
+            <View style={styles.modalFooter}>
+              <TouchableOpacity style={styles.cancelBtn} onPress={() => setCoinsModalVisible(false)}>
+                <Text style={styles.cancelBtnText}>Cancelar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.saveBtn} onPress={handleSaveCoins}>
+                <Text style={styles.saveBtnText}>Salvar Moedas</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* HP Editing Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={hpModalVisible}
+        onRequestClose={() => setHpModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Gerenciador de Pontos de Vida</Text>
+              <TouchableOpacity onPress={() => setHpModalVisible(false)}>
+                <Ionicons name="close" size={22} color="#94A3B8" />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.coinInputsContainer}>
+              <View style={styles.coinInputRow}>
+                <View style={[styles.coinDot, { backgroundColor: '#10B981' }]} />
+                <Text style={styles.coinInputLabel}>PV Atuais (Current HP):</Text>
+                <TextInput
+                  style={styles.coinTextInput}
+                  keyboardType="numeric"
+                  value={editCurrentHP}
+                  onChangeText={setEditCurrentHP}
+                />
+              </View>
+              <View style={styles.coinInputRow}>
+                <View style={[styles.coinDot, { backgroundColor: '#EF4444' }]} />
+                <Text style={styles.coinInputLabel}>PV Máximos (Max HP):</Text>
+                <TextInput
+                  style={styles.coinTextInput}
+                  keyboardType="numeric"
+                  value={editMaxHP}
+                  onChangeText={setEditMaxHP}
+                />
+              </View>
+              <View style={styles.coinInputRow}>
+                <View style={[styles.coinDot, { backgroundColor: '#3B82F6' }]} />
+                <Text style={styles.coinInputLabel}>PV Temporários (Temp HP):</Text>
+                <TextInput
+                  style={styles.coinTextInput}
+                  keyboardType="numeric"
+                  value={editTempHP}
+                  onChangeText={setEditTempHP}
+                />
+              </View>
+            </View>
+
+            <View style={styles.modalFooter}>
+              <TouchableOpacity style={styles.cancelBtn} onPress={() => setHpModalVisible(false)}>
+                <Text style={styles.cancelBtnText}>Cancelar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.saveBtn} onPress={handleSaveHP}>
+                <Text style={styles.saveBtnText}>Salvar PV</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
       </View>
     </ImageBackground>
   );
@@ -773,7 +1157,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 16,
-    paddingBottom: 100, // Padding for Tab Bar height
+    paddingBottom: 160, // Padding for Tab Bar + Sticky Footer height
   },
   logCard: {
     backgroundColor: '#1E293B',
@@ -887,12 +1271,13 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 64,
-    backgroundColor: 'rgba(15, 23, 42, 0.85)',
+    backgroundColor: 'rgba(15, 23, 42, 0.95)',
     borderTopWidth: 1,
     borderTopColor: '#1E293B',
     paddingBottom: 8,
     alignItems: 'center',
     justifyContent: 'space-around',
+    zIndex: 100,
   },
   tabItem: {
     flex: 1,
@@ -914,5 +1299,230 @@ const styles = StyleSheet.create({
   tabLabelActive: {
     color: '#F59E0B',
     fontWeight: '900',
+  },
+  hpStickyFooter: {
+    position: 'absolute',
+    bottom: 64,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(15, 23, 42, 0.95)',
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(51, 65, 85, 0.5)',
+    paddingHorizontal: 16,
+    paddingBottom: 12,
+    paddingTop: 4,
+    zIndex: 50,
+  },
+  coinsContainerBottom: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    paddingVertical: 2,
+    marginTop: 2,
+    width: '100%',
+  },
+  coinBadgeCompact: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1E293B',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+    borderWidth: 0.5,
+    borderColor: '#334155',
+    marginHorizontal: 4,
+  },
+  coinDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    marginRight: 4,
+  },
+  coinTextCompact: {
+    color: '#E2E8F0',
+    fontSize: 10,
+    fontWeight: '700',
+  },
+  progressBarBg: {
+    height: 6,
+    width: '100%',
+    backgroundColor: '#0F172A',
+    borderRadius: 3,
+    overflow: 'hidden',
+    borderWidth: 0.5,
+    borderColor: '#334155',
+    marginTop: 4,
+  },
+  progressBarFill: {
+    height: '100%',
+    borderRadius: 3,
+  },
+  hpControlsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 6,
+    width: '100%',
+  },
+  hpValuesWrapper: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    flex: 1,
+  },
+  hpCurrentLabel: {
+    color: '#F8FAFC',
+    fontSize: 15,
+    fontWeight: '900',
+  },
+  hpMaxLabel: {
+    color: '#64748B',
+    fontSize: 9,
+    fontWeight: '700',
+    marginLeft: 1.5,
+  },
+  quickControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1.2,
+  },
+  controlBtnCompact: {
+    width: 24,
+    height: 24,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btnDamageCompact: {
+    backgroundColor: '#EF4444',
+  },
+  btnHealCompact: {
+    backgroundColor: '#10B981',
+    marginLeft: 4,
+  },
+  multiplierBtnCompact: {
+    width: 24,
+    height: 24,
+    borderRadius: 5,
+    backgroundColor: 'rgba(15, 23, 42, 0.95)',
+    borderWidth: 1,
+    borderColor: '#F59E0B',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 4,
+  },
+  multiplierValCompact: {
+    color: '#F59E0B',
+    fontSize: 9,
+    fontWeight: '900',
+  },
+  hitDiceSection: {
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  hitDiceInteractiveContainer: {
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
+  hitDiceCubesRow: {
+    flexDirection: 'row',
+    marginBottom: 2,
+  },
+  hitDiceTextCompact: {
+    color: '#E2E8F0',
+    fontSize: 9,
+    fontWeight: '700',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(15, 23, 42, 0.85)',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  modalContent: {
+    backgroundColor: '#1E293B',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#334155',
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+    elevation: 10,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  modalTitle: {
+    color: '#F8FAFC',
+    fontSize: 16,
+    fontWeight: '800',
+  },
+  coinInputsContainer: {
+    flexDirection: 'column',
+    marginBottom: 10,
+  },
+  coinInputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#0F172A',
+    borderColor: '#334155',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    marginBottom: 8,
+  },
+  coinInputLabel: {
+    flex: 1,
+    color: '#94A3B8',
+    fontSize: 12,
+    fontWeight: '700',
+    marginLeft: 8,
+  },
+  coinTextInput: {
+    backgroundColor: '#1E293B',
+    color: '#F8FAFC',
+    borderColor: '#334155',
+    borderWidth: 1,
+    borderRadius: 6,
+    width: 80,
+    height: 32,
+    textAlign: 'center',
+    fontSize: 13,
+    fontWeight: '800',
+  },
+  modalFooter: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: 12,
+  },
+  cancelBtn: {
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    marginRight: 10,
+  },
+  cancelBtnText: {
+    color: '#94A3B8',
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  saveBtn: {
+    backgroundColor: '#F59E0B',
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+    borderRadius: 8,
+  },
+  saveBtnText: {
+    color: '#0F172A',
+    fontSize: 14,
+    fontWeight: '800',
   },
 });
