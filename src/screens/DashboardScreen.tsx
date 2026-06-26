@@ -7,6 +7,7 @@ import {
   ScrollView,
   ActivityIndicator,
   Alert,
+  ImageBackground,
 } from 'react-native';
 import { Character, HP, Resources, CombatLogEntry, ActionType, CombatConfig, EquipmentItem, BaseStats, Coins } from '../types/character';
 import { StorageService } from '../services/storage';
@@ -494,7 +495,12 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ characterId, o
   if (!character) return null;
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      source={require('../../assets/paladin_bg.jpg')}
+      style={styles.container}
+      imageStyle={styles.bgImageStyles}
+    >
+      <View style={styles.overlay}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backBtn} onPress={onBack}>
@@ -667,7 +673,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ characterId, o
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -675,7 +682,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#0F172A',
+  },
+  overlay: {
+    flex: 1,
     paddingTop: 48,
+    backgroundColor: 'rgba(15, 23, 42, 0.65)',
+  },
+  bgImageStyles: {
+    opacity: 0.18,
   },
   loaderContainer: {
     flex: 1,
@@ -836,7 +850,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 64,
-    backgroundColor: '#0F172A',
+    backgroundColor: 'rgba(15, 23, 42, 0.85)',
     borderTopWidth: 1,
     borderTopColor: '#1E293B',
     paddingBottom: 8,

@@ -187,13 +187,7 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={require('../../assets/paladin_bg.jpg')}
-        style={styles.bgImage}
-        imageStyle={styles.bgImageStyles}
-      >
-        <View style={styles.overlay}>
-          <View style={styles.mainRow}>
+      <View style={styles.mainRow}>
             
             <View style={styles.leftColumn}>
               <TouchableOpacity
@@ -279,7 +273,7 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
 
                 <View style={styles.profBadgeCompact}>
                   <View style={styles.profIconWrapperCompact}>
-                    <Ionicons name="medal" size={32} color="#94A3B8" />
+                    <Ionicons name="star" size={32} color="#94A3B8" />
                     <Text style={styles.profTextCompact}>+{proficiencyBonus}</Text>
                   </View>
                   <Text style={styles.badgeLabelCompact}>PROF</Text>
@@ -349,57 +343,42 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
                 <Ionicons name="create-outline" size={10} color="#64748B" style={{ marginLeft: 3, alignSelf: 'center' }} />
               </TouchableOpacity>
 
-              <View style={styles.quickControls}>
-                <TouchableOpacity style={[styles.controlBtnCompact, styles.btnDamageCompact]} onPress={() => handleAdjust(false)}>
-                  <Ionicons name="remove" size={14} color="#F8FAFC" />
+              <View style={styles.rightSideControls}>
+                {/* Hit Dice (Coraçãozinho 5/5 (d10)) */}
+                <TouchableOpacity
+                  style={styles.hitDiceContainerCompact}
+                  onPress={() => {
+                    if (hdCurrent > 0) {
+                      onUpdateHitDice(hdCurrent - 1);
+                    } else {
+                      onUpdateHitDice(hdMax);
+                    }
+                  }}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="heart" size={10} color="#EF4444" style={{ marginRight: 3 }} />
+                  <Text style={styles.hitDiceTextCompact}>
+                    {hdCurrent}/{hdMax} ({hdType})
+                  </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.multiplierBtnCompact} onPress={cycleMultiplier}>
-                  <Text style={styles.multiplierValCompact}>{multiplier}x</Text>
-                </TouchableOpacity>
+                {/* HP Adjustments (Order: - + 1x) */}
+                <View style={styles.quickControls}>
+                  <TouchableOpacity style={[styles.controlBtnCompact, styles.btnDamageCompact]} onPress={() => handleAdjust(false)}>
+                    <Ionicons name="remove" size={14} color="#F8FAFC" />
+                  </TouchableOpacity>
 
-                <TouchableOpacity style={[styles.controlBtnCompact, styles.btnHealCompact]} onPress={() => handleAdjust(true)}>
-                  <Ionicons name="add" size={14} color="#F8FAFC" />
-                </TouchableOpacity>
-              </View>
-            </View>
+                  <TouchableOpacity style={[styles.controlBtnCompact, styles.btnHealCompact]} onPress={() => handleAdjust(true)}>
+                    <Ionicons name="add" size={14} color="#F8FAFC" />
+                  </TouchableOpacity>
 
-            <View style={styles.hitDiceRow}>
-              <View style={styles.hitDiceTopRow}>
-                <Text style={styles.hitDiceLabel}>DADOS DE VIDA</Text>
-                <View style={styles.diceContainer}>
-                  {Array.from({ length: hdMax }).map((_, idx) => {
-                    const isActive = idx < hdCurrent;
-                    return (
-                      <TouchableOpacity
-                        key={idx}
-                        onPress={() => {
-                          if (isActive) {
-                            onUpdateHitDice(idx);
-                          } else {
-                            onUpdateHitDice(idx + 1);
-                          }
-                        }}
-                        style={styles.dieButton}
-                        activeOpacity={0.7}
-                      >
-                        <Ionicons
-                          name={isActive ? 'dice' : 'dice-outline'}
-                          size={16}
-                          color={isActive ? '#F59E0B' : '#475569'}
-                        />
-                      </TouchableOpacity>
-                    );
-                  })}
+                  <TouchableOpacity style={styles.multiplierBtnCompact} onPress={cycleMultiplier}>
+                    <Text style={styles.multiplierValCompact}>{multiplier}x</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
-              <Text style={styles.hitDiceValueSub}>
-                {hdCurrent}/{hdMax} ({hdType})
-              </Text>
             </View>
           </View>
-        </View>
-      </ImageBackground>
 
       <Modal
         animationType="slide"
@@ -547,23 +526,29 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 18,
-    overflow: 'hidden',
-    marginBottom: 16,
-    borderWidth: 1,
-    borderColor: '#334155',
-    backgroundColor: '#1E293B',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.4,
-    shadowRadius: 8,
-    elevation: 10,
-  },
-  bgImage: {
     width: '100%',
+    marginBottom: 16,
   },
-  bgImageStyles: {
-    opacity: 0.35,
+  rightSideControls: {
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
+  hitDiceContainerCompact: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+    backgroundColor: 'rgba(15, 23, 42, 0.65)',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+    borderWidth: 0.5,
+    borderColor: '#334155',
+  },
+  hitDiceTextCompact: {
+    color: '#E2E8F0',
+    fontSize: 9,
+    fontWeight: '700',
   },
   overlay: {
     padding: 12,
@@ -842,6 +827,7 @@ const styles = StyleSheet.create({
   },
   btnHealCompact: {
     backgroundColor: '#10B981',
+    marginLeft: 4,
   },
   multiplierBtnCompact: {
     width: 24,
@@ -852,7 +838,7 @@ const styles = StyleSheet.create({
     borderColor: '#F59E0B',
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 3,
+    marginLeft: 4,
   },
   multiplierValCompact: {
     color: '#F59E0B',
