@@ -128,6 +128,11 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
   const hpPercentage = Math.max(0, Math.min(100, (hp.current / hp.max) * 100));
   const currentAC = combat.baseArmorClass + (combat.shieldOfFaithActive ? 2 : 0);
   const proficiencyBonus = Math.floor((level - 1) / 4) + 2;
+  const dexMod = Math.floor((stats.dex - 10) / 2);
+  const initiativeStr = dexMod >= 0 ? `+${dexMod}` : `${dexMod}`;
+  const hasPerceptionProf = proficiencies.includes('Perception') || proficiencies.includes('Percepção');
+  const wisMod = Math.floor((stats.wis - 10) / 2);
+  const passivePerception = 10 + wisMod + (hasPerceptionProf ? proficiencyBonus : 0);
 
   const cycleMultiplier = () => {
     setMultiplier(prev => {
@@ -269,23 +274,48 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
       {/* Central View (Model placeholder taking 100% width with absolute stats overlay) */}
       <View style={styles.modelContainerFull}>
         <View style={styles.modelPlaceholder}>
-          {/* Absolute Overlays */}
-          <View style={styles.acBadgeFloating}>
-            <Ionicons name="shield" size={14} color={combat.shieldOfFaithActive ? '#60A5FA' : '#94A3B8'} style={{ marginRight: 3 }} />
-            <Text style={styles.floatingBadgeValue}>{currentAC}</Text>
-            <Text style={styles.floatingBadgeLabel}>C.A.</Text>
-          </View>
+          {/* Absolute HUD Badges Overlays */}
+          <View style={styles.hudBadgesRow}>
+            {/* C.A. */}
+            <View style={styles.hudBadge}>
+              <Ionicons name="shield" size={12} color={combat.shieldOfFaithActive ? '#60A5FA' : '#94A3B8'} style={{ marginRight: 3 }} />
+              <Text style={styles.hudBadgeValue}>{currentAC}</Text>
+              <Text style={styles.hudBadgeLabel}>C.A.</Text>
+            </View>
 
-          <View style={styles.profBadgeFloating}>
-            <Ionicons name="star" size={13} color="#F59E0B" style={{ marginRight: 3 }} />
-            <Text style={styles.floatingBadgeValue}>+{proficiencyBonus}</Text>
-            <Text style={styles.floatingBadgeLabel}>PROF</Text>
+            {/* INICIA. */}
+            <View style={styles.hudBadge}>
+              <Ionicons name="flash" size={12} color="#F59E0B" style={{ marginRight: 3 }} />
+              <Text style={styles.hudBadgeValue}>{initiativeStr}</Text>
+              <Text style={styles.hudBadgeLabel}>INIC.</Text>
+            </View>
+
+            {/* DESLOC. */}
+            <View style={styles.hudBadge}>
+              <Ionicons name="footsteps" size={12} color="#10B981" style={{ marginRight: 3 }} />
+              <Text style={styles.hudBadgeValue}>9m</Text>
+              <Text style={styles.hudBadgeLabel}>DESL.</Text>
+            </View>
+
+            {/* PERC. PASSIVA */}
+            <View style={styles.hudBadge}>
+              <Ionicons name="eye" size={12} color="#60A5FA" style={{ marginRight: 3 }} />
+              <Text style={styles.hudBadgeValue}>{passivePerception}</Text>
+              <Text style={styles.hudBadgeLabel}>PERC. P.</Text>
+            </View>
+
+            {/* PROF. */}
+            <View style={styles.hudBadge}>
+              <Ionicons name="star" size={12} color="#A78BFA" style={{ marginRight: 3 }} />
+              <Text style={styles.hudBadgeValue}>+{proficiencyBonus}</Text>
+              <Text style={styles.hudBadgeLabel}>PROF.</Text>
+            </View>
           </View>
 
           {combat.shieldOfFaithActive && (
             <View style={styles.buffBadgeFloating}>
-              <Ionicons name="sparkles" size={10} color="#60A5FA" style={{ marginRight: 4 }} />
-              <Text style={styles.buffTextFloating}>SHIELD OF FAITH ON SELF</Text>
+              <Ionicons name="sparkles" size={8} color="#60A5FA" style={{ marginRight: 3 }} />
+              <Text style={styles.buffTextFloating}>SHIELD OF FAITH</Text>
             </View>
           )}
 
@@ -689,63 +719,54 @@ const styles = StyleSheet.create({
     marginTop: 4,
     paddingHorizontal: 4,
   },
-  acBadgeFloating: {
+  hudBadgesRow: {
     position: 'absolute',
     top: 8,
     left: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(15, 23, 42, 0.85)',
-    borderColor: '#334155',
-    borderWidth: 1,
-    borderRadius: 18,
-    paddingHorizontal: 8,
-    paddingVertical: 3.5,
-    zIndex: 10,
-  },
-  profBadgeFloating: {
-    position: 'absolute',
-    top: 8,
     right: 8,
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    zIndex: 10,
+  },
+  hudBadge: {
+    flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'rgba(15, 23, 42, 0.85)',
     borderColor: '#334155',
     borderWidth: 1,
-    borderRadius: 18,
-    paddingHorizontal: 8,
-    paddingVertical: 3.5,
-    zIndex: 10,
+    borderRadius: 16,
+    paddingHorizontal: 6,
+    paddingVertical: 3,
   },
-  floatingBadgeValue: {
+  hudBadgeValue: {
     color: '#F8FAFC',
-    fontSize: 10.5,
+    fontSize: 9.5,
     fontWeight: '900',
-    marginRight: 3,
+    marginRight: 2,
   },
-  floatingBadgeLabel: {
+  hudBadgeLabel: {
     color: '#94A3B8',
-    fontSize: 7,
+    fontSize: 6.5,
     fontWeight: '800',
-    letterSpacing: 0.5,
+    letterSpacing: 0.3,
   },
   buffBadgeFloating: {
     position: 'absolute',
-    top: 42,
+    top: 36,
     alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'rgba(37, 99, 235, 0.25)',
     borderColor: '#3b82f6',
     borderWidth: 0.5,
-    paddingHorizontal: 5,
-    paddingVertical: 2,
+    paddingHorizontal: 4,
+    paddingVertical: 1.5,
     borderRadius: 6,
     zIndex: 10,
   },
   buffTextFloating: {
     color: '#60A5FA',
-    fontSize: 7.5,
+    fontSize: 7,
     fontWeight: '800',
   },
   progressBarBg: {
