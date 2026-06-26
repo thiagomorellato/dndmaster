@@ -80,58 +80,46 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
         })}
       </View>
 
-      {/* Interactive Skills Panel (Collapsible drawer displaying all skills grouped by attribute) */}
+      {/* 6-Column Collapsible Skills Grid directly under stats */}
       {skillsExpanded && (
-        <View style={styles.skillsDrawer}>
-          <View style={styles.skillsDrawerHeader}>
-            <Text style={styles.skillsDrawerTitle}>
-              PERÍCIAS POR ATRIBUTO
-            </Text>
-            <TouchableOpacity onPress={() => {
-              LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-              setSkillsExpanded(false);
-            }}>
-              <Ionicons name="close-circle" size={18} color="#94A3B8" />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.skillsDrawerContent}>
-            {(Object.keys(SKILL_MAPPING) as Array<keyof BaseStats>).map(stat => {
-              const skills = SKILL_MAPPING[stat];
-              if (skills.length === 0) return null;
+        <View style={styles.skillsColumnsRow}>
+          {(Object.keys(stats) as Array<keyof BaseStats>).map(stat => {
+            const skills = SKILL_MAPPING[stat];
 
-              return (
-                <View key={stat} style={styles.skillGroupContainer}>
-                  <Text style={styles.skillGroupTitle}>{stat.toUpperCase()}</Text>
-                  <View style={styles.skillsDrawerGrid}>
-                    {skills.map(skill => {
-                      const fullName = SKILL_FULL_NAMES[skill] || skill;
-                      const isProficient = proficiencies.includes(skill) || proficiencies.includes(fullName);
-                      const modVal = Math.floor((stats[stat] - 10) / 2);
-                      const finalBonus = modVal + (isProficient ? proficiencyBonus : 0);
-                      const finalBonusStr = finalBonus >= 0 ? `+${finalBonus}` : `${finalBonus}`;
+            return (
+              <View key={stat} style={styles.skillsColumn}>
+                {skills.map(skill => {
+                  const fullName = SKILL_FULL_NAMES[skill] || skill;
+                  const isProficient = proficiencies.includes(skill) || proficiencies.includes(fullName);
+                  const modVal = Math.floor((stats[stat] - 10) / 2);
+                  const finalBonus = modVal + (isProficient ? proficiencyBonus : 0);
+                  const finalBonusStr = finalBonus >= 0 ? `+${finalBonus}` : `${finalBonus}`;
 
-                      return (
-                        <View key={skill} style={styles.drawerSkillItem}>
-                          <Ionicons
-                            name="ellipse"
-                            size={5}
-                            color={isProficient ? '#F59E0B' : '#475569'}
-                            style={{ marginRight: 4 }}
-                          />
-                          <Text style={[styles.drawerSkillBonus, isProficient && styles.drawerSkillBonusProficient]}>
-                            {finalBonusStr}
-                          </Text>
-                          <Text style={[styles.drawerSkillName, isProficient && styles.drawerSkillNameProficient]}>
-                            {fullName}
-                          </Text>
-                        </View>
-                      );
-                    })}
-                  </View>
-                </View>
-              );
-            })}
-          </View>
+                  return (
+                    <View 
+                      key={skill} 
+                      style={[
+                        styles.columnSkillItem,
+                        isProficient && styles.columnSkillItemProficient
+                      ]}
+                    >
+                      <Text style={[styles.columnSkillBonus, isProficient && styles.columnSkillBonusProficient]}>
+                        {finalBonusStr}
+                      </Text>
+                      <Text 
+                        style={[styles.columnSkillName, isProficient && styles.columnSkillNameProficient]}
+                        numberOfLines={1}
+                        adjustsFontSizeToFit
+                        minimumFontScale={0.75}
+                      >
+                        {skill}
+                      </Text>
+                    </View>
+                  );
+                })}
+              </View>
+            );
+          })}
         </View>
       )}
 
@@ -202,7 +190,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    marginBottom: 8,
+    marginBottom: 6,
   },
   attributeCardHorizontal: {
     flex: 1,
@@ -235,74 +223,52 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginTop: -2,
   },
-  skillsDrawer: {
-    backgroundColor: 'rgba(15, 23, 42, 0.9)',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: 'rgba(51, 65, 85, 0.5)',
-    padding: 12,
-    marginBottom: 10,
-    width: '100%',
-  },
-  skillsDrawerHeader: {
+  skillsColumnsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    borderBottomWidth: 0.5,
-    borderBottomColor: 'rgba(148, 163, 184, 0.2)',
-    paddingBottom: 6,
-    marginBottom: 8,
-  },
-  skillsDrawerTitle: {
-    color: '#F59E0B',
-    fontSize: 10,
-    fontWeight: '800',
-    letterSpacing: 0.5,
-  },
-  skillsDrawerContent: {
     width: '100%',
-  },
-  skillGroupContainer: {
     marginBottom: 10,
-    borderBottomWidth: 0.5,
-    borderBottomColor: 'rgba(148, 163, 184, 0.1)',
-    paddingBottom: 6,
   },
-  skillGroupTitle: {
-    color: '#F59E0B',
-    fontSize: 9,
-    fontWeight: '900',
-    marginBottom: 6,
-    letterSpacing: 0.5,
-  },
-  skillsDrawerGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  drawerSkillItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '48%',
-    marginBottom: 6,
-  },
-  drawerSkillBonus: {
-    color: '#64748B',
-    fontSize: 10,
-    fontWeight: '800',
-    marginRight: 6,
-    minWidth: 16,
-  },
-  drawerSkillBonusProficient: {
-    color: '#F59E0B',
-  },
-  drawerSkillName: {
-    color: '#94A3B8',
-    fontSize: 10,
-    fontWeight: '600',
+  skillsColumn: {
     flex: 1,
+    marginHorizontal: 1.5,
+    flexDirection: 'column',
+    alignItems: 'center',
   },
-  drawerSkillNameProficient: {
+  columnSkillItem: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(30, 41, 59, 0.5)',
+    borderRadius: 6,
+    borderWidth: 0.5,
+    borderColor: 'rgba(51, 65, 85, 0.3)',
+    paddingVertical: 3,
+    paddingHorizontal: 2,
+    marginBottom: 4,
+    width: '100%',
+  },
+  columnSkillItemProficient: {
+    borderColor: 'rgba(245, 158, 11, 0.4)',
+    backgroundColor: 'rgba(245, 158, 11, 0.12)',
+  },
+  columnSkillBonus: {
+    color: '#94A3B8',
+    fontSize: 9.5,
+    fontWeight: '900',
+  },
+  columnSkillBonusProficient: {
+    color: '#F59E0B',
+  },
+  columnSkillName: {
+    color: '#64748B',
+    fontSize: 7.5,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginTop: 1,
+    width: '100%',
+    paddingHorizontal: 1,
+  },
+  columnSkillNameProficient: {
     color: '#E2E8F0',
     fontWeight: '800',
   },
