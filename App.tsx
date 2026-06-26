@@ -23,11 +23,16 @@ export default function App() {
   const [currentScreen, setCurrentScreen] = useState<'home' | 'dashboard' | 'create'>('home');
   const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>(null);
 
-  const [fontsLoaded] = useFonts({
-    ...Ionicons.font,
+  const [fontsLoaded, fontError] = useFonts({
+    ionicons: require('./assets/Fonts/Ionicons.ttf'),
+    Ionicons: require('./assets/Fonts/Ionicons.ttf'),
   });
 
-  if (!fontsLoaded) {
+  if (fontError) {
+    console.warn("Font loading error:", fontError);
+  }
+
+  if (!fontsLoaded && !fontError) {
     return (
       <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
         <ActivityIndicator size="large" color="#60A5FA" />
