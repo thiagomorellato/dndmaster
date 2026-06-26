@@ -266,77 +266,69 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
         </View>
       )}
 
-      {/* Central View (Model placeholder and Combat info side-by-side) */}
-      <View style={styles.middleRow}>
-        <View style={styles.middleColumn}>
-          <View style={styles.modelPlaceholder}>
-            <Ionicons name="body-outline" size={24} color="rgba(148, 163, 184, 0.25)" />
-            <Text style={styles.modelPlaceholderText}>MODELO DE BONECO</Text>
-            <Text style={styles.modelPlaceholderSub}>Espaço reservado para visualização do personagem</Text>
+      {/* Central View (Model placeholder taking 100% width with absolute stats overlay) */}
+      <View style={styles.modelContainerFull}>
+        <View style={styles.modelPlaceholder}>
+          {/* Absolute Overlays */}
+          <View style={styles.acBadgeFloating}>
+            <Ionicons name="shield" size={14} color={combat.shieldOfFaithActive ? '#60A5FA' : '#94A3B8'} style={{ marginRight: 3 }} />
+            <Text style={styles.floatingBadgeValue}>{currentAC}</Text>
+            <Text style={styles.floatingBadgeLabel}>C.A.</Text>
           </View>
-        </View>
 
-        <View style={styles.rightColumn}>
-          <View style={styles.badgesRow}>
-            <View style={styles.acBadgeCompact}>
-              <View style={styles.acIconWrapperCompact}>
-                <Ionicons name="shield" size={32} color={combat.shieldOfFaithActive ? '#60A5FA' : '#94A3B8'} />
-                <Text style={styles.acTextCompact}>{currentAC}</Text>
-              </View>
-              <Text style={styles.badgeLabelCompact}>C.A.</Text>
-            </View>
-
-            <View style={styles.profBadgeCompact}>
-              <View style={styles.profIconWrapperCompact}>
-                <Ionicons name="star" size={32} color="#94A3B8" />
-                <Text style={styles.profTextCompact}>+{proficiencyBonus}</Text>
-              </View>
-              <Text style={styles.badgeLabelCompact}>PROF</Text>
-            </View>
+          <View style={styles.profBadgeFloating}>
+            <Ionicons name="star" size={13} color="#F59E0B" style={{ marginRight: 3 }} />
+            <Text style={styles.floatingBadgeValue}>+{proficiencyBonus}</Text>
+            <Text style={styles.floatingBadgeLabel}>PROF</Text>
           </View>
 
           {combat.shieldOfFaithActive && (
-            <View style={styles.buffBadgeCompact}>
+            <View style={styles.buffBadgeFloating}>
               <Ionicons name="sparkles" size={10} color="#60A5FA" style={{ marginRight: 4 }} />
-              <Text style={styles.buffTextCompact}>SHIELD OF FAITH ON SELF</Text>
+              <Text style={styles.buffTextFloating}>SHIELD OF FAITH ON SELF</Text>
             </View>
           )}
 
-          <TouchableOpacity 
-            style={styles.coinsContainerCompact} 
-            onPress={() => {
-              setEditCP(String(coins.cp));
-              setEditSP(String(coins.sp));
-              setEditEP(String(coins.ep));
-              setEditGP(String(coins.gp));
-              setEditPP(String(coins.pp));
-              setCoinsModalVisible(true);
-            }}
-            activeOpacity={0.8}
-          >
-            <Ionicons name="wallet" size={11} color="#F59E0B" style={{ marginRight: 4 }} />
-            <View style={styles.coinBadgeCompact}>
-              <View style={[styles.coinDot, { backgroundColor: '#F59E0B' }]} />
-              <Text style={styles.coinTextCompact}>{coins.gp} gp</Text>
-            </View>
-            <View style={styles.coinBadgeCompact}>
-              <View style={[styles.coinDot, { backgroundColor: '#E2E8F0' }]} />
-              <Text style={styles.coinTextCompact}>{coins.pp} pp</Text>
-            </View>
-            <View style={styles.coinBadgeCompact}>
-              <View style={[styles.coinDot, { backgroundColor: '#94A3B8' }]} />
-              <Text style={styles.coinTextCompact}>{coins.sp} sp</Text>
-            </View>
-            <View style={styles.coinBadgeCompact}>
-              <View style={[styles.coinDot, { backgroundColor: '#B45309' }]} />
-              <Text style={styles.coinTextCompact}>{coins.cp} cp</Text>
-            </View>
-          </TouchableOpacity>
+          {/* Skeleton Placeholder */}
+          <Ionicons name="body-outline" size={32} color="rgba(148, 163, 184, 0.25)" />
+          <Text style={styles.modelPlaceholderText}>MODELO DE BONECO</Text>
+          <Text style={styles.modelPlaceholderSub}>Espaço reservado para visualização do personagem</Text>
         </View>
       </View>
 
-      {/* Bottom Area (HP Progress Bar & Combat Controls at the bottom) */}
+      {/* Bottom Area (Moedas, HP Progress Bar & Combat Controls at the bottom) */}
       <View style={styles.bottomArea}>
+        {/* Coins Row at the top of bottom area */}
+        <TouchableOpacity 
+          style={styles.coinsContainerBottom} 
+          onPress={() => {
+            setEditCP(String(coins.cp));
+            setEditSP(String(coins.sp));
+            setEditEP(String(coins.ep));
+            setEditGP(String(coins.gp));
+            setEditPP(String(coins.pp));
+            setCoinsModalVisible(true);
+          }}
+          activeOpacity={0.8}
+        >
+          <View style={styles.coinBadgeCompact}>
+            <View style={[styles.coinDot, { backgroundColor: '#F59E0B' }]} />
+            <Text style={styles.coinTextCompact}>{coins.gp} gp</Text>
+          </View>
+          <View style={styles.coinBadgeCompact}>
+            <View style={[styles.coinDot, { backgroundColor: '#E2E8F0' }]} />
+            <Text style={styles.coinTextCompact}>{coins.pp} pp</Text>
+          </View>
+          <View style={styles.coinBadgeCompact}>
+            <View style={[styles.coinDot, { backgroundColor: '#94A3B8' }]} />
+            <Text style={styles.coinTextCompact}>{coins.sp} sp</Text>
+          </View>
+          <View style={styles.coinBadgeCompact}>
+            <View style={[styles.coinDot, { backgroundColor: '#B45309' }]} />
+            <Text style={styles.coinTextCompact}>{coins.cp} cp</Text>
+          </View>
+        </TouchableOpacity>
+
         <View style={styles.progressBarBg}>
           <View
             style={[
@@ -666,19 +658,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingVertical: 4,
   },
-  middleRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'stretch',
+  modelContainerFull: {
     width: '100%',
     marginTop: 2,
-    marginBottom: 8,
-  },
-  middleColumn: {
-    width: '58%',
+    marginBottom: 6,
   },
   modelPlaceholder: {
-    flex: 1,
     borderWidth: 1,
     borderStyle: 'dashed',
     borderColor: 'rgba(148, 163, 184, 0.15)',
@@ -687,7 +672,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 8,
-    minHeight: 110,
+    minHeight: 120,
+    position: 'relative',
   },
   modelPlaceholderText: {
     color: '#64748B',
@@ -703,89 +689,61 @@ const styles = StyleSheet.create({
     marginTop: 4,
     paddingHorizontal: 4,
   },
-  rightColumn: {
-    width: '38%',
-    flexDirection: 'column',
-  },
-  badgesRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    marginBottom: 4,
-  },
-  acBadgeCompact: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(15, 23, 42, 0.6)',
-    paddingHorizontal: 4,
-    paddingVertical: 2,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#334155',
-    flex: 1,
-    marginRight: 4,
-  },
-  acIconWrapperCompact: {
-    position: 'relative',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 24,
-    height: 24,
-  },
-  acTextCompact: {
+  acBadgeFloating: {
     position: 'absolute',
-    color: '#F8FAFC',
-    fontSize: 10,
-    fontWeight: '900',
+    top: 8,
+    left: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(15, 23, 42, 0.85)',
+    borderColor: '#334155',
+    borderWidth: 1,
+    borderRadius: 18,
+    paddingHorizontal: 8,
+    paddingVertical: 3.5,
     zIndex: 10,
   },
-  profBadgeCompact: {
+  profBadgeFloating: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(15, 23, 42, 0.6)',
-    paddingHorizontal: 4,
-    paddingVertical: 2,
-    borderRadius: 8,
-    borderWidth: 1,
+    backgroundColor: 'rgba(15, 23, 42, 0.85)',
     borderColor: '#334155',
-    flex: 1,
-  },
-  profIconWrapperCompact: {
-    position: 'relative',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 24,
-    height: 24,
-  },
-  profTextCompact: {
-    position: 'absolute',
-    color: '#F8FAFC',
-    fontSize: 10,
-    fontWeight: '900',
+    borderWidth: 1,
+    borderRadius: 18,
+    paddingHorizontal: 8,
+    paddingVertical: 3.5,
     zIndex: 10,
   },
-  badgeLabelCompact: {
+  floatingBadgeValue: {
+    color: '#F8FAFC',
+    fontSize: 10.5,
+    fontWeight: '900',
+    marginRight: 3,
+  },
+  floatingBadgeLabel: {
     color: '#94A3B8',
     fontSize: 7,
     fontWeight: '800',
     letterSpacing: 0.5,
-    marginLeft: 3,
-    flex: 1,
   },
-  buffBadgeCompact: {
+  buffBadgeFloating: {
+    position: 'absolute',
+    top: 42,
+    alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(37, 99, 235, 0.2)',
+    backgroundColor: 'rgba(37, 99, 235, 0.25)',
     borderColor: '#3b82f6',
     borderWidth: 0.5,
-    paddingHorizontal: 4,
-    paddingVertical: 1.5,
+    paddingHorizontal: 5,
+    paddingVertical: 2,
     borderRadius: 6,
-    marginBottom: 4,
-    alignSelf: 'stretch',
-    justifyContent: 'center',
+    zIndex: 10,
   },
-  buffTextCompact: {
+  buffTextFloating: {
     color: '#60A5FA',
     fontSize: 7.5,
     fontWeight: '800',
@@ -862,12 +820,11 @@ const styles = StyleSheet.create({
     fontSize: 9,
     fontWeight: '900',
   },
-  coinsContainerCompact: {
+  coinsContainerBottom: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(15, 23, 42, 0.85)',
+    backgroundColor: 'rgba(15, 23, 42, 0.7)',
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#334155',

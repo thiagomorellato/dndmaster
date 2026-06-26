@@ -507,19 +507,20 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ characterId, o
       <View style={styles.overlay}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backBtnCompact} onPress={onBack} activeOpacity={0.7}>
-          <Ionicons name="chevron-back" size={24} color="#F59E0B" />
-        </TouchableOpacity>
-        <View style={styles.headerTitleContainer}>
-          <View style={styles.headerTopRow}>
+        <View style={styles.headerLeft}>
+          <TouchableOpacity style={styles.backBtnCompact} onPress={onBack} activeOpacity={0.7}>
+            <Ionicons name="chevron-back" size={24} color="#F59E0B" />
+          </TouchableOpacity>
+          <View style={styles.headerTitleContainer}>
             <Text style={styles.charName} numberOfLines={1}>{character.name}</Text>
-            <View style={styles.levelBadge}>
-              <Text style={styles.levelBadgeText}>NÍVEL {character.level}</Text>
-            </View>
+            <Text style={styles.charSubtitle}>
+              {className}{subclass ? ` | ${subclass}` : ''}{character.background ? ` | ${character.background.split(' (')[0]}` : ''}
+            </Text>
           </View>
-          <Text style={styles.charSubtitle}>
-            {className}{subclass ? ` | ${subclass}` : ''}{character.background ? ` | ${character.background.split(' (')[0]}` : ''}
-          </Text>
+        </View>
+        <View style={styles.levelBadgeCircle}>
+          <Text style={styles.levelBadgeNumber}>{character.level}</Text>
+          <Text style={styles.levelBadgeLabel}>NÍVEL</Text>
         </View>
       </View>
 
@@ -715,10 +716,17 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingBottom: 12,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(51, 65, 85, 0.4)',
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    marginRight: 12,
   },
   backBtnCompact: {
     marginRight: 6,
@@ -730,29 +738,32 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 6,
   },
-  headerTopRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   charName: {
     color: '#F8FAFC',
     fontSize: 20,
     fontWeight: '900',
-    marginRight: 8,
   },
-  levelBadge: {
-    backgroundColor: 'rgba(245, 158, 11, 0.12)',
+  levelBadgeCircle: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: 'rgba(15, 23, 42, 0.85)',
     borderColor: '#F59E0B',
-    borderWidth: 1,
-    borderRadius: 6,
-    paddingHorizontal: 6,
-    paddingVertical: 1.5,
+    borderWidth: 1.5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  levelBadgeText: {
+  levelBadgeNumber: {
+    color: '#F8FAFC',
+    fontSize: 13,
+    fontWeight: '900',
+    lineHeight: 13,
+  },
+  levelBadgeLabel: {
     color: '#F59E0B',
-    fontSize: 9,
+    fontSize: 6,
     fontWeight: '800',
-    letterSpacing: 0.5,
+    marginTop: 0.5,
   },
   charSubtitle: {
     color: '#94A3B8',
