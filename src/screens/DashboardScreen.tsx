@@ -36,6 +36,25 @@ interface DashboardScreenProps {
 
 type TabType = 'tatico' | 'magias' | 'equipamentos' | 'logs';
 
+const getCharacterBackground = (characterClass: string) => {
+  const normalized = characterClass.trim().toLowerCase();
+  if (normalized.includes('barbarian') || normalized.includes('bárbaro')) return require('../../assets/barbarian_bg.png');
+  if (normalized.includes('bard') || normalized.includes('bardo')) return require('../../assets/bard_bg.png');
+  if (normalized.includes('warlock') || normalized.includes('bruxo')) return require('../../assets/warlock_bg.png');
+  if (normalized.includes('cleric') || normalized.includes('clérigo')) return require('../../assets/cleric_bg.png');
+  if (normalized.includes('druid') || normalized.includes('druida')) return require('../../assets/druid_bg.png');
+  if (normalized.includes('sorcerer') || normalized.includes('feiticeiro')) return require('../../assets/sorcerer_bg.png');
+  if (normalized.includes('fighter') || normalized.includes('guerreiro')) return require('../../assets/fighter_bg.png');
+  if (normalized.includes('rogue') || normalized.includes('ladino')) return require('../../assets/rogue_bg.png');
+  if (normalized.includes('wizard') || normalized.includes('mago')) return require('../../assets/wizard_bg.png');
+  if (normalized.includes('monk') || normalized.includes('monge')) return require('../../assets/monk_bg.png');
+  if (normalized.includes('paladin') || normalized.includes('paladino')) return require('../../assets/paladin_bg.jpg');
+  if (normalized.includes('ranger') || normalized.includes('patrulheiro')) return require('../../assets/ranger_bg.png');
+  if (normalized.includes('artificer') || normalized.includes('artífice')) return require('../../assets/artificer_bg.png');
+  
+  return require('../../assets/paladin_bg.jpg'); // fallback
+};
+
 export const DashboardScreen: React.FC<DashboardScreenProps> = ({ characterId, onBack }) => {
   const [character, setCharacter] = useState<Character | null>(null);
   const [logs, setLogs] = useState<CombatLogEntry[]>([]);
@@ -625,7 +644,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ characterId, o
 
   return (
     <ImageBackground
-      source={require('../../assets/paladin_bg.jpg')}
+      source={getCharacterBackground(character.characterClass)}
       style={styles.container}
       imageStyle={styles.bgImageStyles}
     >
