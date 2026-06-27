@@ -992,10 +992,22 @@ export const BACKGROUNDS_LIST: BackgroundData[] = [
     featureDesc: 'Você e seus companheiros podem receber cura e assistência gratuita em templos de sua fé.',
   },
   {
+    name: 'Charlatão (Charlatan)',
+    skills: ['Deception', 'Sleight of Hand'],
+    featureName: 'Identidade Falsa (False Identity)',
+    featureDesc: 'Você criou uma segunda identidade falsa completa e documentos para sustentá-la.',
+  },
+  {
     name: 'Criminoso (Criminal)',
     skills: ['Deception', 'Stealth'],
     featureName: 'Contato Criminoso (Criminal Contact)',
     featureDesc: 'Você tem um contato confiável na rede de crime e sabe como enviar e receber mensagens secretas.',
+  },
+  {
+    name: 'Artista (Entertainer)',
+    skills: ['Acrobatics', 'Performance'],
+    featureName: 'Pelo Clamor do Público (By Popular Demand)',
+    featureDesc: 'Você sempre consegue encontrar um lugar para se apresentar e receber hospedagem modesta gratuita em troca.',
   },
   {
     name: 'Herói do Povo (Folk Hero)',
@@ -1004,22 +1016,22 @@ export const BACKGROUNDS_LIST: BackgroundData[] = [
     featureDesc: 'Você encontra abrigo e ajuda fácil entre os plebeus e camponeses locais.',
   },
   {
+    name: 'Artesão de Guilda (Guild Artisan)',
+    skills: ['Insight', 'Persuasion'],
+    featureName: 'Filiado à Guilda (Guild Membership)',
+    featureDesc: 'Sua guilda oferece abrigo, contatos políticos e patrocínio, além de assistência jurídica.',
+  },
+  {
+    name: 'Eremita (Hermit)',
+    skills: ['Medicine', 'Religion'],
+    featureName: 'Descoberta Única (Discovery)',
+    featureDesc: 'Você guarda um segredo, revelação ou verdade única de grande importância para o mundo.',
+  },
+  {
     name: 'Nobre (Noble)',
     skills: ['History', 'Persuasion'],
     featureName: 'Posição de Privilégio (Position of Privilege)',
     featureDesc: 'Você é bem-recebido pela alta sociedade e as pessoas tendem a assumir que você tem o direito de estar onde está.',
-  },
-  {
-    name: 'Sábio (Sage)',
-    skills: ['Arcana', 'History'],
-    featureName: 'Pesquisador (Researcher)',
-    featureDesc: 'Quando você tenta obter uma informação, se você não souber, sabe exatamente onde encontrá-la.',
-  },
-  {
-    name: 'Soldado (Soldier)',
-    skills: ['Athletics', 'Intimidation'],
-    featureName: 'Patente Militar (Military Rank)',
-    featureDesc: 'Soldados de patentes inferiores reconhecem sua autoridade e você pode requisitar recursos básicos.',
   },
   {
     name: 'Forasteiro (Outlander)',
@@ -1028,11 +1040,97 @@ export const BACKGROUNDS_LIST: BackgroundData[] = [
     featureDesc: 'Você tem memória excelente para mapas e geografia, e consegue achar comida e água fresca para até 6 pessoas por dia.',
   },
   {
-    name: 'Charlatão (Charlatan)',
-    skills: ['Deception', 'Sleight of Hand'],
-    featureName: 'Identidade Falsa (False Identity)',
-    featureDesc: 'Você criou uma segunda identidade falsa completa e documentos para sustentá-la.',
+    name: 'Sábio (Sage)',
+    skills: ['Arcana', 'History'],
+    featureName: 'Pesquisador (Researcher)',
+    featureDesc: 'Quando você tenta obter uma informação, se você não souber, sabe exatamente onde encontrá-la.',
   },
+  {
+    name: 'Marinheiro (Sailor)',
+    skills: ['Athletics', 'Perception'],
+    featureName: 'Passagem de Navio (Ship\'s Passage)',
+    featureDesc: 'Você consegue passagens gratuitas para você e seu grupo em navios que você conhece.',
+  },
+  {
+    name: 'Soldado (Soldier)',
+    skills: ['Athletics', 'Intimidation'],
+    featureName: 'Patente Militar (Military Rank)',
+    featureDesc: 'Soldados de patentes inferiores reconhecem sua autoridade e você pode requisitar recursos básicos.',
+  },
+  {
+    name: 'Órfão (Urchin)',
+    skills: ['Sleight of Hand', 'Stealth'],
+    featureName: 'Segredos Urbanos (City Secrets)',
+    featureDesc: 'Você conhece os caminhos ocultos e passagens das cidades, permitindo viajar o dobro da velocidade comum nelas fora de combate.',
+  },
+  // SCAG Backgrounds
+  {
+    name: 'Guarda da Cidade (City Watch)',
+    skills: ['Athletics', 'Insight'],
+    featureName: 'Olhar Vigilante (Watcher\'s Eye)',
+    featureDesc: 'Você localiza facilmente postos de guarda locais e reconhece atividades criminosas com mais rapidez.',
+  },
+  {
+    name: 'Artesão do Clã (Clan Crafter)',
+    skills: ['History', 'Insight'],
+    featureName: 'Respeito dos Anões (Respect of the Stout Folk)',
+    featureDesc: 'Você tem grande prestígio e recebe tratamento especial em qualquer comunidade de anões.',
+  },
+  {
+    name: 'Cientista Claustrado (Cloistered Scholar)',
+    skills: ['History', 'Arcana'], // Defaulting to two of the four choices
+    featureName: 'Acesso à Biblioteca (Library Access)',
+    featureDesc: 'Você tem passagem livre e privilégios de leitura em grandes bibliotecas e arquivos de conhecimento.',
+  },
+  {
+    name: 'Cortesão (Courtier)',
+    skills: ['Insight', 'Persuasion'],
+    featureName: 'Intriga da Corte (Safe Haven)',
+    featureDesc: 'Você conhece a etiqueta e o funcionamento interno de cortes nobres, sabendo a quem se direcionar em assuntos burocráticos.',
+  },
+  {
+    name: 'Agente de Facção (Faction Agent)',
+    skills: ['Insight', 'Persuasion'], // Usually Insight and one Intelligence/Wisdom/Charisma skill
+    featureName: 'Refúgio Seguro (Safe Haven)',
+    featureDesc: 'Você tem acesso a contatos secretos e esconderijos de sua facção aliados na região.',
+  },
+  {
+    name: 'Viajante Distante (Far Traveler)',
+    skills: ['Insight', 'Perception'],
+    featureName: 'Olhares Curiosos (All Eyes on You)',
+    featureDesc: 'Sua origem exótica atrai a atenção e curiosidade das pessoas locais, abrindo portas e despertando o interesse de nobres.',
+  },
+  {
+    name: 'Herdeiro (Inheritor)',
+    skills: ['Survival', 'History'], // Usually Survival and one other choice
+    featureName: 'Herança Misteriosa (Inheritance)',
+    featureDesc: 'Você possui um item ou segredo de valor inestimável deixado como herança que guarda um mistério.',
+  },
+  {
+    name: 'Veterano Mercenário (Mercenary Veteran)',
+    skills: ['Athletics', 'Persuasion'],
+    featureName: 'Vida Mercenária (Mercenary Life)',
+    featureDesc: 'Você conhece os hábitos mercenários de companhias da região e consegue identificar tavernas e contratos aliados.',
+  },
+  {
+    name: 'Caçador de Recompensas Urbano (Urban Bounty Hunter)',
+    skills: ['Deception', 'Stealth'], // Pick two from Stealth, Deception, Insight, Persuasion
+    featureName: 'Contatos Urbanos (Ear to the Ground)',
+    featureDesc: 'Você possui contatos nos submundo e guildas locais, facilitando achar alvos e rastrear informações urbanas.',
+  },
+  // ToA Backgrounds
+  {
+    name: 'Antropólogo (Anthropologist)',
+    skills: ['Insight', 'Religion'],
+    featureName: 'Diplomacia Cultural (Adept Linguist)',
+    featureDesc: 'Você aprende rapidamente a se comunicar de forma rudimentar com tribos isoladas e decifrar intenções culturais.',
+  },
+  {
+    name: 'Arqueólogo (Archaeologist)',
+    skills: ['History', 'Survival'],
+    featureName: 'Perito em Ruínas (Historical Knowledge)',
+    featureDesc: 'Você consegue identificar a finalidade original de ruínas antigas e detectar a presença de passagens secretas arqueológicas.',
+  }
 ];
 
 export interface MagicItemTemplate {
