@@ -504,6 +504,93 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
 
                   if (!subclassBenefit) return null;
                   return (
+            {/* Class description info card */}
+            {(() => {
+              let classDesc = '';
+              const cLower = selectedClass.toLowerCase();
+              if (cLower.includes('bárbaro')) classDesc = 'Um guerreiro feroz de origem selvagem que pode entrar em fúria para ignorar dano e causar estragos corpo-a-corpo.';
+              else if (cLower.includes('bardo')) classDesc = 'Um mestre da música e da magia que inspira seus aliados, cura ferimentos e manipula a mente dos inimigos.';
+              else if (cLower.includes('bruxo')) classDesc = 'Um conjurador que obteve seus poderes mágicos através de um pacto com uma entidade sobrenatural poderosa.';
+              else if (cLower.includes('clérigo')) classDesc = 'Um guerreiro sacerdotal que canaliza o poder divino de seu deus para curar aliados e punir infiéis.';
+              else if (cLower.includes('druida')) classDesc = 'Um protetor da natureza que assume formas de feras selvagens e conjura magias baseadas nos elementos da terra.';
+              else if (cLower.includes('feiticeiro')) classDesc = 'Um mago nato que possui magia intrínseca em suas veias devido a uma linhagem exótica ou evento cósmico.';
+              else if (cLower.includes('guerreiro')) classDesc = 'Um especialista em combate físico altamente treinado com domínio sobre todas as armas e armaduras existentes.';
+              else if (cLower.includes('ladino')) classDesc = 'Um trapaceiro furtivo especialista em ataques de oportunidade, arrombamento de fechaduras e truques sujos.';
+              else if (cLower.includes('mago')) classDesc = 'Um acadêmico da magia que estuda grimórios e fórmulas arcanas para conjurar magias extremamente versáteis.';
+              else if (cLower.includes('monge')) classDesc = 'Um mestre das artes marciais que canaliza a energia vital do Chi para desferir golpes rápidos e desvios sobrenaturais.';
+              else if (cLower.includes('paladino')) classDesc = 'Um guerreiro sagrado vinculado a um juramento solene, capaz de desferir destruição divina e curar com as mãos.';
+              else if (cLower.includes('patrulheiro')) classDesc = 'Um caçador destemido das fronteiras selvagens, mestre em rastreamento e combate contra inimigos específicos.';
+              else if (cLower.includes('artífice')) classDesc = 'Um inventor genial que combina magia e tecnologia para infundir itens comuns com propriedades mágicas.';
+
+              return (
+                <View style={{ backgroundColor: 'rgba(255, 255, 255, 0.03)', borderColor: '#334155', borderWidth: 0.5, borderRadius: 8, padding: 10, marginTop: 4, marginBottom: 12 }}>
+                  <Text style={{ color: '#94A3B8', fontSize: 11, fontWeight: '700' }}>Sobre o {selectedClass}:</Text>
+                  <Text style={{ color: '#94A3B8', fontSize: 10, marginTop: 2, lineHeight: 14 }}>{classDesc}</Text>
+                </View>
+              );
+            })()}
+
+            {selectedClassObj?.subclasses && selectedClassObj.subclasses.length > 0 && (
+              <>
+                <Text style={styles.label}>Arquétipo / Subclasse</Text>
+                <View style={styles.pickerRowWrap}>
+                  {selectedClassObj.subclasses.map(sub => (
+                    <TouchableOpacity
+                      key={sub}
+                      style={[styles.pickerBtnWrap, { width: '48%' }, selectedSubclass === sub && styles.pickerBtnActive]}
+                      onPress={() => setSelectedSubclass(sub)}
+                    >
+                      <Text style={[styles.pickerLabel, selectedSubclass === sub && styles.pickerLabelActive]} numberOfLines={1}>
+                        {sub}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+                {/* Subclass benefits info card */}
+                {(() => {
+                  let subclassBenefit = '';
+                  const subLower = selectedSubclass.toLowerCase();
+                  if (subLower.includes('berserker')) subclassBenefit = 'Ataques adicionais na Fúria e imunidade a charme/medo.';
+                  else if (subLower.includes('totem') || subLower.includes('totêmico')) subclassBenefit = 'Ganhe resistências de espíritos animais (Urso: resiste a todo dano exceto psíquico).';
+                  else if (subLower.includes('conhecimento') || subLower.includes('lore')) subclassBenefit = 'Ganhe 3 perícias extras e a habilidade Palavras de Corte para reduzir jogadas inimigas.';
+                  else if (subLower.includes('bravura') || subLower.includes('valor')) subclassBenefit = 'Proficiência com armaduras médias, escudos, armas marciais e Inspiração de Combate.';
+                  else if (subLower.includes('espadas') || subLower.includes('swords')) subclassBenefit = 'Estilo de combate de duelo/duas armas e uso de Inspiração para manobras de ataque.';
+                  else if (subLower.includes('corruptor') || subLower.includes('fiend')) subclassBenefit = 'Ganhe HP temporário ao derrotar inimigos e bônus em testes de salvaguarda.';
+                  else if (subLower.includes('arquifada') || subLower.includes('archfey')) subclassBenefit = 'Habilidade de enfeitiçar ou amedrontar criaturas ao seu redor.';
+                  else if (subLower.includes('grande antigo') || subLower.includes('great old')) subclassBenefit = 'Telepatia com qualquer criatura que você possa ver e defesas mentais.';
+                  else if (subLower.includes('lâmina maldita') || subLower.includes('hexblade')) subclassBenefit = 'Use Carisma para jogadas de ataque/dano e amaldiçoe alvos para causar críticos com 19 ou 20.';
+                  else if (subLower.includes('vida') || subLower.includes('life')) subclassBenefit = 'Sua cura ganha bônus de 2 + nível da magia. Proficiência em armadura pesada.';
+                  else if (subLower.includes('tempestade') || subLower.includes('tempest')) subclassBenefit = 'Retalie atacantes com raio/trovão e maximize dano de eletricidade.';
+                  else if (subLower.includes('guerra') || subLower.includes('war')) subclassBenefit = 'Ataque adicional como ação bônus e bônus de +10 no acerto. Proficiência em armadura pesada.';
+                  else if (subLower.includes('luz') || subLower.includes('light')) subclassBenefit = 'Use futilidades de luz para impor desvantagem a atacantes e conjure Bola de Fogo.';
+                  else if (subLower.includes('lua') || subLower.includes('moon')) subclassBenefit = 'Combata sob a forma de feras muito mais poderosas (Nível de Desafio 1 já no nível 2).';
+                  else if (subLower.includes('terra') || subLower.includes('land')) subclassBenefit = 'Recupere slots de magia em descansos curtos e ganhe magias de terrenos.';
+                  else if (subLower.includes('dracônica') || subLower.includes('draconic')) subclassBenefit = 'HP extra por nível, armadura natural de 13 + Dex e asas no nível 14.';
+                  else if (subLower.includes('selvagem') || subLower.includes('wild')) subclassBenefit = 'Role na tabela de Surtos de Magia Selvagem para efeitos mágicos aleatórios.';
+                  else if (subLower.includes('campeão') || subLower.includes('champion')) subclassBenefit = 'Margem de acerto crítico reduzida para 19 ou 20 nos dados.';
+                  else if (subLower.includes('mestre de batalha') || subLower.includes('battle')) subclassBenefit = 'Ganhe 4 Dados de Superioridade (d8) e aprenda manobras de combate para desarmar, derrubar, etc.';
+                  else if (subLower.includes('arcano') || subLower.includes('knight')) subclassBenefit = 'Aprenda magias de Mago (Abjuração/Evocação) e invoque sua arma vinculada.';
+                  else if (subLower.includes('ladrão') || subLower.includes('thief')) subclassBenefit = 'Use as mãos rápidas para usar itens como ação bônus e escale paredes com velocidade.';
+                  else if (subLower.includes('assassino') || subLower.includes('assassin')) subclassBenefit = 'Vantagem contra quem não agiu e acertos críticos automáticos contra alvos surpresos.';
+                  else if (subLower.includes('espadachim') || subLower.includes('swash')) subclassBenefit = 'Adicione Carisma na Iniciativa e use Ataque Furtivo sem precisar de aliados próximos.';
+                  else if (subLower.includes('evocação')) subclassBenefit = 'Esculpa feitiços de área para que seus aliados não sofram dano deles.';
+                  else if (subLower.includes('abjuração')) subclassBenefit = 'Crie uma barreira arcana protetora que absorve dano direcionado a você.';
+                  else if (subLower.includes('necromancia')) subclassBenefit = 'Recupere vida ao matar inimigos com magias e manipule mortos-vivos com perícia.';
+                  else if (subLower.includes('mão aberta') || subLower.includes('open')) subclassBenefit = 'Adicione efeitos extras ao seu Rajada de Golpes (derrubar, empurrar ou impedir reações).';
+                  else if (subLower.includes('sombras') || subLower.includes('shadow')) subclassBenefit = 'Fique invisível nas sombras e teletransporte-se através delas.';
+                  else if (subLower.includes('devoção') || subLower.includes('devotion')) subclassBenefit = 'Adicione Carisma nas jogadas de ataque e emane uma aura contra efeitos de charme.';
+                  else if (subLower.includes('vingança') || subLower.includes('vengeance')) subclassBenefit = 'Ganhe vantagem de ataque contra um alvo específico usando Voto de Inimizade.';
+                  else if (subLower.includes('anciões') || subLower.includes('ancients')) subclassBenefit = 'Emane uma aura que concede a você e aliados resistência contra dano de magias.';
+                  else if (subLower.includes('caçador') || subLower.includes('hunter')) subclassBenefit = 'Escolha habilidades ofensivas contra hordas ou presas gigantes.';
+                  else if (subLower.includes('bestas') || subLower.includes('beast')) subclassBenefit = 'Obtenha um companheiro animal que luta ao seu lado e obedece aos seus comandos.';
+                  else if (subLower.includes('gloom')) subclassBenefit = 'Invisível na escuridão sob visão no escuro e ataque extra no primeiro turno de combate.';
+                  else if (subLower.includes('alquimista')) subclassBenefit = 'Crie elixires experimentais que concedem voo, cura, CA ou bônus de ataque.';
+                  else if (subLower.includes('armeiro') || subLower.includes('armorer')) subclassBenefit = 'Crie uma armadura tecnológica com modos Guardião (defensivo) ou Infiltrador (furtivo).';
+                  else if (subLower.includes('artilheiro') || subLower.includes('artillerist')) subclassBenefit = 'Invoque canhões arcanos móveis que atiram fogo, projéteis de força ou concedem escudos temporários.';
+                  else if (subLower.includes('serralheiro') || subLower.includes('smith')) subclassBenefit = 'Lute ao lado de um Defensor de Aço e use Inteligência nas jogadas de ataque físico.';
+
+                  if (!subclassBenefit) return null;
+                  return (
                     <View style={{ backgroundColor: 'rgba(245, 158, 11, 0.05)', borderColor: '#F59E0B', borderWidth: 0.5, borderRadius: 8, padding: 10, marginTop: 4, marginBottom: 12 }}>
                       <Text style={{ color: '#F59E0B', fontSize: 11, fontWeight: '700' }}>Benefício do Arquétipo:</Text>
                       <Text style={{ color: '#E2E8F0', fontSize: 10, marginTop: 2, lineHeight: 14 }}>{subclassBenefit}</Text>
@@ -517,20 +604,16 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
             {(() => {
               // Grouped races mapping
               const raceGroups: Record<string, string[]> = {
+                'Humano': ['Humano'],
                 'Anão': ['Anão da Colina', 'Anão da Montanha', 'Duergar'],
-                'Elfo': ['Alto Elfo', 'Elfo da Floresta', 'Drow (Elfo Negro)', 'Eladrin'],
+                'Elfo': ['Alto Elfo', 'Elfo da Floresta', 'Drow (Elfo Negro)', 'Eladrin', 'Meio-Elfo', 'Meio-Elfo (Drow)', 'Meio-Elfo (Aquático)', 'Meio-Elfo (Elfo da Floresta)'],
                 'Halfling': ['Halfling Pés-Leves', 'Halfling Robusto', 'Halfling Ghostwise'],
                 'Gnomo': ['Gnomo da Floresta', 'Gnomo das Rochas', 'Gnomo Profundo (Svirfneblin)'],
-                'Meio-Elfo': ['Meio-Elfo', 'Meio-Elfo (Drow)', 'Meio-Elfo (Aquático)', 'Meio-Elfo (Elfo da Floresta)'],
                 'Tiefling': ['Tiefling', 'Tiefling Feral', 'Tiefling Devil\'s Tongue', 'Tiefling Hellfire', 'Tiefling Winged'],
-                'Genasi': ['Genasi da Terra', 'Genasi do Ar', 'Genasi do Fogo'],
-                'Aasimar': ['Grave Aasimar', 'Protector Aasimar', 'Fallen Aasimar', 'Scourge Aasimar'],
-                'Outros': ['Humano', 'Draconato', 'Meio-Orc', 'Aarakocra', 'Tritão', 'Goliath', 'Tabaxi', 'Goblin', 'Hobgoblin', 'Kenku', 'Orc', 'Lizardfolk', 'Firbolg', 'Yuan-ti Pureblood']
+                'Draconato': ['Draconato'],
+                'Meio-Orc': ['Meio-Orc'],
+                'Outros': ['Aarakocra', 'Genasi da Terra', 'Genasi do Ar', 'Genasi do Fogo', 'Grave Aasimar', 'Protector Aasimar', 'Fallen Aasimar', 'Scourge Aasimar', 'Tritão', 'Goliath', 'Tabaxi', 'Goblin', 'Hobgoblin', 'Kenku', 'Orc', 'Lizardfolk', 'Firbolg', 'Yuan-ti Pureblood']
               };
-
-              // State for expanded race group (local helper since we are inside a React component)
-              // We'll store which parent race group is selected to show sub-options
-              const [activeGroup, setActiveGroup] = useState<string>('Outros');
 
               // Identify which group the selectedRace belongs to
               const currentGroup = Object.keys(raceGroups).find(group => raceGroups[group].includes(selectedRace)) || 'Outros';
@@ -559,26 +642,28 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                     })}
                   </View>
 
-                  {/* Sub-races under selected category */}
-                  <View style={{ backgroundColor: '#090D16', padding: 8, borderRadius: 8, marginTop: 4, borderColor: '#1E293B', borderWidth: 1 }}>
-                    <Text style={{ color: '#64748B', fontSize: 9, fontWeight: '700', marginBottom: 6, textTransform: 'uppercase' }}>Sub-raça / Origem</Text>
-                    <View style={styles.pickerRowWrap}>
-                      {raceGroups[currentGroup].map(sub => {
-                        const isSel = selectedRace === sub;
-                        return (
-                          <TouchableOpacity
-                            key={sub}
-                            style={[styles.pickerBtnWrap, { width: '48%', paddingVertical: 6, marginBottom: 4 }, isSel && styles.pickerBtnActive]}
-                            onPress={() => setSelectedRace(sub)}
-                          >
-                            <Text style={[styles.pickerLabel, isSel && styles.pickerLabelActive]} numberOfLines={1}>
-                              {sub}
-                            </Text>
-                          </TouchableOpacity>
-                        );
-                      })}
+                  {/* Sub-races under selected category (only show if group has sub-races or if it's not a single race) */}
+                  {raceGroups[currentGroup].length > 1 && (
+                    <View style={{ backgroundColor: '#090D16', padding: 8, borderRadius: 8, marginTop: 4, borderColor: '#1E293B', borderWidth: 1 }}>
+                      <Text style={{ color: '#64748B', fontSize: 9, fontWeight: '700', marginBottom: 6, textTransform: 'uppercase' }}>Sub-raça / Origem</Text>
+                      <View style={styles.pickerRowWrap}>
+                        {raceGroups[currentGroup].map(sub => {
+                          const isSel = selectedRace === sub;
+                          return (
+                            <TouchableOpacity
+                              key={sub}
+                              style={[styles.pickerBtnWrap, { width: '48%', paddingVertical: 6, marginBottom: 4 }, isSel && styles.pickerBtnActive]}
+                              onPress={() => setSelectedRace(sub)}
+                            >
+                              <Text style={[styles.pickerLabel, isSel && styles.pickerLabelActive]} numberOfLines={1}>
+                                {sub}
+                              </Text>
+                            </TouchableOpacity>
+                          );
+                        })}
+                      </View>
                     </View>
-                  </View>
+                  )}
 
                   {/* Race benefits info card */}
                   {(() => {
@@ -652,6 +737,19 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                 </TouchableOpacity>
               ))}
             </View>
+            {/* Background info card */}
+            {(() => {
+              const bg = BACKGROUNDS_LIST.find(b => b.name === selectedBackground);
+              if (!bg) return null;
+              return (
+                <View style={{ backgroundColor: 'rgba(16, 185, 129, 0.05)', borderColor: '#10B981', borderWidth: 0.5, borderRadius: 8, padding: 10, marginTop: 6 }}>
+                  <Text style={{ color: '#34D399', fontSize: 11, fontWeight: '700' }}>Habilidade de {bg.name.split(' (')[0]}:</Text>
+                  <Text style={{ color: '#10B981', fontSize: 9, fontWeight: '600', marginTop: 1 }}>Perícias Iniciais: {bg.skills.join(', ')}</Text>
+                  <Text style={{ color: '#94A3B8', fontSize: 9, fontWeight: '600', marginTop: 1 }}>Recurso: {bg.featureName}</Text>
+                  <Text style={{ color: '#E2E8F0', fontSize: 10, marginTop: 3, lineHeight: 14 }}>{bg.featureDesc}</Text>
+                </View>
+              );
+            })()}
 
 
             <Text style={styles.label}>Nível (1 - 6)</Text>
