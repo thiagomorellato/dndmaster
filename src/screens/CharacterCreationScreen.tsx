@@ -166,7 +166,6 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
     const lizardfolkAllowed = ['Survival', 'Nature', 'Perception', 'Stealth', 'Animal Handling'];
 
     setSelectedSkills(prev => {
-      // Calculate how many skills are selected outside background and fixed racial traits
       const bgSkills = bg ? bg.skills : [];
       
       const fixedRacialSkills: string[] = [];
@@ -175,22 +174,30 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
       if (rLower.includes('tabaxi')) { fixedRacialSkills.push('Stealth'); fixedRacialSkills.push('Perception'); }
       if (rLower.includes('goliath')) fixedRacialSkills.push('Athletics');
 
-      const currentSelectedNonBg = prev.filter(s => !bgSkills.includes(s) && !fixedRacialSkills.includes(s));
-      
-      // Class choices
-      const currentSelectedClassSkills = currentSelectedNonBg.filter(s => classRules.list.includes(s));
-      // Racial choices (from Humano, Meio-Elfo, Kenku, Lizardfolk)
-      const currentSelectedRacialSkills = currentSelectedNonBg.filter(s => !classRules.list.includes(s));
-
+      // The user wants to toggle the skill
       if (prev.includes(skill)) {
         return prev.filter(s => s !== skill);
       } else {
+        const allowedRacialSlots = isHumano ? 1 : (isMeioElfo ? 2 : (isKenku ? 2 : (isLizardfolk ? 2 : 0)));
+        const totalManualAllowed = classRules.limit + allowedRacialSlots;
+
+        // Current manually selected skills (excluding background and fixed racial traits)
+        const currentManualSelected = prev.filter(s => !bgSkills.includes(s) && !fixedRacialSkills.includes(s));
+
+        if (currentManualSelected.length >= totalManualAllowed) {
+          Alert.alert(
+            'Limite de Perícias',
+            `Você já selecionou o máximo de ${totalManualAllowed} perícias permitidas por sua Classe e Raça.`
+          );
+          return prev;
+        }
+
         if (isClassSkill) {
-          if (currentSelectedClassSkills.length >= classRules.limit) {
-            // Class list is full. Let's see if we can assign this class skill to a racial slot
-            const allowedRacialSlots = isHumano ? 1 : (isMeioElfo ? 2 : (isKenku ? 2 : (isLizardfolk ? 2 : 0)));
-            const remainingRacialSlots = allowedRacialSlots - currentSelectedRacialSkills.length;
-            if (remainingRacialSlots <= 0) {
+          // Check if class skill allocation limit is exceeded AND no racial slots can take it
+          const currentClassSelected = currentManualSelected.filter(s => classRules.list.includes(s));
+          if (currentClassSelected.length >= classRules.limit) {
+            const currentRacialSelected = currentManualSelected.filter(s => !classRules.list.includes(s));
+            if (currentRacialSelected.length >= allowedRacialSlots) {
               Alert.alert(
                 'Limite de Perícias',
                 `Sua classe (${selectedClass}) permite escolher apenas ${classRules.limit} perícias da lista da classe.`
@@ -199,10 +206,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
             }
           }
         } else {
-          // Non-class skill
-          const allowedRacialSlots = isHumano ? 1 : (isMeioElfo ? 2 : (isKenku ? 2 : (isLizardfolk ? 2 : 0)));
-          
-          // Additional checks for Kenku / Lizardfolk specific lists
+          // Non-class skill selection (requires racial bonus slot)
           if (isKenku && !kenkuAllowed.includes(skill)) {
             Alert.alert('Seleção Bloqueada', `Como Kenku, você só pode escolher perícias adicionais da seguinte lista: Acrobacia, Furtividade, Enganação ou Prestidigitação.`);
             return prev;
@@ -212,8 +216,8 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
             return prev;
           }
 
-          const remainingRacialSlots = allowedRacialSlots - currentSelectedRacialSkills.length;
-          if (remainingRacialSlots <= 0) {
+          const currentRacialSelected = currentManualSelected.filter(s => !classRules.list.includes(s));
+          if (currentRacialSelected.length >= allowedRacialSlots) {
             if (allowedRacialSlots > 0) {
               Alert.alert(
                 'Seleção Bloqueada',
