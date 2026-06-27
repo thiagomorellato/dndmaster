@@ -141,31 +141,54 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
 
   const toggleSkill = (skill: string) => {
     const bg = BACKGROUNDS_LIST.find(b => b.name === selectedBackground);
-    // If the skill is granted by the background, it is locked
+    const rLower = selectedRace.toLowerCase();
+
+    // 1. Background skills are locked
     if (bg && bg.skills.includes(skill)) {
       return;
     }
 
+    // 2. Fixed Racial skills are locked (Elfo: Perception, Meio-Orc: Intimidation, Tabaxi: Stealth & Perception, Goliath: Athletics)
+    if (rLower.includes('elfo') && !rLower.includes('meio-elfo') && skill === 'Perception') return;
+    if (rLower.includes('meio-orc') && skill === 'Intimidation') return;
+    if (rLower.includes('tabaxi') && (skill === 'Stealth' || skill === 'Perception')) return;
+    if (rLower.includes('goliath') && skill === 'Athletics') return;
+
     const classRules = getClassSkillRules(selectedClass);
     const isClassSkill = classRules.list.includes(skill);
-    const isHumano = selectedRace.toLowerCase().includes('humano');
-    const isMeioElfo = selectedRace.toLowerCase().includes('meio-elfo');
+    const isHumano = rLower.includes('humano');
+    const isMeioElfo = rLower.includes('meio-elfo');
+    const isKenku = rLower.includes('kenku');
+    const isLizardfolk = rLower.includes('lizardfolk');
 
-    // If it's not a class skill, it can only be selected if there is a racial bonus slot available (Humano gets 1 extra, Meio-Elfo gets 2 extra)
+    // Kenku and Lizardfolk list restrictions
+    const kenkuAllowed = ['Acrobatics', 'Stealth', 'Deception', 'Sleight of Hand'];
+    const lizardfolkAllowed = ['Survival', 'Nature', 'Perception', 'Stealth', 'Animal Handling'];
+
     setSelectedSkills(prev => {
+      // Calculate how many skills are selected outside background and fixed racial traits
       const bgSkills = bg ? bg.skills : [];
-      const currentSelectedNonBg = prev.filter(s => !bgSkills.includes(s));
+      
+      const fixedRacialSkills: string[] = [];
+      if (rLower.includes('elfo') && !rLower.includes('meio-elfo')) fixedRacialSkills.push('Perception');
+      if (rLower.includes('meio-orc')) fixedRacialSkills.push('Intimidation');
+      if (rLower.includes('tabaxi')) { fixedRacialSkills.push('Stealth'); fixedRacialSkills.push('Perception'); }
+      if (rLower.includes('goliath')) fixedRacialSkills.push('Athletics');
+
+      const currentSelectedNonBg = prev.filter(s => !bgSkills.includes(s) && !fixedRacialSkills.includes(s));
+      
+      // Class choices
       const currentSelectedClassSkills = currentSelectedNonBg.filter(s => classRules.list.includes(s));
+      // Racial choices (from Humano, Meio-Elfo, Kenku, Lizardfolk)
       const currentSelectedRacialSkills = currentSelectedNonBg.filter(s => !classRules.list.includes(s));
 
       if (prev.includes(skill)) {
         return prev.filter(s => s !== skill);
       } else {
-        // Checking class skill allocation limit
         if (isClassSkill) {
           if (currentSelectedClassSkills.length >= classRules.limit) {
-            // If class skills are full, check if we can slot it into racial bonus slots instead
-            const allowedRacialSlots = isHumano ? 1 : (isMeioElfo ? 2 : 0);
+            // Class list is full. Let's see if we can assign this class skill to a racial slot
+            const allowedRacialSlots = isHumano ? 1 : (isMeioElfo ? 2 : (isKenku ? 2 : (isLizardfolk ? 2 : 0)));
             const remainingRacialSlots = allowedRacialSlots - currentSelectedRacialSkills.length;
             if (remainingRacialSlots <= 0) {
               Alert.alert(
@@ -176,8 +199,19 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
             }
           }
         } else {
-          // It's a non-class skill (exotic choice)
-          const allowedRacialSlots = isHumano ? 1 : (isMeioElfo ? 2 : 0);
+          // Non-class skill
+          const allowedRacialSlots = isHumano ? 1 : (isMeioElfo ? 2 : (isKenku ? 2 : (isLizardfolk ? 2 : 0)));
+          
+          // Additional checks for Kenku / Lizardfolk specific lists
+          if (isKenku && !kenkuAllowed.includes(skill)) {
+            Alert.alert('Seleção Bloqueada', `Como Kenku, você só pode escolher perícias adicionais da seguinte lista: Acrobacia, Furtividade, Enganação ou Prestidigitação.`);
+            return prev;
+          }
+          if (isLizardfolk && !lizardfolkAllowed.includes(skill)) {
+            Alert.alert('Seleção Bloqueada', `Como Lizardfolk, você só pode escolher perícias adicionais da seguinte lista: Adestrar Animais, Natureza, Percepção, Furtividade ou Sobrevivência.`);
+            return prev;
+          }
+
           const remainingRacialSlots = allowedRacialSlots - currentSelectedRacialSkills.length;
           if (remainingRacialSlots <= 0) {
             if (allowedRacialSlots > 0) {
@@ -844,7 +878,16 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
               {SKILLS_LIST.map(skill => {
                 const bg = BACKGROUNDS_LIST.find(b => b.name === selectedBackground);
                 const isFromBg = bg && bg.skills.includes(skill);
-                const isSelected = selectedSkills.includes(skill);
+                
+                const rLower = selectedRace.toLowerCase();
+                const isRacialFixed = (
+                  (rLower.includes('elfo') && !rLower.includes('meio-elfo') && skill === 'Perception') ||
+                  (rLower.includes('meio-orc') && skill === 'Intimidation') ||
+                  (rLower.includes('tabaxi') && (skill === 'Stealth' || skill === 'Perception')) ||
+                  (rLower.includes('goliath') && skill === 'Athletics')
+                );
+
+                const isSelected = selectedSkills.includes(skill) || isRacialFixed || isFromBg;
                 const classRules = getClassSkillRules(selectedClass);
                 const isClassSkill = classRules.list.includes(skill);
 
@@ -854,29 +897,34 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                     style={[
                       styles.skillCheckBtn, 
                       isSelected && styles.skillCheckBtnActive,
-                      isFromBg && { opacity: 0.8, backgroundColor: 'rgba(37, 99, 235, 0.08)', borderColor: '#2563EB' }
+                      isFromBg && { opacity: 0.8, backgroundColor: 'rgba(59, 130, 246, 0.08)', borderColor: '#3b82f6' },
+                      isRacialFixed && { opacity: 0.8, backgroundColor: 'rgba(245, 158, 11, 0.08)', borderColor: '#F59E0B' }
                     ]}
                     onPress={() => toggleSkill(skill)}
-                    activeOpacity={isFromBg ? 1.0 : 0.8}
+                    activeOpacity={(isFromBg || isRacialFixed) ? 1.0 : 0.8}
                   >
                     <Ionicons
                       name={isSelected ? 'checkbox' : 'square-outline'}
                       size={18}
-                      color={isFromBg ? '#3b82f6' : (isSelected ? '#F59E0B' : '#475569')}
+                      color={isFromBg ? '#3b82f6' : (isRacialFixed ? '#F59E0B' : (isSelected ? '#F59E0B' : '#475569'))}
                       style={{ marginRight: 8 }}
                     />
                     <View style={{ flex: 1 }}>
                       <Text style={[
                         styles.skillCheckLabel, 
                         isSelected && styles.skillCheckLabelActive,
-                        isFromBg && { color: '#60A5FA', fontWeight: '800' }
+                        isFromBg && { color: '#60A5FA', fontWeight: '800' },
+                        isRacialFixed && { color: '#FBBF24', fontWeight: '800' }
                       ]}>
                         {skill}
                       </Text>
                       {isFromBg && (
                         <Text style={{ color: '#3b82f6', fontSize: 7, fontWeight: '700', marginTop: 1 }}>ANTECEDENTE</Text>
                       )}
-                      {!isFromBg && isClassSkill && (
+                      {isRacialFixed && (
+                        <Text style={{ color: '#F59E0B', fontSize: 7, fontWeight: '700', marginTop: 1 }}>RAÇA ({selectedRace.split(' ')[0]})</Text>
+                      )}
+                      {!isFromBg && !isRacialFixed && isClassSkill && (
                         <Text style={{ color: '#10B981', fontSize: 7, fontWeight: '700', marginTop: 1 }}>OPÇÃO CLASSE</Text>
                       )}
                     </View>
