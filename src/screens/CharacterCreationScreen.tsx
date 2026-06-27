@@ -69,6 +69,20 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
   const [selectedSpells, setSelectedSpells] = useState<string[]>([]);
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const getDefaultSkillsFor = (raceName: string, bgName: string) => {
+    const rLower = raceName.toLowerCase();
+    const fixedRacialSkills: string[] = [];
+    if (rLower.includes('elfo') && !rLower.includes('meio-elfo')) fixedRacialSkills.push('Percepção');
+    if (rLower.includes('meio-orc')) fixedRacialSkills.push('Intimidação');
+    if (rLower.includes('tabaxi')) { fixedRacialSkills.push('Furtividade'); fixedRacialSkills.push('Percepção'); }
+    if (rLower.includes('goliath')) fixedRacialSkills.push('Atletismo');
+    
+    const bg = BACKGROUNDS_LIST.find(b => b.name === bgName);
+    const bgSkills = bg ? bg.skills : [];
+    
+    return Array.from(new Set([...fixedRacialSkills, ...bgSkills]));
+  };
+
   const selectedClassObj = CLASSES_LIST.find(c => c.name === selectedClass);
 
   // Helpers to check spell slots limit
@@ -148,7 +162,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
       return;
     }
 
-    // 2. Fixed Racial skills are locked (Elfo: Perception, Meio-Orc: Intimidation, Tabaxi: Stealth & Perception, Goliath: Athletics)
+    // 2. Fixed Racial skills are locked
     if (rLower.includes('elfo') && !rLower.includes('meio-elfo') && skill === 'Percepção') return;
     if (rLower.includes('meio-orc') && skill === 'Intimidação') return;
     if (rLower.includes('tabaxi') && (skill === 'Furtividade' || skill === 'Percepção')) return;
@@ -161,7 +175,6 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
     const isKenku = rLower.includes('kenku');
     const isLizardfolk = rLower.includes('lizardfolk');
 
-    // Kenku and Lizardfolk list restrictions (translated to PT-BR)
     const kenkuAllowed = ['Acrobacia', 'Furtividade', 'Enganação', 'Prestidigitação'];
     const lizardfolkAllowed = ['Sobrevivência', 'Natureza', 'Percepção', 'Furtividade', 'Adestrar Animais'];
 
@@ -174,64 +187,62 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
       if (rLower.includes('tabaxi')) { fixedRacialSkills.push('Furtividade'); fixedRacialSkills.push('Percepção'); }
       if (rLower.includes('goliath')) fixedRacialSkills.push('Atletismo');
 
-      // The user wants to toggle the skill
+      // The user wants to remove the skill
       if (prev.includes(skill)) {
         return prev.filter(s => s !== skill);
       } else {
         const allowedRacialSlots = isHumano ? 1 : (isMeioElfo ? 2 : (isKenku ? 2 : (isLizardfolk ? 2 : 0)));
         const totalManualAllowed = classRules.limit + allowedRacialSlots;
 
-        // Current manually selected skills (excluding background and fixed racial traits)
+        // Current manually selected skills
         const currentManualSelected = prev.filter(s => !bgSkills.includes(s) && !fixedRacialSkills.includes(s));
+
+        // Count slots used so far
+        let classUsed = 0;
+        let raceUsed = 0;
+        for (const s of currentManualSelected) {
+          if (classRules.list.includes(s) && classUsed < classRules.limit) {
+            classUsed++;
+          } else {
+            raceUsed++;
+          }
+        }
+
+        const isPhase1Complete = classUsed >= classRules.limit;
 
         if (currentManualSelected.length >= totalManualAllowed) {
           Alert.alert(
             'Limite de Perícias',
-            `Você já selecionou o máximo de ${totalManualAllowed} perícias permitidas por sua Classe e Raça.`
+            `Você já selecionou o máximo de ${totalManualAllowed} perícias permitidas.`
           );
           return prev;
         }
 
-        if (isClassSkill) {
-          // Check if class skill allocation limit is exceeded AND no racial slots can take it
-          const currentClassSelected = currentManualSelected.filter(s => classRules.list.includes(s));
-          if (currentClassSelected.length >= classRules.limit) {
-            const currentRacialSelected = currentManualSelected.filter(s => !classRules.list.includes(s));
-            if (currentRacialSelected.length >= allowedRacialSlots) {
-              Alert.alert(
-                'Limite de Perícias',
-                `Sua classe (${selectedClass}) permite escolher apenas ${classRules.limit} perícias da lista da classe.`
-              );
-              return prev;
-            }
+        if (!isPhase1Complete) {
+          // Phase 1: Only class skills are allowed
+          if (!isClassSkill) {
+            Alert.alert(
+              'Fase de Classe',
+              `Por favor, primeiro selecione suas ${classRules.limit} perícias da lista da sua classe.`
+            );
+            return prev;
           }
         } else {
-          // Non-class skill selection (requires racial bonus slot)
+          // Phase 2: Race bonus skills
+          if (allowedRacialSlots === 0) {
+             Alert.alert('Limite Atingido', `Sua raça não oferece perícias extras e você já selecionou todas as da classe.`);
+             return prev;
+          }
           if (isKenku && !kenkuAllowed.includes(skill)) {
-            Alert.alert('Seleção Bloqueada', `Como Kenku, você só pode escolher perícias adicionais da seguinte lista: Acrobacia, Furtividade, Enganação ou Prestidigitação.`);
+            Alert.alert('Seleção Bloqueada', `Como Kenku, você só pode escolher perícias adicionais de: Acrobacia, Furtividade, Enganação, Prestidigitação.`);
             return prev;
           }
           if (isLizardfolk && !lizardfolkAllowed.includes(skill)) {
-            Alert.alert('Seleção Bloqueada', `Como Lizardfolk, você só pode escolher perícias adicionais da seguinte lista: Adestrar Animais, Natureza, Percepção, Furtividade ou Sobrevivência.`);
-            return prev;
-          }
-
-          const currentRacialSelected = currentManualSelected.filter(s => !classRules.list.includes(s));
-          if (currentRacialSelected.length >= allowedRacialSlots) {
-            if (allowedRacialSlots > 0) {
-              Alert.alert(
-                'Seleção Bloqueada',
-                `Esta perícia não é de sua classe. Como ${selectedRace}, você já usou seu limite de ${allowedRacialSlots} perícias adicionais livres.`
-              );
-            } else {
-              Alert.alert(
-                'Seleção Bloqueada',
-                `Esta perícia não faz parte das opções da sua classe (${selectedClass}) e sua raça não possui bônus de perícia livre.`
-              );
-            }
+            Alert.alert('Seleção Bloqueada', `Como Lizardfolk, você só pode escolher perícias adicionais de: Adestrar Animais, Natureza, Percepção, Furtividade, Sobrevivência.`);
             return prev;
           }
         }
+
         return [...prev, skill];
       }
     });
@@ -500,6 +511,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                   onPress={() => {
                     setSelectedClass(c.name);
                     setSelectedSpells([]); // Reset spell selections when class changes
+                    setSelectedSkills(getDefaultSkillsFor(selectedRace, selectedBackground));
                     if (c.subclasses && c.subclasses.length > 0) {
                       setSelectedSubclass(c.subclasses[0]);
                     } else {
@@ -677,6 +689,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                           onPress={() => {
                             const firstInGroup = raceGroups[group][0];
                             setSelectedRace(firstInGroup);
+                            setSelectedSkills(getDefaultSkillsFor(firstInGroup, selectedBackground));
                           }}
                         >
                           <Text style={[styles.pickerLabel, isActive && styles.pickerLabelActive]}>
@@ -711,7 +724,10 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                             <TouchableOpacity
                               key={sub}
                               style={[styles.pickerBtnWrap, { width: '48%', paddingVertical: 6, marginBottom: 4 }, isSel && styles.pickerBtnActive]}
-                              onPress={() => setSelectedRace(sub)}
+                              onPress={() => {
+                                setSelectedRace(sub);
+                                setSelectedSkills(getDefaultSkillsFor(sub, selectedBackground));
+                              }}
                             >
                               <Text style={[styles.pickerLabel, isSel && styles.pickerLabelActive]} numberOfLines={1}>
                                 {sub.includes('Draconato') ? sub.replace('Draconato ', '') : sub}
@@ -883,41 +899,41 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
           if (rLower.includes('tabaxi')) { fixedRacialSkills.push('Furtividade'); fixedRacialSkills.push('Percepção'); }
           if (rLower.includes('goliath')) fixedRacialSkills.push('Atletismo');
 
-          // Count how many manual class skills are selected
-          const manualClassSkills = selectedSkills.filter(s => 
+          const currentManualSelected = selectedSkills.filter(s => 
             !bgSkills.includes(s) && 
-            !fixedRacialSkills.includes(s) && 
-            classRules.list.includes(s)
+            !fixedRacialSkills.includes(s)
           );
 
-          // Count how many manual racial/extra skills are selected
-          const manualRacialSkills = selectedSkills.filter(s => 
-            !bgSkills.includes(s) && 
-            !fixedRacialSkills.includes(s) && 
-            !classRules.list.includes(s)
-          );
+          let classUsed = 0;
+          let raceUsed = 0;
+          for (const s of currentManualSelected) {
+            if (classRules.list.includes(s) && classUsed < classRules.limit) {
+              classUsed++;
+            } else {
+              raceUsed++;
+            }
+          }
 
           const allowedRacialSlots = rLower.includes('humano') ? 1 : (rLower.includes('meio-elfo') ? 2 : (rLower.includes('kenku') ? 2 : (rLower.includes('lizardfolk') ? 2 : 0)));
           const hasRacialPhase = allowedRacialSlots > 0;
 
-          // Phase state is implicit: if class skills are not filled yet, we are in Phase 1.
-          const isPhase1Complete = manualClassSkills.length >= classRules.limit;
+          const isPhase1Complete = classUsed >= classRules.limit;
 
           return (
             <View style={styles.stepCard}>
               <Text style={styles.stepTitle}>Proficiências de Perícias</Text>
               
               {/* Phase Indicators */}
-              <View style={{ flexDirection: 'row', marginBottom: 12, borderBottomWidth: 1, borderBottomColor: '#1E293B', pb: 8 }}>
+              <View style={{ flexDirection: 'row', marginBottom: 12, borderBottomWidth: 1, borderBottomColor: '#1E293B', paddingBottom: 8 }}>
                 <View style={{ flex: 1, paddingBottom: 6, borderBottomWidth: !isPhase1Complete ? 2 : 0, borderBottomColor: '#F59E0B' }}>
                   <Text style={{ color: !isPhase1Complete ? '#FBBF24' : '#64748B', fontSize: 11, fontWeight: '700' }}>
-                    1. Perícias da Classe ({manualClassSkills.length}/{classRules.limit})
+                    1. Perícias da Classe ({classUsed}/{classRules.limit})
                   </Text>
                 </View>
                 {hasRacialPhase && (
                   <View style={{ flex: 1, paddingBottom: 6, borderBottomWidth: isPhase1Complete ? 2 : 0, borderBottomColor: '#F59E0B', paddingLeft: 8 }}>
                     <Text style={{ color: isPhase1Complete ? '#FBBF24' : '#64748B', fontSize: 11, fontWeight: '700' }}>
-                      2. Escolhas da Raça ({manualRacialSkills.length}/{allowedRacialSlots})
+                      2. Escolhas da Raça ({raceUsed}/{allowedRacialSlots})
                     </Text>
                   </View>
                 )}
@@ -925,9 +941,9 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
 
               <Text style={styles.stepDesc}>
                 {!isPhase1Complete 
-                  ? `Selecione as perícias de treino da sua classe (${selectedClass}). Escolha mais ${classRules.limit - manualClassSkills.length}.`
-                  : (hasRacialPhase && manualRacialSkills.length < allowedRacialSlots
-                      ? `Fase da Classe concluída! Agora selecione ${allowedRacialSlots - manualRacialSkills.length} perícias adicionais concedidas por sua raça (${selectedRace}).`
+                  ? `Selecione as perícias de treino da sua classe (${selectedClass}). Escolha mais ${classRules.limit - classUsed}.`
+                  : (hasRacialPhase && raceUsed < allowedRacialSlots
+                      ? `Fase da Classe concluída! Agora selecione ${allowedRacialSlots - raceUsed} perícias adicionais concedidas por sua raça (${selectedRace}).`
                       : "Todas as proficiências de classe e raça foram selecionadas com sucesso!"
                     )
                 }
@@ -948,10 +964,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                     // Phase 1: Only allow selecting class skills
                     if (!isClassSkill) isDisabled = true;
                   } else {
-                    // Phase 2: Only allow selecting non-class skills (or if it's already selected, allow deselecting)
-                    if (isClassSkill && !selectedSkills.includes(skill)) {
-                      isDisabled = true;
-                    }
+                    // Phase 2: Prevent adding new class skills if they are not allowed (not applicable here, but we check limits in toggleSkill)
                   }
 
                   return (
