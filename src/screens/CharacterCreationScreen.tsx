@@ -672,7 +672,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                       style={[styles.pickerBtnWrap, { width: '48%' }, selectedSubclass === sub && styles.pickerBtnActive]}
                       onPress={() => setSelectedSubclass(sub)}
                     >
-                      <Text style={[styles.pickerLabel, selectedSubclass === sub && styles.pickerLabelActive]} numberOfLines={1}>
+                      <Text style={[styles.pickerLabel, selectedSubclass === sub && styles.pickerLabelActive]}>
                         {sub.split(' (')[0]}
                       </Text>
                     </TouchableOpacity>
@@ -839,7 +839,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                                 setSelectedSkills(getDefaultSkillsFor(sub, selectedBackground));
                               }}
                             >
-                              <Text style={[styles.pickerLabel, isSel && styles.pickerLabelActive]} numberOfLines={1}>
+                              <Text style={[styles.pickerLabel, isSel && styles.pickerLabelActive]}>
                                 {sub.includes('Draconato') ? sub.replace('Draconato ', '') : sub}
                               </Text>
                             </TouchableOpacity>
@@ -915,7 +915,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                     });
                   }}
                 >
-                  <Text style={[styles.pickerLabel, selectedBackground === bg.name && styles.pickerLabelActive]} numberOfLines={1}>
+                  <Text style={[styles.pickerLabel, selectedBackground === bg.name && styles.pickerLabelActive]}>
                     {bg.name.split(' (')[0]}
                   </Text>
                 </TouchableOpacity>
@@ -1561,8 +1561,10 @@ const styles = StyleSheet.create({
   },
   pickerLabel: {
     color: '#64748B',
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: '700',
+    textAlign: 'center',
+    paddingHorizontal: 2,
   },
   pickerLabelActive: {
     color: '#0F172A',
@@ -1579,7 +1581,8 @@ const styles = StyleSheet.create({
     borderColor: '#334155',
     borderWidth: 1,
     borderRadius: 6,
-    height: 36,
+    minHeight: 38,
+    paddingVertical: 6,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 8,
