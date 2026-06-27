@@ -48,7 +48,7 @@ export const CoinsSchema = z.object({
 export const EquipmentItemSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
-  type: z.enum(['weapon', 'armor', 'shield', 'ring', 'other']),
+  type: z.enum(['weapon', 'armor', 'shield', 'ring', 'other', 'ammunition']),
   equipped: z.boolean().default(false),
   acBonus: z.number().int().optional(),
   dmgDice: z.string().optional(),

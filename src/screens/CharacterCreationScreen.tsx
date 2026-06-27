@@ -22,6 +22,7 @@ import {
   getHitDieType,
   getSpellLimit,
   getArmorCategory,
+  isProficientInItem,
 } from '../utils/dndRules';
 import { SPELLS_DATABASE, Spell } from '../utils/dndSpells';
 import { Ionicons } from '@expo/vector-icons';
@@ -550,38 +551,55 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
             </Text>
 
             <Text style={styles.label}>Arma Principal</Text>
-            {WEAPON_TEMPLATES.map((w, idx) => (
-              <TouchableOpacity
-                key={w.name}
-                style={[styles.equipOption, selectedWeaponIdx === idx && styles.equipOptionActive]}
-                onPress={() => {
-                  setSelectedWeaponIdx(idx);
-                  if (w.handedness === '2 Mãos') {
-                    setHasShield(false);
-                  }
-                }}
-                activeOpacity={0.8}
-              >
-                <Ionicons name={"sword" as any} size={16} color={selectedWeaponIdx === idx ? '#F59E0B' : '#475569'} style={{ marginRight: 10 }} />
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.equipName}>{w.name}</Text>
-                  <Text style={styles.equipSub}>
-                    Dano: {w.dmgDice} ({w.dmgType}) | Empunhadura: {w.handedness}
-                    {w.dmgDiceVersatile ? ` (Dano 2M: ${w.dmgDiceVersatile})` : ''}
-                  </Text>
-                  {w.properties.length > 0 && (
-                    <Text style={styles.equipProperties}>
-                      Propriedades: {w.properties.join(', ')}
+            {WEAPON_TEMPLATES.map((w, idx) => {
+              const isProf = isProficientInItem(selectedClass, 'weapon', w.name, w.category);
+              return (
+                <TouchableOpacity
+                  key={w.name}
+                  style={[styles.equipOption, selectedWeaponIdx === idx && styles.equipOptionActive]}
+                  onPress={() => {
+                    setSelectedWeaponIdx(idx);
+                    if (w.handedness === '2 Mãos') {
+                      setHasShield(false);
+                    }
+                  }}
+                  activeOpacity={0.8}
+                >
+                  <Ionicons name={"sword" as any} size={16} color={selectedWeaponIdx === idx ? '#F59E0B' : '#475569'} style={{ marginRight: 10 }} />
+                  <View style={{ flex: 1 }}>
+                    <View style={styles.creationEquipHeaderRow}>
+                      <Text style={styles.equipName}>{w.name}</Text>
+                      <View style={[
+                        styles.profSmallBadge,
+                        isProf ? styles.profSmallBadgeActive : styles.profSmallBadgeInactive
+                      ]}>
+                        <Text style={[
+                          styles.profSmallBadgeText,
+                          isProf ? styles.profSmallBadgeTextActive : styles.profSmallBadgeTextInactive
+                        ]}>
+                          {isProf ? 'Treinado' : 'Sem Treino'}
+                        </Text>
+                      </View>
+                    </View>
+                    <Text style={styles.equipSub}>
+                      Dano: {w.dmgDice} ({w.dmgType}) | Empunhadura: {w.handedness}
+                      {w.dmgDiceVersatile ? ` (Dano 2M: ${w.dmgDiceVersatile})` : ''}
                     </Text>
-                  )}
-                </View>
-              </TouchableOpacity>
-            ))}
+                    {w.properties.length > 0 && (
+                      <Text style={styles.equipProperties}>
+                        Propriedades: {w.properties.join(', ')}
+                      </Text>
+                    )}
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
 
             <Text style={[styles.label, { marginTop: 18 }]}>Armadura</Text>
             {ARMOR_TEMPLATES.filter(a => a.type === 'armor').map((a, idx) => {
               const currentStrength = stats.str;
               const meetsStrength = a.strengthReq ? currentStrength >= a.strengthReq : true;
+              const isProf = isProficientInItem(selectedClass, 'armor', a.name);
 
               return (
                 <TouchableOpacity
@@ -604,7 +622,20 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                 >
                   <Ionicons name={"shirt" as any} size={16} color={selectedArmorIdx === idx ? '#F59E0B' : '#475569'} style={{ marginRight: 10 }} />
                   <View style={{ flex: 1 }}>
-                    <Text style={styles.equipName}>{a.name}</Text>
+                    <View style={styles.creationEquipHeaderRow}>
+                      <Text style={styles.equipName}>{a.name}</Text>
+                      <View style={[
+                        styles.profSmallBadge,
+                        isProf ? styles.profSmallBadgeActive : styles.profSmallBadgeInactive
+                      ]}>
+                        <Text style={[
+                          styles.profSmallBadgeText,
+                          isProf ? styles.profSmallBadgeTextActive : styles.profSmallBadgeTextInactive
+                        ]}>
+                          {isProf ? 'Treinado' : 'Sem Treino'}
+                        </Text>
+                      </View>
+                    </View>
                     <Text style={styles.equipSub}>
                       Classe de Armadura (AC): {a.acBonus}
                       {a.strengthReq ? ` | Req. Força: ${a.strengthReq}` : ''}
@@ -616,29 +647,48 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
             })}
 
             {/* Shield Option Toggle */}
-            <View style={[styles.shieldToggleRow, isWeapon2H && styles.shieldToggleRowDisabled]}>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.shieldLabel}>Equipar Escudo inicial (+2 AC)</Text>
-                <Text style={styles.shieldSub}>
-                  {isWeapon2H
-                    ? 'Desabilitado: Usando arma de duas mãos.'
-                    : 'Disponível apenas para armas de 1 mão ou versáteis.'}
-                </Text>
-              </View>
-              <Switch
-                disabled={isWeapon2H}
-                trackColor={{ false: '#0F172A', true: '#2563EB' }}
-                thumbColor={hasShield ? '#60A5FA' : '#64748B'}
-                onValueChange={(val) => {
-                  if (val && isWeapon2H) {
-                    Alert.alert('Aviso D&D', 'Não é possível equipar escudo enquanto usa arma de duas mãos.');
-                    return;
-                  }
-                  setHasShield(val);
-                }}
-                value={hasShield && !isWeapon2H}
-              />
-            </View>
+            {(() => {
+              const isShieldProf = isProficientInItem(selectedClass, 'shield', 'Escudo');
+              return (
+                <View style={[styles.shieldToggleRow, isWeapon2H && styles.shieldToggleRowDisabled]}>
+                  <View style={{ flex: 1 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Text style={styles.shieldLabel}>Equipar Escudo inicial (+2 AC)</Text>
+                      <View style={[
+                        styles.profSmallBadge,
+                        isShieldProf ? styles.profSmallBadgeActive : styles.profSmallBadgeInactive,
+                        { marginLeft: 6 }
+                      ]}>
+                        <Text style={[
+                          styles.profSmallBadgeText,
+                          isShieldProf ? styles.profSmallBadgeTextActive : styles.profSmallBadgeTextInactive
+                        ]}>
+                          {isShieldProf ? 'Treinado' : 'Sem Treino'}
+                        </Text>
+                      </View>
+                    </View>
+                    <Text style={styles.shieldSub}>
+                      {isWeapon2H
+                        ? 'Desabilitado: Usando arma de duas mãos.'
+                        : 'Disponível apenas para armas de 1 mão ou versáteis.'}
+                    </Text>
+                  </View>
+                  <Switch
+                    disabled={isWeapon2H}
+                    trackColor={{ false: '#0F172A', true: '#2563EB' }}
+                    thumbColor={hasShield ? '#60A5FA' : '#64748B'}
+                    onValueChange={(val) => {
+                      if (val && isWeapon2H) {
+                        Alert.alert('Aviso D&D', 'Não é possível equipar escudo enquanto usa arma de duas mãos.');
+                        return;
+                      }
+                      setHasShield(val);
+                    }}
+                    value={hasShield && !isWeapon2H}
+                  />
+                </View>
+              );
+            })()}
           </View>
         )}
 
@@ -1168,5 +1218,37 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingVertical: 16,
     fontStyle: 'italic',
+  },
+  creationEquipHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  profSmallBadge: {
+    paddingHorizontal: 5,
+    paddingVertical: 1,
+    borderRadius: 4,
+    borderWidth: 0.5,
+    marginRight: 6,
+    alignSelf: 'center',
+  },
+  profSmallBadgeActive: {
+    backgroundColor: 'rgba(16, 185, 129, 0.12)',
+    borderColor: 'rgba(16, 185, 129, 0.4)',
+  },
+  profSmallBadgeInactive: {
+    backgroundColor: 'rgba(239, 68, 68, 0.12)',
+    borderColor: 'rgba(239, 68, 68, 0.4)',
+  },
+  profSmallBadgeText: {
+    fontSize: 7.5,
+    fontWeight: '800',
+  },
+  profSmallBadgeTextActive: {
+    color: '#10B981',
+  },
+  profSmallBadgeTextInactive: {
+    color: '#EF4444',
   },
 });

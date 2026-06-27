@@ -46,7 +46,7 @@ export interface Coins {
 export interface EquipmentItem {
   id: string;
   name: string;
-  type: 'weapon' | 'armor' | 'shield' | 'ring' | 'other';
+  type: 'weapon' | 'armor' | 'shield' | 'ring' | 'other' | 'ammunition';
   equipped: boolean;
   acBonus?: number;
   dmgDice?: string;

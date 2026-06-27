@@ -263,182 +263,61 @@ export const SKILLS_LIST = [
   'Animal Handling', 'Insight', 'Medicine', 'Perception', 'Survival',
   'Deception', 'Intimidation', 'Performance', 'Persuasion'
 ];
+export interface AmmunitionTemplate {
+  name: string;
+  type: 'ammunition';
+  quantity: number;
+}
+
+export const AMMUNITION_TEMPLATES: AmmunitionTemplate[] = [
+  { name: 'Flechas', type: 'ammunition', quantity: 20 },
+  { name: 'Virotes de Besta', type: 'ammunition', quantity: 20 },
+  { name: 'Balas de Funda', type: 'ammunition', quantity: 20 },
+  { name: 'Agulhas de Zarabatana', type: 'ammunition', quantity: 50 },
+];
+
 
 export const WEAPON_TEMPLATES: WeaponTemplate[] = [
   // --- WEAPONS SIMPLES CORPO-A-CORPO ---
-  {
-    name: 'Adaga (Dagger)',
-    dmgDice: '1d4',
-    handedness: '1 Mão',
-    dmgType: 'Perfurante',
-    properties: ['Acuidade (Finesse)', 'Leve (Light)', 'Arremesso (dist. 6/18m)'],
-    category: 'Simples',
-    rangeType: 'Corpo-a-corpo',
-  },
-  {
-    name: 'Lança (Spear)',
-    dmgDice: '1d6',
-    handedness: 'Versátil',
-    dmgType: 'Perfurante',
-    dmgDiceVersatile: '1d8',
-    properties: ['Versátil (Versatile)', 'Arremesso (dist. 6/18m)'],
-    category: 'Simples',
-    rangeType: 'Corpo-a-corpo',
-  },
-  {
-    name: 'Bordão (Quarterstaff)',
-    dmgDice: '1d6',
-    handedness: 'Versátil',
-    dmgType: 'Impacto',
-    dmgDiceVersatile: '1d8',
-    properties: ['Versátil (Versatile)'],
-    category: 'Simples',
-    rangeType: 'Corpo-a-corpo',
-  },
-  {
-    name: 'Maça (Mace)',
-    dmgDice: '1d6',
-    handedness: '1 Mão',
-    dmgType: 'Impacto',
-    properties: [],
-    category: 'Simples',
-    rangeType: 'Corpo-a-corpo',
-  },
-  {
-    name: 'Machadinha (Handaxe)',
-    dmgDice: '1d6',
-    handedness: '1 Mão',
-    dmgType: 'Cortante',
-    properties: ['Leve (Light)', 'Arremesso (dist. 6/18m)'],
-    category: 'Simples',
-    rangeType: 'Corpo-a-corpo',
-  },
+  { name: 'Adaga (Dagger)', dmgDice: '1d4', handedness: '1 Mão', dmgType: 'Perfurante', properties: ['Acuidade (Finesse)', 'Leve (Light)', 'Arremesso (dist. 6/18m)'], category: 'Simples', rangeType: 'Corpo-a-corpo' },
+  { name: 'Azagaia (Javelin)', dmgDice: '1d6', handedness: '1 Mão', dmgType: 'Perfurante', properties: ['Arremesso (dist. 9/36m)'], category: 'Simples', rangeType: 'Corpo-a-corpo' },
+  { name: 'Bordão (Quarterstaff)', dmgDice: '1d6', handedness: 'Versátil', dmgType: 'Impacto', dmgDiceVersatile: '1d8', properties: ['Versátil (Versatile)'], category: 'Simples', rangeType: 'Corpo-a-corpo' },
+  { name: 'Clava (Club)', dmgDice: '1d4', handedness: '1 Mão', dmgType: 'Impacto', properties: ['Leve (Light)'], category: 'Simples', rangeType: 'Corpo-a-corpo' },
+  { name: 'Foice Curta (Sickle)', dmgDice: '1d4', handedness: '1 Mão', dmgType: 'Cortante', properties: ['Leve (Light)'], category: 'Simples', rangeType: 'Corpo-a-corpo' },
+  { name: 'Lança (Spear)', dmgDice: '1d6', handedness: 'Versátil', dmgType: 'Perfurante', dmgDiceVersatile: '1d8', properties: ['Versátil (Versatile)', 'Arremesso (dist. 6/18m)'], category: 'Simples', rangeType: 'Corpo-a-corpo' },
+  { name: 'Maça (Mace)', dmgDice: '1d6', handedness: '1 Mão', dmgType: 'Impacto', properties: [], category: 'Simples', rangeType: 'Corpo-a-corpo' },
+  { name: 'Machadinha (Handaxe)', dmgDice: '1d6', handedness: '1 Mão', dmgType: 'Cortante', properties: ['Leve (Light)', 'Arremesso (dist. 6/18m)'], category: 'Simples', rangeType: 'Corpo-a-corpo' },
+  { name: 'Martelo Leve (Light Hammer)', dmgDice: '1d4', handedness: '1 Mão', dmgType: 'Impacto', properties: ['Leve (Light)', 'Arremesso (dist. 6/18m)'], category: 'Simples', rangeType: 'Corpo-a-corpo' },
 
   // --- WEAPONS SIMPLES À DISTÂNCIA ---
-  {
-    name: 'Arco Curto (Shortbow)',
-    dmgDice: '1d6',
-    handedness: '2 Mãos',
-    dmgType: 'Perfurante',
-    properties: ['Munição (dist. 24/96m)', 'Duas Mãos'],
-    category: 'Simples',
-    rangeType: 'À Distância',
-  },
-  {
-    name: 'Besta Leve (Light Crossbow)',
-    dmgDice: '1d8',
-    handedness: '2 Mãos',
-    dmgType: 'Perfurante',
-    properties: ['Munição (dist. 24/96m)', 'Recarga', 'Duas Mãos'],
-    category: 'Simples',
-    rangeType: 'À Distância',
-  },
+  { name: 'Arco Curto (Shortbow)', dmgDice: '1d6', handedness: '2 Mãos', dmgType: 'Perfurante', properties: ['Munição (dist. 24/96m)', 'Duas Mãos'], category: 'Simples', rangeType: 'À Distância' },
+  { name: 'Besta Leve (Light Crossbow)', dmgDice: '1d8', handedness: '2 Mãos', dmgType: 'Perfurante', properties: ['Munição (dist. 24/96m)', 'Recarga', 'Duas Mãos'], category: 'Simples', rangeType: 'À Distância' },
+  { name: 'Dardo (Dart)', dmgDice: '1d4', handedness: '1 Mão', dmgType: 'Perfurante', properties: ['Acuidade (Finesse)', 'Arremesso (dist. 6/18m)'], category: 'Simples', rangeType: 'À Distância' },
+  { name: 'Funda (Sling)', dmgDice: '1d4', handedness: '1 Mão', dmgType: 'Impacto', properties: ['Munição (dist. 9/36m)'], category: 'Simples', rangeType: 'À Distância' },
 
   // --- WEAPONS MARCIAIS CORPO-A-CORPO ---
-  {
-    name: 'Espada Longa (Longsword)',
-    dmgDice: '1d8',
-    handedness: 'Versátil',
-    dmgType: 'Cortante',
-    dmgDiceVersatile: '1d10',
-    properties: ['Versátil (Versatile)'],
-    category: 'Marcial',
-    rangeType: 'Corpo-a-corpo',
-  },
-  {
-    name: 'Espada Curta (Shortsword)',
-    dmgDice: '1d6',
-    handedness: '1 Mão',
-    dmgType: 'Perfurante',
-    properties: ['Acuidade (Finesse)', 'Leve (Light)'],
-    category: 'Marcial',
-    rangeType: 'Corpo-a-corpo',
-  },
-  {
-    name: 'Espada Larga (Greatsword)',
-    dmgDice: '2d6',
-    handedness: '2 Mãos',
-    dmgType: 'Cortante',
-    properties: ['Pesada (Heavy)', 'Duas Mãos'],
-    category: 'Marcial',
-    rangeType: 'Corpo-a-corpo',
-  },
-  {
-    name: 'Machado de Batalha (Battleaxe)',
-    dmgDice: '1d8',
-    handedness: 'Versátil',
-    dmgType: 'Cortante',
-    dmgDiceVersatile: '1d10',
-    properties: ['Versátil (Versatile)'],
-    category: 'Marcial',
-    rangeType: 'Corpo-a-corpo',
-  },
-  {
-    name: 'Machado Grande (Greataxe)',
-    dmgDice: '1d12',
-    handedness: '2 Mãos',
-    dmgType: 'Cortante',
-    properties: ['Pesada (Heavy)', 'Duas Mãos'],
-    category: 'Marcial',
-    rangeType: 'Corpo-a-corpo',
-  },
-  {
-    name: 'Alabarda (Halberd)',
-    dmgDice: '1d10',
-    handedness: '2 Mãos',
-    dmgType: 'Cortante',
-    properties: ['Pesada (Heavy)', 'Alcance (Reach)', 'Duas Mãos'],
-    category: 'Marcial',
-    rangeType: 'Corpo-a-corpo',
-  },
-  {
-    name: 'Martelo de Guerra (Warhammer)',
-    dmgDice: '1d8',
-    handedness: 'Versátil',
-    dmgType: 'Impacto',
-    dmgDiceVersatile: '1d10',
-    properties: ['Versátil (Versatile)'],
-    category: 'Marcial',
-    rangeType: 'Corpo-a-corpo',
-  },
-  {
-    name: 'Rapieira (Rapier)',
-    dmgDice: '1d8',
-    handedness: '1 Mão',
-    dmgType: 'Perfurante',
-    properties: ['Acuidade (Finesse)'],
-    category: 'Marcial',
-    rangeType: 'Corpo-a-corpo',
-  },
-  {
-    name: 'Chicote (Whip)',
-    dmgDice: '1d4',
-    handedness: '1 Mão',
-    dmgType: 'Cortante',
-    properties: ['Acuidade (Finesse)', 'Alcance (Reach)'],
-    category: 'Marcial',
-    rangeType: 'Corpo-a-corpo',
-  },
+  { name: 'Alabarda (Halberd)', dmgDice: '1d10', handedness: '2 Mãos', dmgType: 'Cortante', properties: ['Pesada (Heavy)', 'Alcance (Reach)', 'Duas Mãos'], category: 'Marcial', rangeType: 'Corpo-a-corpo' },
+  { name: 'Chicote (Whip)', dmgDice: '1d4', handedness: '1 Mão', dmgType: 'Cortante', properties: ['Acuidade (Finesse)', 'Alcance (Reach)'], category: 'Marcial', rangeType: 'Corpo-a-corpo' },
+  { name: 'Cimitarra (Scimitar)', dmgDice: '1d6', handedness: '1 Mão', dmgType: 'Cortante', properties: ['Acuidade (Finesse)', 'Leve (Light)'], category: 'Marcial', rangeType: 'Corpo-a-corpo' },
+  { name: 'Espada Curta (Shortsword)', dmgDice: '1d6', handedness: '1 Mão', dmgType: 'Perfurante', properties: ['Acuidade (Finesse)', 'Leve (Light)'], category: 'Marcial', rangeType: 'Corpo-a-corpo' },
+  { name: 'Espada Larga (Greatsword)', dmgDice: '2d6', handedness: '2 Mãos', dmgType: 'Cortante', properties: ['Pesada (Heavy)', 'Duas Mãos'], category: 'Marcial', rangeType: 'Corpo-a-corpo' },
+  { name: 'Espada Longa (Longsword)', dmgDice: '1d8', handedness: 'Versátil', dmgType: 'Cortante', dmgDiceVersatile: '1d10', properties: ['Versátil (Versatile)'], category: 'Marcial', rangeType: 'Corpo-a-corpo' },
+  { name: 'Glaive', dmgDice: '1d10', handedness: '2 Mãos', dmgType: 'Cortante', properties: ['Pesada (Heavy)', 'Alcance (Reach)', 'Duas Mãos'], category: 'Marcial', rangeType: 'Corpo-a-corpo' },
+  { name: 'Lança de Montaria (Lance)', dmgDice: '1d12', handedness: '1 Mão', dmgType: 'Perfurante', properties: ['Alcance (Reach)', 'Especial'], category: 'Marcial', rangeType: 'Corpo-a-corpo' },
+  { name: 'Maça Estrela (Morningstar)', dmgDice: '1d8', handedness: '1 Mão', dmgType: 'Perfurante', properties: [], category: 'Marcial', rangeType: 'Corpo-a-corpo' },
+  { name: 'Machado de Batalha (Battleaxe)', dmgDice: '1d8', handedness: 'Versátil', dmgType: 'Cortante', dmgDiceVersatile: '1d10', properties: ['Versátil (Versatile)'], category: 'Marcial', rangeType: 'Corpo-a-corpo' },
+  { name: 'Machado Grande (Greataxe)', dmgDice: '1d12', handedness: '2 Mãos', dmgType: 'Cortante', properties: ['Pesada (Heavy)', 'Duas Mãos'], category: 'Marcial', rangeType: 'Corpo-a-corpo' },
+  { name: 'Mangual (Flail)', dmgDice: '1d8', handedness: '1 Mão', dmgType: 'Impacto', properties: [], category: 'Marcial', rangeType: 'Corpo-a-corpo' },
+  { name: 'Martelo de Guerra (Warhammer)', dmgDice: '1d8', handedness: 'Versátil', dmgType: 'Impacto', dmgDiceVersatile: '1d10', properties: ['Versátil (Versatile)'], category: 'Marcial', rangeType: 'Corpo-a-corpo' },
+  { name: 'Picareta de Guerra (War Pick)', dmgDice: '1d8', handedness: '1 Mão', dmgType: 'Perfurante', properties: [], category: 'Marcial', rangeType: 'Corpo-a-corpo' },
+  { name: 'Rapieira (Rapier)', dmgDice: '1d8', handedness: '1 Mão', dmgType: 'Perfurante', properties: ['Acuidade (Finesse)'], category: 'Marcial', rangeType: 'Corpo-a-corpo' },
+  { name: 'Tridente (Trident)', dmgDice: '1d6', handedness: 'Versátil', dmgType: 'Perfurante', dmgDiceVersatile: '1d8', properties: ['Arremesso (dist. 6/18m)', 'Versátil (Versatile)'], category: 'Marcial', rangeType: 'Corpo-a-corpo' },
 
   // --- WEAPONS MARCIAIS À DISTÂNCIA ---
-  {
-    name: 'Arco Longo (Longbow)',
-    dmgDice: '1d8',
-    handedness: '2 Mãos',
-    dmgType: 'Perfurante',
-    properties: ['Munição (dist. 45/180m)', 'Pesada (Heavy)', 'Duas Mãos'],
-    category: 'Marcial',
-    rangeType: 'À Distância',
-  },
-  {
-    name: 'Besta Pesada (Heavy Crossbow)',
-    dmgDice: '1d10',
-    handedness: '2 Mãos',
-    dmgType: 'Perfurante',
-    properties: ['Munição (dist. 30/120m)', 'Pesada (Heavy)', 'Recarga', 'Duas Mãos'],
-    category: 'Marcial',
-    rangeType: 'À Distância',
-  },
+  { name: 'Arco Longo (Longbow)', dmgDice: '1d8', handedness: '2 Mãos', dmgType: 'Perfurante', properties: ['Munição (dist. 45/180m)', 'Pesada (Heavy)', 'Duas Mãos'], category: 'Marcial', rangeType: 'À Distância' },
+  { name: 'Besta de Mão (Hand Crossbow)', dmgDice: '1d6', handedness: '1 Mão', dmgType: 'Perfurante', properties: ['Munição (dist. 9/36m)', 'Leve (Light)', 'Recarga'], category: 'Marcial', rangeType: 'À Distância' },
+  { name: 'Besta Pesada (Heavy Crossbow)', dmgDice: '1d10', handedness: '2 Mãos', dmgType: 'Perfurante', properties: ['Munição (dist. 30/120m)', 'Pesada (Heavy)', 'Recarga', 'Duas Mãos'], category: 'Marcial', rangeType: 'À Distância' },
+  { name: 'Rede (Net)', dmgDice: '-', handedness: '1 Mão', dmgType: 'Impacto', properties: ['Arremesso (dist. 1.5/4.5m)', 'Especial'], category: 'Marcial', rangeType: 'À Distância' },
 ];
 
 export const ARMOR_TEMPLATES: ArmorTemplate[] = [
@@ -646,3 +525,158 @@ export const MAGIC_ITEMS_LIST: MagicItemTemplate[] = [
     description: 'Uma vez por dia, você pode usar uma ação para recuperar um slot de magia de até 3º nível.',
   },
 ];
+
+export const isProficientInItem = (characterClass: string, itemType: string, itemName: string, itemCategory?: string): boolean => {
+  const normalizedClass = characterClass.trim().toLowerCase();
+  const name = itemName.toLowerCase();
+  const type = itemType.toLowerCase();
+
+  // Shields, Rings, Others
+  if (type === 'ring' || type === 'other') return true; // rings and miscellaneous don't require training to benefit from them (though some require attunement)
+
+  // Determine armor category for check
+  let armorCat: 'light' | 'medium' | 'heavy' | 'shield' | 'none' = 'none';
+  if (type === 'shield') {
+    armorCat = 'shield';
+  } else if (type === 'armor') {
+    armorCat = getArmorCategory(itemName);
+  }
+
+  // Determine weapon category (Simple vs Martial)
+  const isSimpleWeapon = itemCategory === 'Simples' || 
+    name.includes('adaga') || name.includes('dagger') ||
+    name.includes('lança') || name.includes('spear') ||
+    name.includes('bordão') || name.includes('quarterstaff') ||
+    name.includes('maça') || name.includes('mace') ||
+    name.includes('machadinha') || name.includes('handaxe') ||
+    name.includes('curto') || name.includes('shortbow') ||
+    name.includes('besta leve') || name.includes('light crossbow') ||
+    name.includes('azagaia') || name.includes('javelin') ||
+    name.includes('clava') || name.includes('club') ||
+    name.includes('adaga') || name.includes('dart') ||
+    name.includes('honda') || name.includes('sling');
+
+  const isMartialWeapon = itemCategory === 'Marcial' ||
+    name.includes('longa') || name.includes('longsword') ||
+    name.includes('curta') || name.includes('shortsword') ||
+    name.includes('larga') || name.includes('greatsword') ||
+    name.includes('batalha') || name.includes('battleaxe') ||
+    name.includes('grande') || name.includes('greataxe') ||
+    name.includes('alabarda') || name.includes('halberd') ||
+    name.includes('guerra') || name.includes('warhammer') ||
+    name.includes('rapieira') || name.includes('rapier') ||
+    name.includes('chicote') || name.includes('whip') ||
+    name.includes('arco longo') || name.includes('longbow') ||
+    name.includes('besta pesada') || name.includes('heavy crossbow');
+
+  // PALADIN, FIGHTER, RANGER
+  if (normalizedClass.includes('paladin') || normalizedClass.includes('paladino') ||
+      normalizedClass.includes('fighter') || normalizedClass.includes('guerreiro') ||
+      normalizedClass.includes('ranger') || normalizedClass.includes('patrulheiro')) {
+    return true; // Proficient in all weapons, armors, and shields
+  }
+
+  // BARBARIAN
+  if (normalizedClass.includes('barbarian') || normalizedClass.includes('bárbaro')) {
+    if (type === 'armor') return armorCat === 'light' || armorCat === 'medium';
+    if (type === 'shield') return true;
+    if (type === 'weapon') return true; // all simple and martial
+  }
+
+  // BARD
+  if (normalizedClass.includes('bard') || normalizedClass.includes('bardo')) {
+    if (type === 'armor') return armorCat === 'light';
+    if (type === 'shield') return false;
+    if (type === 'weapon') {
+      if (isSimpleWeapon) return true;
+      // Bards also proficient in longsword, rapier, shortsword, hand crossbow
+      return name.includes('longsword') || name.includes('espada longa') ||
+             name.includes('rapier') || name.includes('rapieira') ||
+             name.includes('shortsword') || name.includes('espada curta') ||
+             name.includes('hand crossbow') || name.includes('besta de mão');
+    }
+  }
+
+  // CLERIC
+  if (normalizedClass.includes('cleric') || normalizedClass.includes('clérigo')) {
+    const isWarOrLife = normalizedClass.includes('guerra') || normalizedClass.includes('vida') || normalizedClass.includes('tempestade');
+    if (type === 'armor') {
+      if (armorCat === 'heavy') return isWarOrLife; // War and Life domains get heavy armor
+      return armorCat === 'light' || armorCat === 'medium';
+    }
+    if (type === 'shield') return true;
+    if (type === 'weapon') {
+      if (isSimpleWeapon) return true;
+      if (normalizedClass.includes('guerra') || normalizedClass.includes('tempestade')) return true; // War/Tempest gets martial weapons
+      return false;
+    }
+  }
+
+  // DRUID
+  if (normalizedClass.includes('druid') || normalizedClass.includes('druida')) {
+    if (type === 'armor') return armorCat === 'light' || armorCat === 'medium';
+    if (type === 'shield') return true;
+    if (type === 'weapon') {
+      return name.includes('club') || name.includes('clava') ||
+             name.includes('dagger') || name.includes('adaga') ||
+             name.includes('dart') || name.includes('dardo') ||
+             name.includes('javelin') || name.includes('azagaia') ||
+             name.includes('mace') || name.includes('maça') ||
+             name.includes('quarterstaff') || name.includes('bordão') ||
+             name.includes('scimitar') || name.includes('cimitarra') ||
+             name.includes('sickle') || name.includes('foice') ||
+             name.includes('sling') || name.includes('honda') ||
+             name.includes('spear') || name.includes('lança');
+    }
+  }
+
+  // ROGUE
+  if (normalizedClass.includes('rogue') || normalizedClass.includes('ladino')) {
+    if (type === 'armor') return armorCat === 'light';
+    if (type === 'shield') return false;
+    if (type === 'weapon') {
+      if (isSimpleWeapon) return true;
+      return name.includes('longsword') || name.includes('espada longa') ||
+             name.includes('rapier') || name.includes('rapieira') ||
+             name.includes('shortsword') || name.includes('espada curta') ||
+             name.includes('hand crossbow') || name.includes('besta de mão');
+    }
+  }
+
+  // WIZARD, SORCERER
+  if (normalizedClass.includes('wizard') || normalizedClass.includes('mago') ||
+      normalizedClass.includes('sorcerer') || normalizedClass.includes('feiticeiro')) {
+    if (type === 'armor' || type === 'shield') return false;
+    if (type === 'weapon') {
+      return name.includes('dagger') || name.includes('adaga') ||
+             name.includes('dart') || name.includes('dardo') ||
+             name.includes('sling') || name.includes('honda') ||
+             name.includes('quarterstaff') || name.includes('bordão') ||
+             name.includes('light crossbow') || name.includes('besta leve');
+    }
+  }
+
+  // WARLOCK
+  if (normalizedClass.includes('warlock') || normalizedClass.includes('bruxo')) {
+    if (type === 'armor') return armorCat === 'light';
+    if (type === 'shield') return false;
+    if (type === 'weapon') return isSimpleWeapon;
+  }
+
+  // MONK
+  if (normalizedClass.includes('monk') || normalizedClass.includes('monge')) {
+    if (type === 'armor' || type === 'shield') return false;
+    if (type === 'weapon') {
+      return isSimpleWeapon || name.includes('shortsword') || name.includes('espada curta');
+    }
+  }
+
+  // ARTIFICER
+  if (normalizedClass.includes('artificer') || normalizedClass.includes('artífice')) {
+    if (type === 'armor') return armorCat === 'light' || armorCat === 'medium';
+    if (type === 'shield') return true;
+    if (type === 'weapon') return isSimpleWeapon;
+  }
+
+  return false;
+};

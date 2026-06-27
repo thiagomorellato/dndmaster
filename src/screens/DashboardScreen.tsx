@@ -12,6 +12,7 @@ import {
   LayoutAnimation,
   Platform,
   UIManager,
+  useWindowDimensions,
 } from 'react-native';
 import { Alert } from '../utils/alert';
 import { Character, HP, Resources, CombatLogEntry, ActionType, CombatConfig, EquipmentItem, BaseStats, Coins } from '../types/character';
@@ -20,6 +21,7 @@ import { LoggerService } from '../services/logger';
 import { VitalsWidget } from '../components/VitalsWidget';
 import { ResourceTracker } from '../components/ResourceTracker';
 import { EquipmentTracker } from '../components/EquipmentTracker';
+import { CharacterTab } from '../components/CharacterTab';
 import { Ionicons } from '@expo/vector-icons';
 import { getHitDieType, getArmorCategory } from '../utils/dndRules';
 
@@ -34,10 +36,29 @@ interface DashboardScreenProps {
   onBack: () => void;
 }
 
-type TabType = 'tatico' | 'magias' | 'equipamentos' | 'logs';
+type TabType = 'tatico' | 'personagem' | 'magias' | 'equipamentos' | 'logs';
 
-const getCharacterBackground = (characterClass: string) => {
+const getCharacterBackground = (characterClass: string, isMobile: boolean) => {
   const normalized = characterClass.trim().toLowerCase();
+  
+  if (isMobile) {
+    if (normalized.includes('barbarian') || normalized.includes('bárbaro')) return require('../../assets/barbarian_bgmob.jpg');
+    if (normalized.includes('bard') || normalized.includes('bardo')) return require('../../assets/bard_bgmob.png');
+    if (normalized.includes('warlock') || normalized.includes('bruxo')) return require('../../assets/warlock_bgmob.jpg');
+    if (normalized.includes('cleric') || normalized.includes('clérigo')) return require('../../assets/cleric_bgmob.jpg');
+    if (normalized.includes('druid') || normalized.includes('druida')) return require('../../assets/druid_bgmob.jpg');
+    if (normalized.includes('sorcerer') || normalized.includes('feiticeiro')) return require('../../assets/sorcerer_bgmob.jpg');
+    if (normalized.includes('fighter') || normalized.includes('guerreiro')) return require('../../assets/fighter_bgmob.jpg');
+    if (normalized.includes('rogue') || normalized.includes('ladino')) return require('../../assets/rogue_bgmob.jpg');
+    if (normalized.includes('wizard') || normalized.includes('mago')) return require('../../assets/wizard_bgmob.jpg');
+    if (normalized.includes('monk') || normalized.includes('monge')) return require('../../assets/monk_bgmob.jpg');
+    if (normalized.includes('paladin') || normalized.includes('paladino')) return require('../../assets/paladin_bgmob.jpg');
+    if (normalized.includes('ranger') || normalized.includes('patrulheiro')) return require('../../assets/ranger_bgmob.jpg');
+    if (normalized.includes('artificer') || normalized.includes('artífice')) return require('../../assets/artificer_bgmob.jpg');
+    
+    return require('../../assets/paladin_bgmob.jpg');
+  }
+
   if (normalized.includes('barbarian') || normalized.includes('bárbaro')) return require('../../assets/barbarian_bg.png');
   if (normalized.includes('bard') || normalized.includes('bardo')) return require('../../assets/bard_bg.png');
   if (normalized.includes('warlock') || normalized.includes('bruxo')) return require('../../assets/warlock_bg.png');
@@ -52,10 +73,13 @@ const getCharacterBackground = (characterClass: string) => {
   if (normalized.includes('ranger') || normalized.includes('patrulheiro')) return require('../../assets/ranger_bg.png');
   if (normalized.includes('artificer') || normalized.includes('artífice')) return require('../../assets/artificer_bg.png');
   
-  return require('../../assets/paladin_bg.jpg'); // fallback
+  return require('../../assets/paladin_bg.jpg');
 };
 
 export const DashboardScreen: React.FC<DashboardScreenProps> = ({ characterId, onBack }) => {
+  const { width } = useWindowDimensions();
+  const isMobile = width < 768;
+
   const [character, setCharacter] = useState<Character | null>(null);
   const [logs, setLogs] = useState<CombatLogEntry[]>([]);
   const [loading, setLoading] = useState(true);
@@ -365,6 +389,17 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ characterId, o
     }
   };
 
+  const handleUpdateProficiencies = async (updatedProficiencies: string[]) => {
+    if (!character) return;
+    const updatedChar = { ...character, proficiencies: updatedProficiencies };
+    try {
+      await StorageService.saveCharacter(updatedChar);
+      setCharacter(updatedChar);
+    } catch (error: any) {
+      Alert.alert('Erro', error.message);
+    }
+  };
+
   const handleToggleEquip = async (itemId: string) => {
     if (!character) return;
 
@@ -644,7 +679,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ characterId, o
 
   return (
     <ImageBackground
-      source={getCharacterBackground(character.characterClass)}
+      source={getCharacterBackground(character.characterClass, isMobile)}
       style={styles.container}
       imageStyle={styles.bgImageStyles}
       resizeMode="cover"
@@ -677,6 +712,23 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ characterId, o
             stats={character.baseStats}
             proficiencies={character.proficiencies}
             level={character.level}
+            equipment={character.equipment}
+            characterClass={character.characterClass}
+            onUpdateProficiencies={handleUpdateProficiencies}
+            onUpdateEquipment={async (updatedEq) => {
+              if (character) {
+                const updatedChar = { ...character, equipment: updatedEq };
+                await saveCharacter(updatedChar);
+                setCharacter(updatedChar);
+              }
+            }}
+          />
+        )}
+
+        {activeTab === 'personagem' && (
+          <CharacterTab
+            character={character}
+            onUpdateProficiencies={handleUpdateProficiencies}
           />
         )}
 
@@ -707,6 +759,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ characterId, o
             onToggleEquip={handleToggleEquip}
             onAddItem={handleAddItem}
             onDeleteItem={handleDeleteItem}
+            characterClass={character.characterClass}
           />
         )}
 
@@ -897,6 +950,21 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({ characterId, o
           />
           <Text style={[styles.tabLabel, activeTab === 'tatico' && styles.tabLabelActive]}>
             TÁTICO
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.tabItem, activeTab === 'personagem' && styles.tabItemActive]}
+          onPress={() => setActiveTab('personagem')}
+          activeOpacity={0.8}
+        >
+          <Ionicons
+            name="person"
+            size={20}
+            color={activeTab === 'personagem' ? '#F59E0B' : '#64748B'}
+          />
+          <Text style={[styles.tabLabel, activeTab === 'personagem' && styles.tabLabelActive]}>
+            PERFIL
           </Text>
         </TouchableOpacity>
 
@@ -1100,10 +1168,10 @@ const styles = StyleSheet.create({
   overlay: {
     flex: 1,
     paddingTop: 48,
-    backgroundColor: 'rgba(15, 23, 42, 0.72)',
+    backgroundColor: 'rgba(15, 23, 42, 0.6)',
   },
   bgImageStyles: {
-    opacity: 0.12,
+    opacity: 0.25,
   },
   loaderContainer: {
     flex: 1,

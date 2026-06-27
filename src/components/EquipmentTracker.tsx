@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, ScrollView 
 import { Alert } from '../utils/alert';
 import { EquipmentItem } from '../types/character';
 import { Ionicons } from '@expo/vector-icons';
-import { MAGIC_ITEMS_LIST, MagicItemTemplate } from '../utils/dndRules';
+import { MAGIC_ITEMS_LIST, MagicItemTemplate, isProficientInItem, WEAPON_TEMPLATES, AMMUNITION_TEMPLATES } from '../utils/dndRules';
 
 interface EquipmentTrackerProps {
   equipment: EquipmentItem[];
@@ -13,20 +13,25 @@ interface EquipmentTrackerProps {
     type: 'weapon' | 'armor' | 'shield' | 'ring' | 'other'; 
     acBonus?: number; 
     dmgDice?: string;
+    dmgType?: string;
+    handedness?: string;
+    properties?: string[];
     isMagic?: boolean;
     rarity?: 'Comum' | 'Incomum' | 'Raro' | 'Muito Raro' | 'Lendário';
     description?: string;
   }) => void;
   onDeleteItem: (itemId: string) => void;
+  characterClass: string;
 }
 
-type ItemType = 'weapon' | 'armor' | 'shield' | 'ring' | 'other';
+type ItemType = 'weapon' | 'armor' | 'shield' | 'ring' | 'other' | 'ammunition';
 
 export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
   equipment = [],
   onToggleEquip,
   onAddItem,
   onDeleteItem,
+  characterClass,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [creationMode, setCreationMode] = useState<'custom' | 'magic'>('custom');
@@ -36,6 +41,9 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
   const [type, setType] = useState<ItemType>('weapon');
   const [acBonus, setAcBonus] = useState('');
   const [dmgDice, setDmgDice] = useState('');
+  const [dmgType, setDmgType] = useState('');
+  const [handedness, setHandedness] = useState('');
+  const [propertiesText, setPropertiesText] = useState('');
   const [description, setDescription] = useState('');
   const [customResourceName, setCustomResourceName] = useState('');
   const [customResourceMax, setCustomResourceMax] = useState('');
@@ -104,6 +112,18 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
         if (dmgDice.trim()) {
           newItem.dmgDice = dmgDice.trim();
         }
+        if (dmgType.trim()) {
+          newItem.dmgType = dmgType.trim();
+        }
+        if (handedness.trim()) {
+          newItem.handedness = handedness.trim();
+        }
+        if (propertiesText.trim()) {
+          newItem.properties = propertiesText.split(',').map(p => p.trim()).filter(Boolean);
+        }
+      } else if (type === 'ammunition') {
+        newItem.customResourceName = name;
+        newItem.customResourceMax = parseInt(dmgDice, 10) || 20;
       } else {
         const bonus = parseInt(acBonus, 10);
         if (!isNaN(bonus) && bonus !== 0) {
@@ -158,6 +178,9 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
     setType('weapon');
     setAcBonus('');
     setDmgDice('');
+    setDmgType('');
+    setHandedness('');
+    setPropertiesText('');
     setDescription('');
     setCustomResourceName('');
     setCustomResourceMax('');
@@ -176,83 +199,102 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
     item.rarity.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const renderItemCard = (item: EquipmentItem) => (
-    <View key={item.id} style={[styles.itemCard, item.equipped && styles.itemCardEquipped]}>
-      <View style={styles.cardHeaderRow}>
-        {/* Equip Toggle Press Area */}
-        <TouchableOpacity
-          style={styles.itemLeft}
-          onPress={() => onToggleEquip(item.id)}
-          activeOpacity={0.7}
-        >
-          <View style={[styles.iconBg, { backgroundColor: getIconColor(item.type, item.equipped) + '1A' }]}>
-            <Ionicons name={getIcon(item.type) as any} size={20} color={getIconColor(item.type, item.equipped)} />
-          </View>
-          <View style={styles.itemDetails}>
-            <View style={styles.nameRow}>
-              <Text style={[styles.itemName, item.equipped && styles.itemNameEquipped]}>{item.name}</Text>
-              {item.isMagic && (
-                <View style={[styles.magicBadge, { backgroundColor: getRarityColor(item.rarity) + '22', borderColor: getRarityColor(item.rarity) }]}>
-                  <Text style={[styles.magicBadgeText, { color: getRarityColor(item.rarity) }]}>{item.rarity}</Text>
-                </View>
-              )}
+  const renderItemCard = (item: EquipmentItem) => {
+    const isProf = (item.type === 'weapon' || item.type === 'armor' || item.type === 'shield')
+      ? isProficientInItem(characterClass, item.type, item.name)
+      : true;
+
+    return (
+      <View key={item.id} style={[styles.itemCard, item.equipped && styles.itemCardEquipped]}>
+        <View style={styles.cardHeaderRow}>
+          {/* Equip Toggle Press Area */}
+          <TouchableOpacity
+            style={styles.itemLeft}
+            onPress={() => onToggleEquip(item.id)}
+            activeOpacity={0.7}
+          >
+            <View style={[styles.iconBg, { backgroundColor: getIconColor(item.type, item.equipped) + '1A' }]}>
+              <Ionicons name={getIcon(item.type) as any} size={20} color={getIconColor(item.type, item.equipped)} />
             </View>
-            <Text style={styles.itemType}>
-              {item.type.toUpperCase()}
-              {item.handedness ? ` | ${item.handedness}` : ''}
-              {item.dmgType ? ` (${item.dmgType})` : ''}
-              {item.properties && item.properties.length > 0 ? ` | ${item.properties.join(', ')}` : ''}
-            </Text>
+            <View style={styles.itemDetails}>
+              <View style={styles.nameRow}>
+                <Text style={[styles.itemName, item.equipped && styles.itemNameEquipped]}>{item.name}</Text>
+                {(item.type === 'weapon' || item.type === 'armor' || item.type === 'shield') && (
+                  <View style={[
+                    styles.profSmallBadge,
+                    isProf ? styles.profSmallBadgeActive : styles.profSmallBadgeInactive
+                  ]}>
+                    <Text style={[
+                      styles.profSmallBadgeText,
+                      isProf ? styles.profSmallBadgeTextActive : styles.profSmallBadgeTextInactive
+                    ]}>
+                      {isProf ? 'Treinado' : 'Sem Treino'}
+                    </Text>
+                  </View>
+                )}
+                {item.isMagic && (
+                  <View style={[styles.magicBadge, { backgroundColor: getRarityColor(item.rarity) + '22', borderColor: getRarityColor(item.rarity) }]}>
+                    <Text style={[styles.magicBadgeText, { color: getRarityColor(item.rarity) }]}>{item.rarity}</Text>
+                  </View>
+                )}
+              </View>
+              <Text style={styles.itemType}>
+                {item.type.toUpperCase()}
+                {item.handedness ? ` | ${item.handedness}` : ''}
+                {item.dmgType ? ` (${item.dmgType})` : ''}
+                {item.properties && item.properties.length > 0 ? ` | ${item.properties.join(', ')}` : ''}
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          {/* Item Properties & Actions */}
+          <View style={styles.itemRight}>
+            {item.acBonus && (
+              <Text style={styles.itemStat}>
+                +{item.acBonus} AC
+              </Text>
+            )}
+            {item.dmgDice && (
+              <Text style={styles.itemStat}>
+                {item.dmgDice}
+              </Text>
+            )}
+            
+            {/* Toggle Status Indicator */}
+            <TouchableOpacity onPress={() => onToggleEquip(item.id)} style={{ marginLeft: 12 }}>
+              <Ionicons
+                name={item.equipped ? "checkmark-circle" : "ellipse-outline"}
+                size={20}
+                color={item.equipped ? "#F59E0B" : "#475569"}
+              />
+            </TouchableOpacity>
+
+            {/* Delete Item Button */}
+            <TouchableOpacity onPress={() => onDeleteItem(item.id)} style={styles.deleteBtn}>
+              <Ionicons name="trash-outline" size={16} color="#F87171" />
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-
-        {/* Item Properties & Actions */}
-        <View style={styles.itemRight}>
-          {item.acBonus && (
-            <Text style={styles.itemStat}>
-              +{item.acBonus} AC
-            </Text>
-          )}
-          {item.dmgDice && (
-            <Text style={styles.itemStat}>
-              {item.dmgDice}
-            </Text>
-          )}
-          
-          {/* Toggle Status Indicator */}
-          <TouchableOpacity onPress={() => onToggleEquip(item.id)} style={{ marginLeft: 12 }}>
-            <Ionicons
-              name={item.equipped ? "checkmark-circle" : "ellipse-outline"}
-              size={20}
-              color={item.equipped ? "#F59E0B" : "#475569"}
-            />
-          </TouchableOpacity>
-
-          {/* Delete Item Button */}
-          <TouchableOpacity onPress={() => onDeleteItem(item.id)} style={styles.deleteBtn}>
-            <Ionicons name="trash-outline" size={16} color="#F87171" />
-          </TouchableOpacity>
         </View>
+
+        {/* Description & Effects for Custom/Magic Items */}
+        {(item.description || item.customResourceName || item.linkedSpellName) && (
+          <View style={styles.descContainer}>
+            {item.description ? <Text style={styles.descText}>{item.description}</Text> : null}
+            {item.customResourceName && (
+              <Text style={{ fontSize: 9, fontWeight: '800', marginTop: 4, color: '#F59E0B' }}>
+                ✦ INJETA RECURSO: {item.customResourceName.toUpperCase()} ({item.customResourceMax} Cargas)
+              </Text>
+            )}
+            {item.linkedSpellName && (
+              <Text style={{ fontSize: 9, fontWeight: '800', marginTop: 4, color: '#60A5FA' }}>
+                ✦ MAGIA CONCEDIDA: {item.linkedSpellName.toUpperCase()}
+              </Text>
+            )}
+          </View>
+        )}
       </View>
-
-      {/* Description & Effects for Custom/Magic Items */}
-      {(item.description || item.customResourceName || item.linkedSpellName) && (
-        <View style={styles.descContainer}>
-          {item.description ? <Text style={styles.descText}>{item.description}</Text> : null}
-          {item.customResourceName && (
-            <Text style={{ fontSize: 9, fontWeight: '800', marginTop: 4, color: '#F59E0B' }}>
-              ✦ INJETA RECURSO: {item.customResourceName.toUpperCase()} ({item.customResourceMax} Cargas)
-            </Text>
-          )}
-          {item.linkedSpellName && (
-            <Text style={{ fontSize: 9, fontWeight: '800', marginTop: 4, color: '#60A5FA' }}>
-              ✦ MAGIA CONCEDIDA: {item.linkedSpellName.toUpperCase()}
-            </Text>
-          )}
-        </View>
-      )}
-    </View>
-  );
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -320,7 +362,7 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
             </View>
 
             {creationMode === 'custom' ? (
-              <ScrollView style={{ maxHeight: 300 }}>
+              <ScrollView style={{ maxHeight: '80%' }} contentContainerStyle={{ paddingBottom: 20 }}>
                 {/* Item Name */}
                 <Text style={styles.inputLabel}>Nome do Item</Text>
                 <TextInput
@@ -334,14 +376,14 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
                 {/* Item Type Selector */}
                 <Text style={styles.inputLabel}>Tipo de Equipamento</Text>
                 <View style={styles.selectorRow}>
-                  {(['weapon', 'armor', 'shield', 'ring', 'other'] as ItemType[]).map(t => (
+                  {(['weapon', 'armor', 'shield', 'ring', 'ammunition', 'other'] as ItemType[]).map(t => (
                     <TouchableOpacity
                       key={t}
                       style={[styles.selectorBtn, type === t && styles.selectorBtnActive]}
                       onPress={() => setType(t)}
                     >
                       <Text style={[styles.selectorLabel, type === t && styles.selectorLabelActive]}>
-                        {t === 'weapon' ? 'Arma' : t === 'armor' ? 'Armad.' : t === 'shield' ? 'Escudo' : t === 'ring' ? 'Anel' : 'Outro'}
+                        {t === 'weapon' ? 'Arma' : t === 'armor' ? 'Armad.' : t === 'shield' ? 'Escudo' : t === 'ammunition' ? 'Munição' : t === 'ring' ? 'Anel' : 'Outro'}
                       </Text>
                     </TouchableOpacity>
                   ))}
@@ -350,14 +392,97 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
                 {/* Type Specific Fields */}
                 {type === 'weapon' ? (
                   <View>
-                    <Text style={styles.inputLabel}>Dado de Dano (ex: 1d8+4)</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <View style={{ flex: 1, marginRight: 4 }}>
+                        <Text style={styles.inputLabel}>Dano (ex: 1d8)</Text>
+                        <TextInput
+                          style={styles.textInput}
+                          placeholder="1d8"
+                          placeholderTextColor="#475569"
+                          value={dmgDice}
+                          onChangeText={setDmgDice}
+                        />
+                      </View>
+                      <View style={{ flex: 1, marginLeft: 4 }}>
+                        <Text style={styles.inputLabel}>Tipo (ex: Cortante)</Text>
+                        <TextInput
+                          style={styles.textInput}
+                          placeholder="Cortante"
+                          placeholderTextColor="#475569"
+                          value={dmgType}
+                          onChangeText={setDmgType}
+                        />
+                      </View>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <View style={{ flex: 1, marginRight: 4 }}>
+                        <Text style={styles.inputLabel}>Empunhadura</Text>
+                        <TextInput
+                          style={styles.textInput}
+                          placeholder="ex: 1 Mão"
+                          placeholderTextColor="#475569"
+                          value={handedness}
+                          onChangeText={setHandedness}
+                        />
+                      </View>
+                      <View style={{ flex: 1, marginLeft: 4 }}>
+                        <Text style={styles.inputLabel}>Propriedades</Text>
+                        <TextInput
+                          style={styles.textInput}
+                          placeholder="Acuidade, Leve..."
+                          placeholderTextColor="#475569"
+                          value={propertiesText}
+                          onChangeText={setPropertiesText}
+                        />
+                      </View>
+                    </View>
+                    
+                    <Text style={[styles.inputLabel, { marginTop: 16 }]}>Ou selecione uma Arma Padrão:</Text>
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 16 }}>
+                      {WEAPON_TEMPLATES.map(wt => (
+                        <TouchableOpacity
+                          key={wt.name}
+                          style={styles.templateBtn}
+                          onPress={() => {
+                            setName(wt.name);
+                            setDmgDice(wt.dmgDice);
+                            setDmgType(wt.dmgType);
+                            setHandedness(wt.handedness);
+                            setPropertiesText(wt.properties.join(', '));
+                          }}
+                        >
+                          <Text style={styles.templateBtnText}>{wt.name}</Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  </View>
+                ) : type === 'ammunition' ? (
+                  <View>
+                    <Text style={styles.inputLabel}>Quantidade</Text>
                     <TextInput
                       style={styles.textInput}
-                      placeholder="ex: 1d8+4"
+                      placeholder="ex: 20"
+                      keyboardType="numeric"
                       placeholderTextColor="#475569"
                       value={dmgDice}
                       onChangeText={setDmgDice}
                     />
+
+                    <Text style={[styles.inputLabel, { marginTop: 16 }]}>Ou selecione um Tipo Padrão:</Text>
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 16 }}>
+                      {AMMUNITION_TEMPLATES.map(at => (
+                        <TouchableOpacity
+                          key={at.name}
+                          style={styles.templateBtn}
+                          onPress={() => {
+                            setName(at.name);
+                            setDmgDice(String(at.quantity));
+                          }}
+                        >
+                          <Text style={styles.templateBtnText}>{at.name}</Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
                   </View>
                 ) : (
                   <View>
@@ -638,7 +763,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#334155',
     padding: 20,
-    maxHeight: '90%',
+    maxHeight: '85%',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.4,
@@ -705,11 +830,12 @@ const styles = StyleSheet.create({
   },
   selectorRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 8,
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    marginBottom: 0,
   },
   selectorBtn: {
-    flex: 1,
+    width: '31%',
     backgroundColor: '#0F172A',
     borderColor: '#334155',
     borderWidth: 1,
@@ -717,7 +843,8 @@ const styles = StyleSheet.create({
     height: 34,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 2,
+    marginHorizontal: '1%',
+    marginBottom: 8,
   },
   selectorBtnActive: {
     backgroundColor: '#F59E0B',
@@ -731,6 +858,21 @@ const styles = StyleSheet.create({
   selectorLabelActive: {
     color: '#0F172A',
     fontWeight: '800',
+  },
+  templateBtn: {
+    backgroundColor: 'rgba(51, 65, 85, 0.5)',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 6,
+    marginRight: 6,
+    marginBottom: 6,
+    borderWidth: 1,
+    borderColor: '#475569',
+  },
+  templateBtnText: {
+    color: '#E2E8F0',
+    fontSize: 12,
+    fontWeight: '600',
   },
   searchBar: {
     backgroundColor: '#0F172A',
@@ -840,5 +982,31 @@ const styles = StyleSheet.create({
     color: '#0F172A',
     fontSize: 14,
     fontWeight: '800',
+  },
+  profSmallBadge: {
+    paddingHorizontal: 5,
+    paddingVertical: 1,
+    borderRadius: 4,
+    borderWidth: 0.5,
+    marginLeft: 6,
+    alignSelf: 'center',
+  },
+  profSmallBadgeActive: {
+    backgroundColor: 'rgba(16, 185, 129, 0.12)',
+    borderColor: 'rgba(16, 185, 129, 0.4)',
+  },
+  profSmallBadgeInactive: {
+    backgroundColor: 'rgba(239, 68, 68, 0.12)',
+    borderColor: 'rgba(239, 68, 68, 0.4)',
+  },
+  profSmallBadgeText: {
+    fontSize: 7.5,
+    fontWeight: '800',
+  },
+  profSmallBadgeTextActive: {
+    color: '#10B981',
+  },
+  profSmallBadgeTextInactive: {
+    color: '#EF4444',
   },
 });
