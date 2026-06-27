@@ -480,7 +480,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                       onPress={() => setSelectedSubclass(sub)}
                     >
                       <Text style={[styles.pickerLabel, selectedSubclass === sub && styles.pickerLabelActive]} numberOfLines={1}>
-                        {sub}
+                        {sub.split(' (')[0]}
                       </Text>
                     </TouchableOpacity>
                   ))}
@@ -541,7 +541,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
 
             <Text style={styles.label}>Raça</Text>
             {(() => {
-              // Grouped races mapping
+              // Grouped races mapping based strictly on official D&D Player's Handbook guidelines & related books
               const raceGroups: Record<string, string[]> = {
                 'Humano': ['Humano'],
                 'Anão': ['Anão da Colina', 'Anão da Montanha', 'Duergar'],
@@ -549,26 +549,32 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                 'Halfling': ['Halfling Pés-Leves', 'Halfling Robusto', 'Halfling Ghostwise'],
                 'Gnomo': ['Gnomo da Floresta', 'Gnomo das Rochas', 'Gnomo Profundo (Svirfneblin)'],
                 'Tiefling': ['Tiefling', 'Tiefling Feral', 'Tiefling Devil\'s Tongue', 'Tiefling Hellfire', 'Tiefling Winged'],
+                'Orc': ['Orc', 'Meio-Orc'],
                 'Draconato': ['Draconato'],
-                'Meio-Orc': ['Meio-Orc'],
-                'Outros': ['Aarakocra', 'Genasi da Terra', 'Genasi do Ar', 'Genasi do Fogo', 'Grave Aasimar', 'Protector Aasimar', 'Fallen Aasimar', 'Scourge Aasimar', 'Tritão', 'Goliath', 'Tabaxi', 'Goblin', 'Hobgoblin', 'Kenku', 'Orc', 'Lizardfolk', 'Firbolg', 'Yuan-ti Pureblood']
+                'Genasi': ['Genasi da Terra', 'Genasi do Ar', 'Genasi do Fogo'],
+                'Aasimar': ['Grave Aasimar', 'Protector Aasimar', 'Fallen Aasimar', 'Scourge Aasimar']
               };
 
-              // Identify which group the selectedRace belongs to
-              const currentGroup = Object.keys(raceGroups).find(group => raceGroups[group].includes(selectedRace)) || 'Outros';
+              // All other exotic/uncommon races will be grouped inside a collapsable menu
+              const exoticRaces = ['Aarakocra', 'Tritão', 'Goliath', 'Tabaxi', 'Goblin', 'Hobgoblin', 'Kenku', 'Lizardfolk', 'Firbolg', 'Yuan-ti Pureblood'];
+
+              const [showExotics, setShowExotics] = useState(false);
+
+              // Identify if selected race is exotic or belongs to a group
+              const currentGroup = Object.keys(raceGroups).find(group => raceGroups[group].includes(selectedRace));
+              const isExoticSelected = exoticRaces.includes(selectedRace);
 
               return (
                 <View style={{ marginBottom: 10 }}>
                   {/* Base Race Categories */}
                   <View style={styles.pickerRowWrap}>
                     {Object.keys(raceGroups).map(group => {
-                      const isActive = currentGroup === group;
+                      const isActive = currentGroup === group && !isExoticSelected;
                       return (
                         <TouchableOpacity
                           key={group}
                           style={[styles.pickerBtnWrap, { width: '31%', marginBottom: 6 }, isActive && { borderColor: '#2563EB', backgroundColor: 'rgba(37, 99, 235, 0.08)' }]}
                           onPress={() => {
-                            // Automatically select the first race in this group
                             const firstInGroup = raceGroups[group][0];
                             setSelectedRace(firstInGroup);
                           }}
@@ -579,10 +585,50 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                         </TouchableOpacity>
                       );
                     })}
+
+                    {/* Exotics Collapsable Trigger */}
+                    <TouchableOpacity
+                      style={[
+                        styles.pickerBtnWrap, 
+                        { width: '31%', marginBottom: 6 }, 
+                        (isExoticSelected || showExotics) && { borderColor: '#10B981', backgroundColor: 'rgba(16, 185, 129, 0.08)' }
+                      ]}
+                      onPress={() => setShowExotics(!showExotics)}
+                    >
+                      <Text style={[styles.pickerLabel, (isExoticSelected || showExotics) && { color: '#34D399', fontWeight: '800' }]}>
+                        Exóticas {showExotics ? '▲' : '▼'}
+                      </Text>
+                    </TouchableOpacity>
                   </View>
 
+                  {/* Exotic Races Dropdown Panel */}
+                  {showExotics && (
+                    <View style={{ backgroundColor: '#090D16', padding: 8, borderRadius: 8, marginTop: 4, marginBottom: 8, borderColor: '#10B981', borderWidth: 1 }}>
+                      <Text style={{ color: '#34D399', fontSize: 9, fontWeight: '700', marginBottom: 6, textTransform: 'uppercase' }}>Raças Exóticas / Adicionais</Text>
+                      <View style={styles.pickerRowWrap}>
+                        {exoticRaces.map(exo => {
+                          const isSel = selectedRace === exo;
+                          return (
+                            <TouchableOpacity
+                              key={exo}
+                              style={[styles.pickerBtnWrap, { width: '48%', paddingVertical: 6, marginBottom: 4 }, isSel && { borderColor: '#10B981', backgroundColor: 'rgba(16, 185, 129, 0.15)' }]}
+                              onPress={() => {
+                                setSelectedRace(exo);
+                                setShowExotics(false); // auto collapse after selection
+                              }}
+                            >
+                              <Text style={[styles.pickerLabel, isSel && { color: '#34D399', fontWeight: '800' }]} numberOfLines={1}>
+                                {exo}
+                              </Text>
+                            </TouchableOpacity>
+                          );
+                        })}
+                      </View>
+                    </View>
+                  )}
+
                   {/* Sub-races under selected category (only show if group has sub-races or if it's not a single race) */}
-                  {raceGroups[currentGroup].length > 1 && (
+                  {currentGroup && raceGroups[currentGroup].length > 1 && !isExoticSelected && (
                     <View style={{ backgroundColor: '#090D16', padding: 8, borderRadius: 8, marginTop: 4, borderColor: '#1E293B', borderWidth: 1 }}>
                       <Text style={{ color: '#64748B', fontSize: 9, fontWeight: '700', marginBottom: 6, textTransform: 'uppercase' }}>Sub-raça / Origem</Text>
                       <View style={styles.pickerRowWrap}>
@@ -614,7 +660,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                     let traitText = '';
                     const rLower = selectedRace.toLowerCase();
                     if (rLower.includes('humano')) traitText = 'Versatilidade incomparável. +1 em todos os atributos base.';
-                    else if (rLower.includes('colina')) traitText = 'Tenacidade Anã: +1 HP máximo extra por nível e Visão no Escuro.';
+                    else if (rLower.includes('colina')) traitText = 'Tenacidade Anã: +1 de Vida máxima extra por nível e Visão no Escuro.';
                     else if (rLower.includes('montanha')) traitText = 'Treinamento com Armaduras Anãs: Proficiência com armaduras leves e médias.';
                     else if (rLower.includes('duergar')) traitText = 'Resistência mental contra ilusões, paralisia e magias de invisibilidade/crescimento inatas.';
                     else if (rLower.includes('alto elfo')) traitText = 'Aprende 1 Truque extra de Mago e ganha proficiência com espadas/arcos.';
@@ -629,7 +675,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                     else if (rLower.includes('gnomo das rochas')) traitText = 'Gingado de Engenheiro: Cria pequenos dispositivos mecânicos (brinquedos, isqueiros).';
                     else if (rLower.includes('svirfneblin')) traitText = 'Camuflagem de pedra e visão no escuro superior de 36 metros.';
                     else if (rLower.includes('meio-elfo')) traitText = 'Versatilidade em Perícias: Ganha proficiência em duas perícias à sua escolha.';
-                    else if (rLower.includes('meio-orc')) traitText = 'Ataques Selvagens (críticos causam mais dano) e Resistência Inabalável (não cai a 0 HP uma vez).';
+                    else if (rLower.includes('meio-orc')) traitText = 'Ataques Selvagens (críticos causam mais dano) e Resistência Inabalável (não cai a 0 de Vida uma vez).';
                     else if (rLower.includes('winged')) traitText = 'Asas de Couro: Possui velocidade de voo natural de 9 metros.';
                     else if (rLower.includes('feral')) traitText = 'Agilidade inata e inteligência apurada típica dos tieflings selvagens.';
                     else if (rLower.includes('tiefling')) traitText = 'Resistência Infernal ao fogo e magias inatas de escuridão e fogo.';
