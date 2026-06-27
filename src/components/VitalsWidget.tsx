@@ -165,6 +165,12 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
 }) => {
   const [skillsExpanded, setSkillsExpanded] = useState(false);
   const [newProfText, setNewProfText] = useState('');
+  const [vitalsExpanded, setVitalsExpanded] = useState(false);
+
+  const handleToggleVitals = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setVitalsExpanded(prev => !prev);
+  };
 
   const handleAddProficiency = () => {
     const trimmed = newProfText.trim();
@@ -211,6 +217,10 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
   const hasPerceptionProf = proficiencies.includes('Perception') || proficiencies.includes('Percepção');
   const wisMod = Math.floor((stats.wis - 10) / 2);
   const passivePerception = 10 + wisMod + (hasPerceptionProf ? proficiencyBonus : 0);
+
+  const acDisplay = combat.shieldOfFaithActive 
+    ? `${combat.baseArmorClass}+2` 
+    : `${combat.baseArmorClass}`;
 
   return (
     <View style={styles.container}>
@@ -369,47 +379,71 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
       <View style={styles.modelContainerFull}>
         <View style={styles.modelPlaceholder}>
           {/* Absolute HUD Badges Overlays */}
-          <View style={styles.hudBadgesRow}>
+          <TouchableOpacity 
+            style={styles.hudBadgesRow} 
+            onPress={handleToggleVitals}
+            activeOpacity={0.7}
+          >
             {/* C.A. */}
-            <View style={styles.hudBadge}>
-              <Ionicons name="shield" size={12} color={combat.shieldOfFaithActive ? '#60A5FA' : '#94A3B8'} style={{ marginRight: 3 }} />
-              <Text style={styles.hudBadgeValue}>{currentAC}</Text>
-              <Text style={styles.hudBadgeLabel}>C.A.</Text>
+            <View style={[styles.hudBadge, styles.hudBadgeHighlight]}>
+              <Ionicons name="shield" size={14} color={combat.shieldOfFaithActive ? '#60A5FA' : '#F59E0B'} style={{ marginRight: 4 }} />
+              <Text style={styles.hudBadgeValue}>{acDisplay}</Text>
             </View>
 
             {/* INICIA. */}
             <View style={styles.hudBadge}>
-              <Ionicons name="flash" size={12} color="#F59E0B" style={{ marginRight: 3 }} />
+              <Ionicons name="flash" size={14} color="#38BDF8" style={{ marginRight: 4 }} />
               <Text style={styles.hudBadgeValue}>{initiativeStr}</Text>
-              <Text style={styles.hudBadgeLabel}>INIC.</Text>
             </View>
 
             {/* DESLOC. */}
             <View style={styles.hudBadge}>
-              <Ionicons name="footsteps" size={12} color="#10B981" style={{ marginRight: 3 }} />
+              <Ionicons name="footsteps" size={14} color="#10B981" style={{ marginRight: 4 }} />
               <Text style={styles.hudBadgeValue}>9m</Text>
-              <Text style={styles.hudBadgeLabel}>DESL.</Text>
             </View>
 
             {/* PERC. PASSIVA */}
             <View style={styles.hudBadge}>
-              <Ionicons name="eye" size={12} color="#60A5FA" style={{ marginRight: 3 }} />
+              <Ionicons name="eye" size={14} color="#A78BFA" style={{ marginRight: 4 }} />
               <Text style={styles.hudBadgeValue}>{passivePerception}</Text>
-              <Text style={styles.hudBadgeLabel}>PERC. P.</Text>
             </View>
 
             {/* PROF. */}
-            <View style={styles.hudBadge}>
-              <Ionicons name="star" size={12} color="#A78BFA" style={{ marginRight: 3 }} />
+            <View style={[styles.hudBadge, styles.hudBadgeHighlight]}>
+              <Ionicons name="star" size={14} color="#F59E0B" style={{ marginRight: 4 }} />
               <Text style={styles.hudBadgeValue}>+{proficiencyBonus}</Text>
-              <Text style={styles.hudBadgeLabel}>PROF.</Text>
             </View>
-          </View>
+          </TouchableOpacity>
 
-          {combat.shieldOfFaithActive && (
-            <View style={styles.buffBadgeFloating}>
-              <Ionicons name="sparkles" size={8} color="#60A5FA" style={{ marginRight: 3 }} />
-              <Text style={styles.buffTextFloating}>SHIELD OF FAITH</Text>
+          {/* Vitals Expanded Breakdown */}
+          {vitalsExpanded && (
+            <View style={styles.vitalsExpandedPanel}>
+              <Text style={styles.vitalsPanelTitle}>Detalhes dos Status</Text>
+              
+              <View style={styles.vitalsPanelRow}>
+                <Text style={styles.vitalsPanelLabel}>Classe de Armadura</Text>
+                <Text style={styles.vitalsPanelValue}>{combat.baseArmorClass} (Base/Equipamentos) {combat.shieldOfFaithActive ? '+ 2 (Escudo da Fé)' : ''} = {currentAC}</Text>
+              </View>
+
+              <View style={styles.vitalsPanelRow}>
+                <Text style={styles.vitalsPanelLabel}>Iniciativa</Text>
+                <Text style={styles.vitalsPanelValue}>{dexMod >= 0 ? `+${dexMod}` : dexMod} (Destreza)</Text>
+              </View>
+
+              <View style={styles.vitalsPanelRow}>
+                <Text style={styles.vitalsPanelLabel}>Deslocamento</Text>
+                <Text style={styles.vitalsPanelValue}>9m (Base)</Text>
+              </View>
+
+              <View style={styles.vitalsPanelRow}>
+                <Text style={styles.vitalsPanelLabel}>Percepção Passiva</Text>
+                <Text style={styles.vitalsPanelValue}>10 + {wisMod} (Sabedoria) {hasPerceptionProf ? `+ ${proficiencyBonus} (Proficiência)` : ''} = {passivePerception}</Text>
+              </View>
+
+              <View style={styles.vitalsPanelRow}>
+                <Text style={styles.vitalsPanelLabel}>Bônus de Proficiência</Text>
+                <Text style={styles.vitalsPanelValue}>+{proficiencyBonus} (Nível {level})</Text>
+              </View>
             </View>
           )}
 
@@ -643,24 +677,62 @@ const styles = StyleSheet.create({
   hudBadge: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: 'rgba(15, 23, 42, 0.85)',
     borderColor: '#334155',
     borderWidth: 1,
-    borderRadius: 16,
-    paddingHorizontal: 6,
-    paddingVertical: 3,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+    minWidth: 42,
+  },
+  hudBadgeHighlight: {
+    borderColor: '#F59E0B',
+    backgroundColor: 'rgba(245, 158, 11, 0.1)',
   },
   hudBadgeValue: {
     color: '#F8FAFC',
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '900',
-    marginRight: 2,
   },
-  hudBadgeLabel: {
-    color: '#94A3B8',
-    fontSize: 7,
+  vitalsExpandedPanel: {
+    position: 'absolute',
+    top: 48,
+    left: 8,
+    right: 8,
+    backgroundColor: 'rgba(15, 23, 42, 0.95)',
+    borderColor: 'rgba(51, 65, 85, 0.8)',
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 12,
+    zIndex: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 6,
+    elevation: 5,
+  },
+  vitalsPanelTitle: {
+    color: '#F8FAFC',
+    fontSize: 12,
     fontWeight: '800',
-    letterSpacing: 0.3,
+    marginBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(51, 65, 85, 0.5)',
+    paddingBottom: 4,
+  },
+  vitalsPanelRow: {
+    marginBottom: 6,
+  },
+  vitalsPanelLabel: {
+    color: '#94A3B8',
+    fontSize: 9,
+    fontWeight: '700',
+  },
+  vitalsPanelValue: {
+    color: '#CBD5E1',
+    fontSize: 10,
+    fontWeight: '600',
   },
   buffBadgeFloating: {
     position: 'absolute',
