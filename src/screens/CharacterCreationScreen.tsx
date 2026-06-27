@@ -137,19 +137,19 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
   // Get skills allowed by class and maximum choices allowed
   const getClassSkillRules = (className: string): { limit: number; list: string[] } => {
     const cls = className.toLowerCase();
-    if (cls.includes('bárbaro')) return { limit: 2, list: ['Adestrar Animais', 'Atletismo', 'Intimidação', 'Natureza', 'Percepção', 'Sobrevivência'] };
-    if (cls.includes('bardo')) return { limit: 3, list: SKILLS_LIST }; // Bards can choose any 3 skills
-    if (cls.includes('bruxo')) return { limit: 2, list: ['Arcanismo', 'Enganação', 'História', 'Intimidação', 'Investigação', 'Natureza', 'Religião'] };
-    if (cls.includes('clérigo')) return { limit: 2, list: ['História', 'Intuição', 'Medicina', 'Persuasão', 'Religião'] };
-    if (cls.includes('druida')) return { limit: 2, list: ['Arcanismo', 'Adestrar Animais', 'Intuição', 'Medicina', 'Natureza', 'Percepção', 'Religião', 'Sobrevivência'] };
-    if (cls.includes('feiticeiro')) return { limit: 2, list: ['Arcanismo', 'Enganação', 'Intuição', 'Intimidação', 'Persuasão', 'Religião'] };
-    if (cls.includes('guerreiro')) return { limit: 2, list: ['Acrobacia', 'Adestrar Animais', 'Atletismo', 'História', 'Intuição', 'Intimidação', 'Percepção', 'Sobrevivência'] };
-    if (cls.includes('ladino')) return { limit: 4, list: ['Acrobacia', 'Atletismo', 'Enganação', 'Intuição', 'Intimidação', 'Investigação', 'Percepção', 'Atuação', 'Persuasão', 'Prestidigitação', 'Furtividade'] };
-    if (cls.includes('mago')) return { limit: 2, list: ['Arcanismo', 'História', 'Intuição', 'Investigação', 'Medicina', 'Religião'] };
-    if (cls.includes('monge')) return { limit: 2, list: ['Acrobacia', 'Atletismo', 'História', 'Intuição', 'Religião', 'Furtividade'] };
-    if (cls.includes('paladino')) return { limit: 2, list: ['Atletismo', 'Intuição', 'Intimidação', 'Medicina', 'Persuasão', 'Religião'] };
-    if (cls.includes('patrulheiro')) return { limit: 3, list: ['Adestrar Animais', 'Atletismo', 'Intuição', 'Investigação', 'Natureza', 'Percepção', 'Furtividade', 'Sobrevivência'] };
-    if (cls.includes('artífice')) return { limit: 2, list: ['Arcanismo', 'História', 'Investigação', 'Medicina', 'Natureza', 'Prestidigitação'] };
+    if (cls === 'bárbaro') return { limit: 2, list: ['Adestrar Animais', 'Atletismo', 'Intimidação', 'Natureza', 'Percepção', 'Sobrevivência'] };
+    if (cls === 'bardo') return { limit: 3, list: SKILLS_LIST }; // Bards can choose any 3 skills
+    if (cls === 'bruxo') return { limit: 2, list: ['Arcanismo', 'Enganação', 'História', 'Intimidação', 'Investigação', 'Natureza', 'Religião'] };
+    if (cls === 'clérigo') return { limit: 2, list: ['História', 'Intuição', 'Medicina', 'Persuasão', 'Religião'] };
+    if (cls === 'druida') return { limit: 2, list: ['Arcanismo', 'Adestrar Animais', 'Intuição', 'Medicina', 'Natureza', 'Percepção', 'Religião', 'Sobrevivência'] };
+    if (cls === 'feiticeiro') return { limit: 2, list: ['Arcanismo', 'Enganação', 'Intuição', 'Intimidação', 'Persuasão', 'Religião'] };
+    if (cls === 'guerreiro') return { limit: 2, list: ['Acrobacia', 'Adestrar Animais', 'Atletismo', 'História', 'Intuição', 'Intimidação', 'Percepção', 'Sobrevivência'] };
+    if (cls === 'ladino') return { limit: 4, list: ['Acrobacia', 'Atletismo', 'Enganação', 'Intuição', 'Intimidação', 'Investigação', 'Percepção', 'Atuação', 'Persuasão', 'Prestidigitação', 'Furtividade'] };
+    if (cls === 'mago') return { limit: 2, list: ['Arcanismo', 'História', 'Intuição', 'Investigação', 'Medicina', 'Religião'] };
+    if (cls === 'monge') return { limit: 2, list: ['Acrobacia', 'Atletismo', 'História', 'Intuição', 'Religião', 'Furtividade'] };
+    if (cls === 'paladino') return { limit: 2, list: ['Atletismo', 'Intuição', 'Intimidação', 'Medicina', 'Persuasão', 'Religião'] };
+    if (cls === 'patrulheiro') return { limit: 3, list: ['Adestrar Animais', 'Atletismo', 'Intuição', 'Investigação', 'Natureza', 'Percepção', 'Furtividade', 'Sobrevivência'] };
+    if (cls === 'artífice') return { limit: 2, list: ['Arcanismo', 'História', 'Investigação', 'Medicina', 'Natureza', 'Prestidigitação'] };
     return { limit: 2, list: [] };
   };
 
