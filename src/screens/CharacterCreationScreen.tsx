@@ -871,73 +871,137 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
         )}
 
         {/* STEP 3: Skill Proficiencies */}
-        {step === 3 && (
-          <View style={styles.stepCard}>
-            <Text style={styles.stepTitle}>Proficiências de Perícias</Text>
-            <Text style={styles.stepDesc}>
-              Selecione as perícias nas quais seu herói tem treinamento especial (Proficiência).
-            </Text>
+        {step === 3 && (() => {
+          const rLower = selectedRace.toLowerCase();
+          const classRules = getClassSkillRules(selectedClass);
+          const bg = BACKGROUNDS_LIST.find(b => b.name === selectedBackground);
+          const bgSkills = bg ? bg.skills : [];
 
-             <View style={styles.skillsGrid}>
-              {SKILLS_LIST.map(skill => {
-                const bg = BACKGROUNDS_LIST.find(b => b.name === selectedBackground);
-                const isFromBg = bg && bg.skills.includes(skill);
-                
-                const rLower = selectedRace.toLowerCase();
-                const isRacialFixed = (
-                  (rLower.includes('elfo') && !rLower.includes('meio-elfo') && skill === 'Percepção') ||
-                  (rLower.includes('meio-orc') && skill === 'Intimidação') ||
-                  (rLower.includes('tabaxi') && (skill === 'Furtividade' || skill === 'Percepção')) ||
-                  (rLower.includes('goliath') && skill === 'Atletismo')
-                );
+          const fixedRacialSkills: string[] = [];
+          if (rLower.includes('elfo') && !rLower.includes('meio-elfo')) fixedRacialSkills.push('Percepção');
+          if (rLower.includes('meio-orc')) fixedRacialSkills.push('Intimidação');
+          if (rLower.includes('tabaxi')) { fixedRacialSkills.push('Furtividade'); fixedRacialSkills.push('Percepção'); }
+          if (rLower.includes('goliath')) fixedRacialSkills.push('Atletismo');
 
-                const isSelected = selectedSkills.includes(skill) || isRacialFixed || isFromBg;
-                const classRules = getClassSkillRules(selectedClass);
-                const isClassSkill = classRules.list.includes(skill);
+          // Count how many manual class skills are selected
+          const manualClassSkills = selectedSkills.filter(s => 
+            !bgSkills.includes(s) && 
+            !fixedRacialSkills.includes(s) && 
+            classRules.list.includes(s)
+          );
 
-                return (
-                  <TouchableOpacity
-                    key={skill}
-                    style={[
-                      styles.skillCheckBtn, 
-                      isSelected && styles.skillCheckBtnActive,
-                      isFromBg && { opacity: 0.8, backgroundColor: 'rgba(59, 130, 246, 0.08)', borderColor: '#3b82f6' },
-                      isRacialFixed && { opacity: 0.8, backgroundColor: 'rgba(245, 158, 11, 0.08)', borderColor: '#F59E0B' }
-                    ]}
-                    onPress={() => toggleSkill(skill)}
-                    activeOpacity={(isFromBg || isRacialFixed) ? 1.0 : 0.8}
-                  >
-                    <Ionicons
-                      name={isSelected ? 'checkbox' : 'square-outline'}
-                      size={18}
-                      color={isFromBg ? '#3b82f6' : (isRacialFixed ? '#F59E0B' : (isSelected ? '#F59E0B' : '#475569'))}
-                      style={{ marginRight: 8 }}
-                    />
-                    <View style={{ flex: 1 }}>
-                      <Text style={[
-                        styles.skillCheckLabel, 
-                        isSelected && styles.skillCheckLabelActive,
-                        isFromBg && { color: '#60A5FA', fontWeight: '800' },
-                        isRacialFixed && { color: '#FBBF24', fontWeight: '800' }
-                      ]}>
-                        {skill}
-                      </Text>
-                      {isFromBg && (
-                        <Text style={{ color: '#3b82f6', fontSize: 7, fontWeight: '700', marginTop: 1 }}>ANTECEDENTE</Text>
-                      )}
-                      {isRacialFixed && (
-                        <Text style={{ color: '#F59E0B', fontSize: 7, fontWeight: '700', marginTop: 1 }}>RAÇA ({selectedRace.split(' ')[0]})</Text>
-                      )}
-                      {!isFromBg && !isRacialFixed && isClassSkill && (
-                        <Text style={{ color: '#10B981', fontSize: 7, fontWeight: '700', marginTop: 1 }}>OPÇÃO CLASSE</Text>
-                      )}
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
+          // Count how many manual racial/extra skills are selected
+          const manualRacialSkills = selectedSkills.filter(s => 
+            !bgSkills.includes(s) && 
+            !fixedRacialSkills.includes(s) && 
+            !classRules.list.includes(s)
+          );
+
+          const allowedRacialSlots = rLower.includes('humano') ? 1 : (rLower.includes('meio-elfo') ? 2 : (rLower.includes('kenku') ? 2 : (rLower.includes('lizardfolk') ? 2 : 0)));
+          const hasRacialPhase = allowedRacialSlots > 0;
+
+          // Phase state is implicit: if class skills are not filled yet, we are in Phase 1.
+          const isPhase1Complete = manualClassSkills.length >= classRules.limit;
+
+          return (
+            <View style={styles.stepCard}>
+              <Text style={styles.stepTitle}>Proficiências de Perícias</Text>
+              
+              {/* Phase Indicators */}
+              <View style={{ flexDirection: 'row', marginBottom: 12, borderBottomWidth: 1, borderBottomColor: '#1E293B', pb: 8 }}>
+                <View style={{ flex: 1, paddingBottom: 6, borderBottomWidth: !isPhase1Complete ? 2 : 0, borderBottomColor: '#F59E0B' }}>
+                  <Text style={{ color: !isPhase1Complete ? '#FBBF24' : '#64748B', fontSize: 11, fontWeight: '700' }}>
+                    1. Perícias da Classe ({manualClassSkills.length}/{classRules.limit})
+                  </Text>
+                </View>
+                {hasRacialPhase && (
+                  <View style={{ flex: 1, paddingBottom: 6, borderBottomWidth: isPhase1Complete ? 2 : 0, borderBottomColor: '#F59E0B', paddingLeft: 8 }}>
+                    <Text style={{ color: isPhase1Complete ? '#FBBF24' : '#64748B', fontSize: 11, fontWeight: '700' }}>
+                      2. Escolhas da Raça ({manualRacialSkills.length}/{allowedRacialSlots})
+                    </Text>
+                  </View>
+                )}
+              </View>
+
+              <Text style={styles.stepDesc}>
+                {!isPhase1Complete 
+                  ? `Selecione as perícias de treino da sua classe (${selectedClass}). Escolha mais ${classRules.limit - manualClassSkills.length}.`
+                  : (hasRacialPhase && manualRacialSkills.length < allowedRacialSlots
+                      ? `Fase da Classe concluída! Agora selecione ${allowedRacialSlots - manualRacialSkills.length} perícias adicionais concedidas por sua raça (${selectedRace}).`
+                      : "Todas as proficiências de classe e raça foram selecionadas com sucesso!"
+                    )
+                }
+              </Text>
+
+              <View style={styles.skillsGrid}>
+                {SKILLS_LIST.map(skill => {
+                  const isFromBg = bgSkills.includes(skill);
+                  const isRacialFixed = fixedRacialSkills.includes(skill);
+                  const isSelected = selectedSkills.includes(skill) || isRacialFixed || isFromBg;
+                  const isClassSkill = classRules.list.includes(skill);
+
+                  // Disable items based on active phase
+                  let isDisabled = false;
+                  if (isFromBg || isRacialFixed) {
+                    isDisabled = true;
+                  } else if (!isPhase1Complete) {
+                    // Phase 1: Only allow selecting class skills
+                    if (!isClassSkill) isDisabled = true;
+                  } else {
+                    // Phase 2: Only allow selecting non-class skills (or if it's already selected, allow deselecting)
+                    if (isClassSkill && !selectedSkills.includes(skill)) {
+                      isDisabled = true;
+                    }
+                  }
+
+                  return (
+                    <TouchableOpacity
+                      key={skill}
+                      style={[
+                        styles.skillCheckBtn, 
+                        isSelected && styles.skillCheckBtnActive,
+                        isFromBg && { opacity: 0.8, backgroundColor: 'rgba(59, 130, 246, 0.08)', borderColor: '#3b82f6' },
+                        isRacialFixed && { opacity: 0.8, backgroundColor: 'rgba(245, 158, 11, 0.08)', borderColor: '#F59E0B' },
+                        isDisabled && !isSelected && { opacity: 0.3 }
+                      ]}
+                      onPress={() => {
+                        if (isDisabled) return;
+                        toggleSkill(skill);
+                      }}
+                      activeOpacity={(isFromBg || isRacialFixed || isDisabled) ? 1.0 : 0.8}
+                    >
+                      <Ionicons
+                        name={isSelected ? 'checkbox' : 'square-outline'}
+                        size={18}
+                        color={isFromBg ? '#3b82f6' : (isRacialFixed ? '#F59E0B' : (isSelected ? '#F59E0B' : '#475569'))}
+                        style={{ marginRight: 8 }}
+                      />
+                      <View style={{ flex: 1 }}>
+                        <Text style={[
+                          styles.skillCheckLabel, 
+                          isSelected && styles.skillCheckLabelActive,
+                          isFromBg && { color: '#60A5FA', fontWeight: '800' },
+                          isRacialFixed && { color: '#FBBF24', fontWeight: '800' }
+                        ]}>
+                          {skill}
+                        </Text>
+                        {isFromBg && (
+                          <Text style={{ color: '#3b82f6', fontSize: 7, fontWeight: '700', marginTop: 1 }}>ANTECEDENTE</Text>
+                        )}
+                        {isRacialFixed && (
+                          <Text style={{ color: '#F59E0B', fontSize: 7, fontWeight: '700', marginTop: 1 }}>RAÇA ({selectedRace.split(' ')[0]})</Text>
+                        )}
+                        {!isFromBg && !isRacialFixed && isClassSkill && (
+                          <Text style={{ color: '#10B981', fontSize: 7, fontWeight: '700', marginTop: 1 }}>OPÇÃO CLASSE</Text>
+                        )}
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
             </View>
-          </View>
-        )}
+          );
+        })()}
 
         {/* STEP 4: Equipment Presets */}
         {step === 4 && (
