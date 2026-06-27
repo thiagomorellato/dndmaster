@@ -33,7 +33,13 @@ export const CLASSES_LIST: ClassData[] = [
     defaultSlots: {
       1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {},
     },
-    subclasses: ['Caminho do Berserker', 'Caminho do Guerreiro Totêmico', 'Caminho da Magia Selvagem'],
+    subclasses: [
+      'Caminho do Berserker (Berserker)', 
+      'Caminho do Guerreiro Totêmico (Totem Warrior)', 
+      'Caminho do Arauto da Tempestade (Storm Herald)', 
+      'Caminho do Fanático (Zealot)',
+      'Caminho do Combatente de Fúria (Battlerager)'
+    ],
   },
   {
     name: 'Bardo',
@@ -46,7 +52,14 @@ export const CLASSES_LIST: ClassData[] = [
       5: { L1: { max: 4 }, L2: { max: 3 }, L3: { max: 2 } },
       6: { L1: { max: 4 }, L2: { max: 3 }, L3: { max: 3 } },
     },
-    subclasses: ['Colégio do Conhecimento', 'Colégio da Bravura', 'Colégio das Espadas'],
+    subclasses: [
+      'Colégio do Conhecimento (Lore)', 
+      'Colégio da Bravura (Valor)', 
+      'Colégio das Espadas (Swords)',
+      'Colégio dos Sussurros (Whispers)',
+      'Colégio do Glamour (Glamour)',
+      'Colégio da Sátira (Satire)'
+    ],
   },
   {
     name: 'Bruxo',
@@ -59,7 +72,14 @@ export const CLASSES_LIST: ClassData[] = [
       5: { L3: { max: 2 } },
       6: { L3: { max: 2 } },
     },
-    subclasses: ['O Corruptor', 'O Arquifada', 'O Grande Antigo', 'Lâmina Maldita'],
+    subclasses: [
+      'O Corruptor (Fiend)', 
+      'O Arquifada (Archfey)', 
+      'O Grande Antigo (Great Old One)', 
+      'A Lâmina Maldita (Hexblade)',
+      'O Imortal (Undying)',
+      'O Celestial (Celestial)'
+    ],
   },
   {
     name: 'Clérigo',
@@ -72,7 +92,19 @@ export const CLASSES_LIST: ClassData[] = [
       5: { L1: { max: 4 }, L2: { max: 3 }, L3: { max: 2 } },
       6: { L1: { max: 4 }, L2: { max: 3 }, L3: { max: 3 } },
     },
-    subclasses: ['Domínio da Vida', 'Domínio da Tempestade', 'Domínio da Guerra', 'Domínio da Luz'],
+    subclasses: [
+      'Domínio da Vida (Life)', 
+      'Domínio da Tempestade (Tempest)', 
+      'Domínio da Guerra (War)', 
+      'Domínio da Luz (Light)',
+      'Domínio da Natureza (Nature)',
+      'Domínio do Conhecimento (Knowledge)',
+      'Domínio da Trapaça (Trickery)',
+      'Domínio da Sepultura (Grave)',
+      'Domínio da Forja (Forge)',
+      'Domínio da Morte (Death)',
+      'Domínio Arcano (Arcana)'
+    ],
   },
   {
     name: 'Druida',
@@ -85,7 +117,12 @@ export const CLASSES_LIST: ClassData[] = [
       5: { L1: { max: 4 }, L2: { max: 3 }, L3: { max: 2 } },
       6: { L1: { max: 4 }, L2: { max: 3 }, L3: { max: 3 } },
     },
-    subclasses: ['Círculo da Terra', 'Círculo da Lua', 'Círculo dos Esporos'],
+    subclasses: [
+      'Círculo da Terra (Land)', 
+      'Círculo da Lua (Moon)', 
+      'Círculo dos Sonhos (Dreams)', 
+      'Círculo do Pastor (Shepherd)'
+    ],
   },
   {
     name: 'Feiticeiro',
@@ -98,7 +135,13 @@ export const CLASSES_LIST: ClassData[] = [
       5: { L1: { max: 4 }, L2: { max: 3 }, L3: { max: 2 } },
       6: { L1: { max: 4 }, L2: { max: 3 }, L3: { max: 3 } },
     },
-    subclasses: ['Linhagem Dracônica', 'Magia Selvagem', 'Alma Favorecida'],
+    subclasses: [
+      'Linhagem Dracônica (Draconic)', 
+      'Magia Selvagem (Wild Magic)', 
+      'Alma Divina (Divine Soul)', 
+      'Magia das Sombras (Shadow)',
+      'Feitiçaria da Tempestade (Storm)'
+    ],
   },
   {
     name: 'Guerreiro',
@@ -106,7 +149,15 @@ export const CLASSES_LIST: ClassData[] = [
     defaultSlots: {
       1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {},
     },
-    subclasses: ['Campeão', 'Mestre de Batalha', 'Cavaleiro Arcano'],
+    subclasses: [
+      'Campeão (Champion)', 
+      'Mestre de Batalha (Battle Master)', 
+      'Cavaleiro Arcano (Eldritch Knight)',
+      'Cavaleiro do Dragão Púrpura (Purple Dragon Knight)',
+      'Arqueiro Arcano (Arcane Archer)',
+      'Cavaleiro (Cavalier)',
+      'Samurai'
+    ],
   },
   {
     name: 'Ladino',
@@ -114,7 +165,15 @@ export const CLASSES_LIST: ClassData[] = [
     defaultSlots: {
       1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {},
     },
-    subclasses: ['Ladrão', 'Assassino', 'Trapaceiro Arcano'],
+    subclasses: [
+      'Ladrão (Thief)', 
+      'Assassino (Assassin)', 
+      'Trapaceiro Arcano (Arcane Trickster)',
+      'Estratégico (Mastermind)',
+      'Espadachim (Swashbuckler)',
+      'Inquisitivo (Inquisitive)',
+      'Batedor (Scout)'
+    ],
   },
   {
     name: 'Mago',
@@ -127,7 +186,17 @@ export const CLASSES_LIST: ClassData[] = [
       5: { L1: { max: 4 }, L2: { max: 3 }, L3: { max: 2 } },
       6: { L1: { max: 4 }, L2: { max: 3 }, L3: { max: 3 } },
     },
-    subclasses: ['Escola de Evocação', 'Escola de Abjuração', 'Escola de Necromancia'],
+    subclasses: [
+      'Escola de Abjuração (Abjuration)',
+      'Escola de Conjuração (Conjuration)',
+      'Escola de Adivinhação (Divination)',
+      'Escola de Encantamento (Enchantment)',
+      'Escola de Evocação (Evocation)',
+      'Escola de Ilusão (Illusion)',
+      'Escola de Necromancia (Necromancy)',
+      'Escola de Transmutação (Transmutation)',
+      'Cantor da Lâmina (Bladesinging)'
+    ],
   },
   {
     name: 'Monge',
@@ -135,7 +204,15 @@ export const CLASSES_LIST: ClassData[] = [
     defaultSlots: {
       1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {},
     },
-    subclasses: ['Caminho da Mão Aberta', 'Caminho das Sombras', 'Caminho dos Quatro Elementos'],
+    subclasses: [
+      'Caminho da Mão Aberta (Open Hand)', 
+      'Caminho das Sombras (Shadow)', 
+      'Caminho dos Quatro Elementos (Four Elements)',
+      'Caminho da Morte Longa (Long Death)',
+      'Caminho da Alma do Sol (Sun Soul)',
+      'Caminho do Mestre Bêbado (Drunken Master)',
+      'Caminho do Kensei (Kensei)'
+    ],
   },
   {
     name: 'Paladino',
@@ -148,7 +225,15 @@ export const CLASSES_LIST: ClassData[] = [
       5: { L1: { max: 4 }, L2: { max: 2 } },
       6: { L1: { max: 4 }, L2: { max: 2 } },
     },
-    subclasses: ['Juramento de Devoção', 'Juramento de Vingança', 'Juramento dos Anciões'],
+    subclasses: [
+      'Juramento de Devoção (Devotion)', 
+      'Juramento dos Anciões (Ancients)', 
+      'Juramento de Vingança (Vengeance)',
+      'Quebrador de Juramento (Oathbreaker)',
+      'Juramento da Coroa (Crown)',
+      'Juramento de Conquista (Conquest)',
+      'Juramento de Redenção (Redemption)'
+    ],
   },
   {
     name: 'Patrulheiro',
@@ -161,7 +246,13 @@ export const CLASSES_LIST: ClassData[] = [
       5: { L1: { max: 4 }, L2: { max: 2 } },
       6: { L1: { max: 4 }, L2: { max: 2 } },
     },
-    subclasses: ['Caçador', 'Mestre das Bestas', 'Gloom Stalker'],
+    subclasses: [
+      'Caçador (Hunter)', 
+      'Mestre das Bestas (Beast Master)', 
+      'Caçador das Sombras (Gloom Stalker)',
+      'Andarilho do Horizonte (Horizon Walker)',
+      'Matador de Monstros (Monster Slayer)'
+    ],
   },
   {
     name: 'Artífice',
@@ -174,7 +265,7 @@ export const CLASSES_LIST: ClassData[] = [
       5: { L1: { max: 4 }, L2: { max: 2 } },
       6: { L1: { max: 4 }, L2: { max: 3 } },
     },
-    subclasses: ['Alquimista', 'Armeiro', 'Artilheiro', 'Serralheiro de Combate'],
+    subclasses: ['Alquimista (Alchemist)', 'Armeiro (Armorer)', 'Artilheiro (Artillerist)', 'Serralheiro de Combate (Battle Smith)'],
   },
 ];
 
@@ -254,7 +345,58 @@ export const getArmorCategory = (armorName: string): 'light' | 'medium' | 'heavy
   return 'light';
 };
 
-export const RACES_LIST = ['Humano', 'Elfo', 'Anão', 'Halfling', 'Draconato', 'Gnomo', 'Meio-Elfo', 'Meio-Orc', 'Tiefling'];
+export const RACES_LIST = [
+  'Humano', 'Anão da Colina', 'Anão da Montanha', 'Duergar', 
+  'Alto Elfo', 'Elfo da Floresta', 'Drow (Elfo Negro)', 'Eladrin',
+  'Halfling Pés-Leves', 'Halfling Robusto', 'Halfling Ghostwise',
+  'Draconato', 'Gnomo da Floresta', 'Gnomo das Rochas', 'Gnomo Profundo (Svirfneblin)',
+  'Meio-Elfo', 'Meio-Elfo (Drow)', 'Meio-Elfo (Aquático)', 'Meio-Elfo (Elfo da Floresta)',
+  'Meio-Orc', 'Tiefling', 'Tiefling Feral', 'Tiefling Devil\'s Tongue', 'Tiefling Hellfire', 'Tiefling Winged',
+  'Aarakocra', 'Genasi da Terra', 'Genasi do Ar', 'Genasi do Fogo',
+  'Grave Aasimar', 'Protector Aasimar', 'Fallen Aasimar', 'Scourge Aasimar',
+  'Tritão', 'Goliath', 'Tabaxi', 'Goblin', 'Hobgoblin', 'Kenku', 'Orc', 'Lizardfolk', 'Firbolg', 'Yuan-ti Pureblood'
+];
+
+export const getRaceStatBonuses = (race: string): Partial<BaseStats> => {
+  const r = race.toLowerCase();
+  if (r.includes('humano')) return { str: 1, dex: 1, con: 1, int: 1, wis: 1, cha: 1 };
+  if (r.includes('colina') || r.includes('hill dwarf')) return { con: 2, wis: 1 };
+  if (r.includes('montanha') || r.includes('mountain dwarf')) return { con: 2, str: 2 };
+  if (r.includes('duergar')) return { con: 2, str: 1 };
+  if (r.includes('alto elfo') || r.includes('high elf')) return { dex: 2, int: 1 };
+  if (r.includes('floresta') && r.includes('elfo')) return { dex: 2, wis: 1 };
+  if (r.includes('drow') || r.includes('negro')) return { dex: 2, cha: 1 };
+  if (r.includes('eladrin')) return { dex: 2, cha: 1 };
+  if (r.includes('pés-leves') || r.includes('lightfoot')) return { dex: 2, cha: 1 };
+  if (r.includes('robusto') || r.includes('stout')) return { dex: 2, con: 1 };
+  if (r.includes('ghostwise')) return { dex: 2, wis: 1 };
+  if (r.includes('draconato') || r.includes('dragonborn')) return { str: 2, cha: 1 };
+  if (r.includes('gnomo da floresta')) return { int: 2, dex: 1 };
+  if (r.includes('gnomo das rochas')) return { int: 2, con: 1 };
+  if (r.includes('svirfneblin') || r.includes('profundo')) return { int: 2, dex: 1 };
+  if (r.includes('meio-elfo')) return { cha: 2, dex: 1, wis: 1 }; // Default choice +1 to two others, simplified here
+  if (r.includes('meio-orc') || r.includes('half-orc')) return { str: 2, con: 1 };
+  if (r.includes('feral')) return { dex: 2, int: 1 };
+  if (r.includes('tiefling')) return { cha: 2, int: 1 };
+  if (r.includes('aarakocra')) return { dex: 2, wis: 1 };
+  if (r.includes('terra') && r.includes('genasi')) return { con: 2, str: 1 };
+  if (r.includes('ar') && r.includes('genasi')) return { con: 2, dex: 1 };
+  if (r.includes('fogo') && r.includes('genasi')) return { con: 2, int: 1 };
+  if (r.includes('protector')) return { cha: 2, wis: 1 };
+  if (r.includes('fallen')) return { cha: 2, str: 1 };
+  if (r.includes('scourge') || r.includes('grave')) return { cha: 2, con: 1 };
+  if (r.includes('tritão') || r.includes('triton')) return { str: 1, con: 1, cha: 1 };
+  if (r.includes('goliath')) return { str: 2, con: 1 };
+  if (r.includes('tabaxi')) return { dex: 2, cha: 1 };
+  if (r.includes('goblin')) return { dex: 2, con: 1 };
+  if (r.includes('hobgoblin')) return { con: 2, int: 1 };
+  if (r.includes('kenku')) return { dex: 2, wis: 1 };
+  if (r.includes('orc')) return { str: 2, con: 1 };
+  if (r.includes('lizardfolk')) return { con: 2, wis: 1 };
+  if (r.includes('firbolg')) return { wis: 2, str: 1 };
+  if (r.includes('yuan-ti')) return { cha: 2, int: 1 };
+  return {};
+};
 
 export const SKILLS_LIST = [
   'Athletics',

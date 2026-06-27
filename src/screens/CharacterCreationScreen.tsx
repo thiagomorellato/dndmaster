@@ -23,6 +23,7 @@ import {
   getSpellLimit,
   getArmorCategory,
   isProficientInItem,
+  getRaceStatBonuses,
 } from '../utils/dndRules';
 import { SPELLS_DATABASE, Spell } from '../utils/dndSpells';
 import { Ionicons } from '@expo/vector-icons';
@@ -203,7 +204,16 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
       return;
     }
 
-    const calculatedHp = calculateHP(stats.con);
+    // Apply racial stat bonuses to base stats
+    const racialBonuses = getRaceStatBonuses(selectedRace);
+    const finalStats = { ...stats };
+    (Object.keys(racialBonuses) as Array<keyof BaseStats>).forEach(stat => {
+      if (racialBonuses[stat]) {
+        finalStats[stat] = (finalStats[stat] || 0) + (racialBonuses[stat] || 0);
+      }
+    });
+
+    const calculatedHp = calculateHP(finalStats.con);
     const startingBaseAC = calculateStartingAC();
 
     const customResources: any[] = [];
@@ -219,6 +229,10 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
       if (level >= 2) {
         customResources.push({ id: 'action_surge', name: 'Surto de Ação', current: 1, max: 1 });
       }
+      // Battle Master Superiority Dice
+      if (selectedSubclass.includes('Mestre de Batalha') && level >= 3) {
+        customResources.push({ id: 'superiority_dice', name: 'Dados de Superioridade (d8)', current: 4, max: 4 });
+      }
     } else if (selectedClass === 'Clérigo') {
       customResources.push(
         { id: 'channel_divinity', name: 'Canalizar Divindade', current: 1, max: 1 }
@@ -229,7 +243,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
         { id: 'rage', name: 'Fúrias (Rages)', current: rageCounts, max: rageCounts }
       );
     } else if (selectedClass === 'Bardo') {
-      const chaMod = Math.max(1, Math.floor((stats.cha - 10) / 2));
+      const chaMod = Math.max(1, Math.floor((finalStats.cha - 10) / 2));
       customResources.push(
         { id: 'bardic_inspiration', name: 'Inspiração Bárdica', current: chaMod, max: chaMod }
       );
@@ -309,7 +323,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
       name: name.trim(),
       characterClass: characterClassFull,
       level,
-      baseStats: stats,
+      baseStats: finalStats,
       hp: calculatedHp,
       combat: {
         baseArmorClass: startingBaseAC,
