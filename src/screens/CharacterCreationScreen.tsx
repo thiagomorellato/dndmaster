@@ -443,67 +443,6 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
               ))}
             </View>
 
-            {selectedClassObj?.subclasses && selectedClassObj.subclasses.length > 0 && (
-              <>
-                <Text style={styles.label}>Arquétipo / Subclasse</Text>
-                <View style={styles.pickerRowWrap}>
-                  {selectedClassObj.subclasses.map(sub => (
-                    <TouchableOpacity
-                      key={sub}
-                      style={[styles.pickerBtnWrap, { width: '48%' }, selectedSubclass === sub && styles.pickerBtnActive]}
-                      onPress={() => setSelectedSubclass(sub)}
-                    >
-                      <Text style={[styles.pickerLabel, selectedSubclass === sub && styles.pickerLabelActive]} numberOfLines={1}>
-                        {sub}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-                {/* Subclass benefits info card */}
-                {(() => {
-                  let subclassBenefit = '';
-                  const subLower = selectedSubclass.toLowerCase();
-                  if (subLower.includes('berserker')) subclassBenefit = 'Ataques adicionais na Fúria e imunidade a charme/medo.';
-                  else if (subLower.includes('totem') || subLower.includes('totêmico')) subclassBenefit = 'Ganhe resistências de espíritos animais (Urso: resiste a todo dano exceto psíquico).';
-                  else if (subLower.includes('conhecimento') || subLower.includes('lore')) subclassBenefit = 'Ganhe 3 perícias extras e a habilidade Palavras de Corte para reduzir jogadas inimigas.';
-                  else if (subLower.includes('bravura') || subLower.includes('valor')) subclassBenefit = 'Proficiência com armaduras médias, escudos, armas marciais e Inspiração de Combate.';
-                  else if (subLower.includes('espadas') || subLower.includes('swords')) subclassBenefit = 'Estilo de combate de duelo/duas armas e uso de Inspiração para manobras de ataque.';
-                  else if (subLower.includes('corruptor') || subLower.includes('fiend')) subclassBenefit = 'Ganhe HP temporário ao derrotar inimigos e bônus em testes de salvaguarda.';
-                  else if (subLower.includes('arquifada') || subLower.includes('archfey')) subclassBenefit = 'Habilidade de enfeitiçar ou amedrontar criaturas ao seu redor.';
-                  else if (subLower.includes('grande antigo') || subLower.includes('great old')) subclassBenefit = 'Telepatia com qualquer criatura que você possa ver e defesas mentais.';
-                  else if (subLower.includes('lâmina maldita') || subLower.includes('hexblade')) subclassBenefit = 'Use Carisma para jogadas de ataque/dano e amaldiçoe alvos para causar críticos com 19 ou 20.';
-                  else if (subLower.includes('vida') || subLower.includes('life')) subclassBenefit = 'Sua cura ganha bônus de 2 + nível da magia. Proficiência em armadura pesada.';
-                  else if (subLower.includes('tempestade') || subLower.includes('tempest')) subclassBenefit = 'Retalie atacantes com raio/trovão e maximize dano de eletricidade.';
-                  else if (subLower.includes('guerra') || subLower.includes('war')) subclassBenefit = 'Ataque adicional como ação bônus e bônus de +10 no acerto. Proficiência em armadura pesada.';
-                  else if (subLower.includes('luz') || subLower.includes('light')) subclassBenefit = 'Use futilidades de luz para impor desvantagem a atacantes e conjure Bola de Fogo.';
-                  else if (subLower.includes('lua') || subLower.includes('moon')) subclassBenefit = 'Combata sob a forma de feras muito mais poderosas (Nível de Desafio 1 já no nível 2).';
-                  else if (subLower.includes('terra') || subLower.includes('land')) subclassBenefit = 'Recupere slots de magia em descansos curtos e ganhe magias de terrenos.';
-                  else if (subLower.includes('dracônica') || subLower.includes('draconic')) subclassBenefit = 'HP extra por nível, armadura natural de 13 + Dex e asas no nível 14.';
-                  else if (subLower.includes('selvagem') || subLower.includes('wild')) subclassBenefit = 'Role na tabela de Surtos de Magia Selvagem para efeitos mágicos aleatórios.';
-                  else if (subLower.includes('campeão') || subLower.includes('champion')) subclassBenefit = 'Margem de acerto crítico reduzida para 19 ou 20 nos dados.';
-                  else if (subLower.includes('mestre de batalha') || subLower.includes('battle')) subclassBenefit = 'Ganhe 4 Dados de Superioridade (d8) e aprenda manobras de combate para desarmar, derrubar, etc.';
-                  else if (subLower.includes('arcano') || subLower.includes('knight')) subclassBenefit = 'Aprenda magias de Mago (Abjuração/Evocação) e invoque sua arma vinculada.';
-                  else if (subLower.includes('ladrão') || subLower.includes('thief')) subclassBenefit = 'Use as mãos rápidas para usar itens como ação bônus e escale paredes com velocidade.';
-                  else if (subLower.includes('assassino') || subLower.includes('assassin')) subclassBenefit = 'Vantagem contra quem não agiu e acertos críticos automáticos contra alvos surpresos.';
-                  else if (subLower.includes('espadachim') || subLower.includes('swash')) subclassBenefit = 'Adicione Carisma na Iniciativa e use Ataque Furtivo sem precisar de aliados próximos.';
-                  else if (subLower.includes('evocação')) subclassBenefit = 'Esculpa feitiços de área para que seus aliados não sofram dano deles.';
-                  else if (subLower.includes('abjuração')) subclassBenefit = 'Crie uma barreira arcana protetora que absorve dano direcionado a você.';
-                  else if (subLower.includes('necromancia')) subclassBenefit = 'Recupere vida ao matar inimigos com magias e manipule mortos-vivos com perícia.';
-                  else if (subLower.includes('mão aberta') || subLower.includes('open')) subclassBenefit = 'Adicione efeitos extras ao seu Rajada de Golpes (derrubar, empurrar ou impedir reações).';
-                  else if (subLower.includes('sombras') || subLower.includes('shadow')) subclassBenefit = 'Fique invisível nas sombras e teletransporte-se através delas.';
-                  else if (subLower.includes('devoção') || subLower.includes('devotion')) subclassBenefit = 'Adicione Carisma nas jogadas de ataque e emane uma aura contra efeitos de charme.';
-                  else if (subLower.includes('vingança') || subLower.includes('vengeance')) subclassBenefit = 'Ganhe vantagem de ataque contra um alvo específico usando Voto de Inimizade.';
-                  else if (subLower.includes('anciões') || subLower.includes('ancients')) subclassBenefit = 'Emane uma aura que concede a você e aliados resistência contra dano de magias.';
-                  else if (subLower.includes('caçador') || subLower.includes('hunter')) subclassBenefit = 'Escolha habilidades ofensivas contra hordas ou presas gigantes.';
-                  else if (subLower.includes('bestas') || subLower.includes('beast')) subclassBenefit = 'Obtenha um companheiro animal que luta ao seu lado e obedece aos seus comandos.';
-                  else if (subLower.includes('gloom')) subclassBenefit = 'Invisível na escuridão sob visão no escuro e ataque extra no primeiro turno de combate.';
-                  else if (subLower.includes('alquimista')) subclassBenefit = 'Crie elixires experimentais que concedem voo, cura, CA ou bônus de ataque.';
-                  else if (subLower.includes('armeiro') || subLower.includes('armorer')) subclassBenefit = 'Crie uma armadura tecnológica com modos Guardião (defensivo) ou Infiltrador (furtivo).';
-                  else if (subLower.includes('artilheiro') || subLower.includes('artillerist')) subclassBenefit = 'Invoque canhões arcanos móveis que atiram fogo, projéteis de força ou concedem escudos temporários.';
-                  else if (subLower.includes('serralheiro') || subLower.includes('smith')) subclassBenefit = 'Lute ao lado de um Defensor de Aço e use Inteligência nas jogadas de ataque físico.';
-
-                  if (!subclassBenefit) return null;
-                  return (
             {/* Class description info card */}
             {(() => {
               let classDesc = '';
@@ -579,7 +518,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                   else if (subLower.includes('mão aberta') || subLower.includes('open')) subclassBenefit = 'Adicione efeitos extras ao seu Rajada de Golpes (derrubar, empurrar ou impedir reações).';
                   else if (subLower.includes('sombras') || subLower.includes('shadow')) subclassBenefit = 'Fique invisível nas sombras e teletransporte-se através delas.';
                   else if (subLower.includes('devoção') || subLower.includes('devotion')) subclassBenefit = 'Adicione Carisma nas jogadas de ataque e emane uma aura contra efeitos de charme.';
-                  else if (subLower.includes('vingança') || subLower.includes('vengeance')) subclassBenefit = 'Ganhe vantagem de ataque contra um alvo específico usando Voto de Inimizade.';
+                  else if (subLower.includes('vingança') || subLower.includes('vengeance')) subclassBenefit = 'Ganhe vantagem de ataque contra um oponente específico usando Voto de Inimizade.';
                   else if (subLower.includes('anciões') || subLower.includes('ancients')) subclassBenefit = 'Emane uma aura que concede a você e aliados resistência contra dano de magias.';
                   else if (subLower.includes('caçador') || subLower.includes('hunter')) subclassBenefit = 'Escolha habilidades ofensivas contra hordas ou presas gigantes.';
                   else if (subLower.includes('bestas') || subLower.includes('beast')) subclassBenefit = 'Obtenha um companheiro animal que luta ao seu lado e obedece aos seus comandos.';
