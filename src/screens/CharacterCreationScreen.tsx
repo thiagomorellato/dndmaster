@@ -446,20 +446,20 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
             {/* Class description info card */}
             {(() => {
               let classDesc = '';
-              const cLower = selectedClass.toLowerCase();
-              if (cLower.includes('bárbaro')) classDesc = 'Um guerreiro feroz de origem selvagem que pode entrar em fúria para ignorar dano e causar estragos corpo-a-corpo.';
-              else if (cLower.includes('bardo')) classDesc = 'Um mestre da música e da magia que inspira seus aliados, cura ferimentos e manipula a mente dos inimigos.';
-              else if (cLower.includes('bruxo')) classDesc = 'Um conjurador que obteve seus poderes mágicos através de um pacto com uma entidade sobrenatural poderosa.';
-              else if (cLower.includes('clérigo')) classDesc = 'Um guerreiro sacerdotal que canaliza o poder divino de seu deus para curar aliados e punir infiéis.';
-              else if (cLower.includes('druida')) classDesc = 'Um protetor da natureza que assume formas de feras selvagens e conjura magias baseadas nos elementos da terra.';
-              else if (cLower.includes('feiticeiro')) classDesc = 'Um mago nato que possui magia intrínseca em suas veias devido a uma linhagem exótica ou evento cósmico.';
-              else if (cLower.includes('guerreiro')) classDesc = 'Um especialista em combate físico altamente treinado com domínio sobre todas as armas e armaduras existentes.';
-              else if (cLower.includes('ladino')) classDesc = 'Um trapaceiro furtivo especialista em ataques de oportunidade, arrombamento de fechaduras e truques sujos.';
-              else if (cLower.includes('mago')) classDesc = 'Um acadêmico da magia que estuda grimórios e fórmulas arcanas para conjurar magias extremamente versáteis.';
-              else if (cLower.includes('monge')) classDesc = 'Um mestre das artes marciais que canaliza a energia vital do Chi para desferir golpes rápidos e desvios sobrenaturais.';
-              else if (cLower.includes('paladino')) classDesc = 'Um guerreiro sagrado vinculado a um juramento solene, capaz de desferir destruição divina e curar com as mãos.';
-              else if (cLower.includes('patrulheiro')) classDesc = 'Um caçador destemido das fronteiras selvagens, mestre em rastreamento e combate contra inimigos específicos.';
-              else if (cLower.includes('artífice')) classDesc = 'Um inventor genial que combina magia e tecnologia para infundir itens comuns com propriedades mágicas.';
+              const cName = selectedClass.trim();
+              if (cName === 'Bárbaro') classDesc = 'Um guerreiro feroz de origem selvagem que pode entrar em fúria para ignorar dano e causar estragos corpo-a-corpo.';
+              else if (cName === 'Bardo') classDesc = 'Um mestre da música e da magia que inspira seus aliados, cura ferimentos e manipula a mente dos inimigos.';
+              else if (cName === 'Bruxo') classDesc = 'Um conjurador que obteve seus poderes mágicos através de um pacto com uma entidade sobrenatural poderosa.';
+              else if (cName === 'Clérigo') classDesc = 'Um guerreiro sacerdotal que canaliza o poder divino de seu deus para curar aliados e punir infiéis.';
+              else if (cName === 'Druida') classDesc = 'Um protetor da natureza que assume formas de feras selvagens e conjura magias baseadas nos elementos da terra.';
+              else if (cName === 'Feiticeiro') classDesc = 'Um mago nato que possui magia intrínseca em suas veias devido a uma linhagem exótica ou evento cósmico.';
+              else if (cName === 'Guerreiro') classDesc = 'Um especialista em combate físico altamente treinado com domínio sobre todas as armas e armaduras existentes.';
+              else if (cName === 'Ladino') classDesc = 'Um trapaceiro furtivo especialista em ataques de oportunidade, arrombamento de fechaduras e truques sujos.';
+              else if (cName === 'Mago') classDesc = 'Um acadêmico da magia que estuda grimórios e fórmulas arcanas para conjurar magias extremamente versáteis.';
+              else if (cName === 'Monge') classDesc = 'Um mestre das artes marciais que canaliza a energia vital do Chi para desferir golpes rápidos e desvios sobrenaturais.';
+              else if (cName === 'Paladino') classDesc = 'Um guerreiro sagrado vinculado a um juramento solene, capaz de desferir destruição divina e curar com as mãos.';
+              else if (cName === 'Patrulheiro') classDesc = 'Um caçador destemido das fronteiras selvagens, mestre em rastreamento e combate contra inimigos específicos.';
+              else if (cName === 'Artífice') classDesc = 'Um inventor genial que combina magia e tecnologia para infundir itens comuns com propriedades mágicas.';
 
               return (
                 <View style={{ backgroundColor: 'rgba(245, 158, 11, 0.03)', borderColor: '#F59E0B', borderWidth: 0.5, borderRadius: 8, padding: 10, marginTop: 4, marginBottom: 12 }}>
@@ -603,14 +603,14 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                           style={[
                             styles.pickerBtnWrap, 
                             { width: '31%', marginBottom: 6 }, 
-                            isActive && { borderColor: '#F59E0B', backgroundColor: 'rgba(245, 158, 11, 0.08)' }
+                            isActive ? styles.pickerBtnActive : null
                           ]}
                           onPress={() => {
                             const firstInGroup = raceGroups[group][0];
                             setSelectedRace(firstInGroup);
                           }}
                         >
-                          <Text style={[styles.pickerLabel, isActive && { color: '#FBBF24', fontWeight: '800' }]}>
+                          <Text style={[styles.pickerLabel, isActive && styles.pickerLabelActive]}>
                             {group}
                           </Text>
                         </TouchableOpacity>
