@@ -67,6 +67,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
 
   // Step 5: Spells
   const [selectedSpells, setSelectedSpells] = useState<string[]>([]);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const selectedClassObj = CLASSES_LIST.find(c => c.name === selectedClass);
 
@@ -581,8 +582,6 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
               
               // Exotic/rare groups hidden under the expander by default
               const extraGroupNames = ['Aasimar', 'Aarakocra', 'Tritão', 'Goliath', 'Tabaxi', 'Goblin', 'Hobgoblin', 'Kenku', 'Lizardfolk', 'Firbolg', 'Yuan-ti'];
-
-              const [isExpanded, setIsExpanded] = useState(false);
 
               // Identify group of the currently selected race
               const currentGroup = Object.keys(raceGroups).find(group => raceGroups[group].includes(selectedRace)) || 'Humano';
