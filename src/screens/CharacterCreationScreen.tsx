@@ -119,11 +119,48 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
     });
   };
 
+  // Get skills allowed by class and maximum choices allowed
+  const getClassSkillRules = (className: string): { limit: number; list: string[] } => {
+    const cls = className.toLowerCase();
+    if (cls.includes('bárbaro')) return { limit: 2, list: ['Animal Handling', 'Athletics', 'Intimidation', 'Nature', 'Perception', 'Survival'] };
+    if (cls.includes('bardo')) return { limit: 3, list: SKILLS_LIST }; // Bards can choose any 3 skills
+    if (cls.includes('bruxo')) return { limit: 2, list: ['Arcana', 'Deception', 'History', 'Intimidation', 'Investigation', 'Nature', 'Religion'] };
+    if (cls.includes('clérigo')) return { limit: 2, list: ['History', 'Insight', 'Medicine', 'Persuasion', 'Religion'] };
+    if (cls.includes('druida')) return { limit: 2, list: ['Arcana', 'Animal Handling', 'Insight', 'Medicine', 'Nature', 'Perception', 'Religion', 'Survival'] };
+    if (cls.includes('feiticeiro')) return { limit: 2, list: ['Arcana', 'Deception', 'Insight', 'Intimidation', 'Persuasion', 'Religion'] };
+    if (cls.includes('guerreiro')) return { limit: 2, list: ['Acrobatics', 'Animal Handling', 'Athletics', 'History', 'Insight', 'Intimidation', 'Perception', 'Survival'] };
+    if (cls.includes('ladino')) return { limit: 4, list: ['Acrobatics', 'Athletics', 'Deception', 'Insight', 'Intimidation', 'Investigation', 'Perception', 'Performance', 'Persuasion', 'Sleight of Hand', 'Stealth'] };
+    if (cls.includes('mago')) return { limit: 2, list: ['Arcana', 'History', 'Insight', 'Investigation', 'Medicine', 'Religion'] };
+    if (cls.includes('monge')) return { limit: 2, list: ['Acrobatics', 'Athletics', 'History', 'Insight', 'Religion', 'Stealth'] };
+    if (cls.includes('paladino')) return { limit: 2, list: ['Athletics', 'Insight', 'Intimidation', 'Medicine', 'Persuasion', 'Religion'] };
+    if (cls.includes('patrulheiro')) return { limit: 3, list: ['Animal Handling', 'Athletics', 'Insight', 'Investigation', 'Nature', 'Perception', 'Stealth', 'Survival'] };
+    if (cls.includes('artífice')) return { limit: 2, list: ['Arcana', 'History', 'Investigation', 'Medicine', 'Nature', 'Sleight of Hand'] };
+    return { limit: 2, list: [] };
+  };
+
   const toggleSkill = (skill: string) => {
+    const bg = BACKGROUNDS_LIST.find(b => b.name === selectedBackground);
+    // If the skill is granted by the background, it is locked
+    if (bg && bg.skills.includes(skill)) {
+      return;
+    }
+
+    const classRules = getClassSkillRules(selectedClass);
     setSelectedSkills(prev => {
       if (prev.includes(skill)) {
         return prev.filter(s => s !== skill);
       } else {
+        // Count how many non-background skills are currently selected
+        const bgSkills = bg ? bg.skills : [];
+        const currentClassSkillsCount = prev.filter(s => !bgSkills.includes(s)).length;
+        
+        if (currentClassSkillsCount >= classRules.limit) {
+          Alert.alert(
+            'Limite de Perícias',
+            `Sua classe (${selectedClass}) permite escolher apenas ${classRules.limit} perícias além daquelas dadas pelo seu Antecedente.`
+          );
+          return prev;
+        }
         return [...prev, skill];
       }
     });
@@ -530,25 +567,46 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
               Selecione as perícias nas quais seu herói tem treinamento especial (Proficiência).
             </Text>
 
-            <View style={styles.skillsGrid}>
+             <View style={styles.skillsGrid}>
               {SKILLS_LIST.map(skill => {
+                const bg = BACKGROUNDS_LIST.find(b => b.name === selectedBackground);
+                const isFromBg = bg && bg.skills.includes(skill);
                 const isSelected = selectedSkills.includes(skill);
+                const classRules = getClassSkillRules(selectedClass);
+                const isClassSkill = classRules.list.includes(skill);
+
                 return (
                   <TouchableOpacity
                     key={skill}
-                    style={[styles.skillCheckBtn, isSelected && styles.skillCheckBtnActive]}
+                    style={[
+                      styles.skillCheckBtn, 
+                      isSelected && styles.skillCheckBtnActive,
+                      isFromBg && { opacity: 0.8, backgroundColor: 'rgba(37, 99, 235, 0.08)', borderColor: '#2563EB' }
+                    ]}
                     onPress={() => toggleSkill(skill)}
-                    activeOpacity={0.8}
+                    activeOpacity={isFromBg ? 1.0 : 0.8}
                   >
                     <Ionicons
                       name={isSelected ? 'checkbox' : 'square-outline'}
                       size={18}
-                      color={isSelected ? '#F59E0B' : '#475569'}
+                      color={isFromBg ? '#3b82f6' : (isSelected ? '#F59E0B' : '#475569')}
                       style={{ marginRight: 8 }}
                     />
-                    <Text style={[styles.skillCheckLabel, isSelected && styles.skillCheckLabelActive]}>
-                      {skill}
-                    </Text>
+                    <View style={{ flex: 1 }}>
+                      <Text style={[
+                        styles.skillCheckLabel, 
+                        isSelected && styles.skillCheckLabelActive,
+                        isFromBg && { color: '#60A5FA', fontWeight: '800' }
+                      ]}>
+                        {skill}
+                      </Text>
+                      {isFromBg && (
+                        <Text style={{ color: '#3b82f6', fontSize: 7, fontWeight: '700', marginTop: 1 }}>ANTECEDENTE</Text>
+                      )}
+                      {!isFromBg && isClassSkill && (
+                        <Text style={{ color: '#10B981', fontSize: 7, fontWeight: '700', marginTop: 1 }}>OPÇÃO CLASSE</Text>
+                      )}
+                    </View>
                   </TouchableOpacity>
                 );
               })}
