@@ -36,6 +36,7 @@ interface CharacterCreationScreenProps {
 }
 
 type StepType = 1 | 2 | 3 | 4 | 5; // 1: Info, 2: Stats, 3: Perícias, 4: Equipamentos, 5: Magias
+type StatMethod = 'standard' | 'pointbuy' | 'roll';
 
 export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = ({ onBack, onSuccess }) => {
   const [step, setStep] = useState<StepType>(1);
@@ -70,6 +71,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
 
   // Step 2: Stats (Standard Array allocation)
   const standardArrayValues = [15, 14, 13, 12, 10, 8];
+  const [statMethod, setStatMethod] = useState<StatMethod>('standard');
   const [stats, setStats] = useState<Record<keyof BaseStats, number>>({
     str: 15,
     dex: 14,
@@ -78,6 +80,79 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
     wis: 10,
     cha: 8,
   });
+
+  const handleSelectStatMethod = (method: StatMethod) => {
+    setStatMethod(method);
+    if (method === 'standard') {
+      setStats({ str: 15, dex: 14, con: 13, int: 12, wis: 10, cha: 8 });
+    } else if (method === 'pointbuy') {
+      setStats({ str: 8, dex: 8, con: 8, int: 8, wis: 8, cha: 8 });
+    } else {
+      setStats({ str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 });
+    }
+  };
+
+  const getPointBuyCost = (val: number) => {
+    if (val <= 8) return 0;
+    if (val === 9) return 1;
+    if (val === 10) return 2;
+    if (val === 11) return 3;
+    if (val === 12) return 4;
+    if (val === 13) return 5;
+    if (val === 14) return 7;
+    if (val === 15) return 9;
+    return 0;
+  };
+
+  const handlePointBuyChange = (targetStat: keyof BaseStats, increment: boolean) => {
+    setStats(prev => {
+      const currentVal = prev[targetStat];
+      const nextVal = increment ? currentVal + 1 : currentVal - 1;
+      
+      if (nextVal < 8 || nextVal > 15) return prev;
+      
+      const tempStats = { ...prev, [targetStat]: nextVal };
+      let totalCost = 0;
+      for (const key of Object.keys(tempStats)) {
+        totalCost += getPointBuyCost(tempStats[key as keyof BaseStats]);
+      }
+      
+      if (totalCost > 27) return prev;
+      
+      return tempStats;
+    });
+  };
+
+  const rollDiceForStat = (targetStat: keyof BaseStats) => {
+    const rolls = [
+      Math.floor(Math.random() * 6) + 1,
+      Math.floor(Math.random() * 6) + 1,
+      Math.floor(Math.random() * 6) + 1,
+      Math.floor(Math.random() * 6) + 1,
+    ];
+    rolls.sort((a, b) => a - b);
+    const sum = rolls[1] + rolls[2] + rolls[3];
+    
+    setStats(prev => ({
+      ...prev,
+      [targetStat]: sum
+    }));
+  };
+
+  const rollAllDice = () => {
+    const newStats = { ...stats };
+    (Object.keys(newStats) as Array<keyof BaseStats>).forEach(stat => {
+      const rolls = [
+        Math.floor(Math.random() * 6) + 1,
+        Math.floor(Math.random() * 6) + 1,
+        Math.floor(Math.random() * 6) + 1,
+        Math.floor(Math.random() * 6) + 1,
+      ];
+      rolls.sort((a, b) => a - b);
+      newStats[stat] = rolls[1] + rolls[2] + rolls[3];
+    });
+    setStats(newStats);
+  };
 
   // Step 3: Skills (Defaulting to Acolyte skills in PT-BR)
   const [selectedSkills, setSelectedSkills] = useState<string[]>(['Intuição', 'Religião']);
@@ -882,44 +957,127 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
         )}
 
         {/* STEP 2: Stats Assignment */}
-        {step === 2 && (
-          <View style={styles.stepCard}>
-            <Text style={styles.stepTitle}>Atribuição de Status (Standard Array)</Text>
-            <Text style={styles.stepDesc}>
-              Distribua os valores padrão: 15, 14, 13, 12, 10 e 8 entre os atributos do seu herói.
-            </Text>
+        {step === 2 && (() => {
+          let pointsSpent = 0;
+          if (statMethod === 'pointbuy') {
+            for (const key of Object.keys(stats)) {
+              pointsSpent += getPointBuyCost(stats[key as keyof BaseStats]);
+            }
+          }
 
-            {(Object.keys(stats) as Array<keyof BaseStats>).map(stat => (
-              <View key={stat} style={styles.statAssignRow}>
-                <View style={styles.statAssignMeta}>
-                  <Text style={styles.statAssignLabel}>{stat.toUpperCase()}</Text>
-                  <Text style={styles.statAssignSub}>
-                    Mod: {Math.floor((stats[stat] - 10) / 2) >= 0 ? '+' : ''}
-                    {Math.floor((stats[stat] - 10) / 2)}
-                  </Text>
-                </View>
-
-                {/* Score values selector */}
-                <View style={styles.arraySelector}>
-                  {standardArrayValues.map(val => {
-                    const isSelected = stats[stat] === val;
-                    return (
-                      <TouchableOpacity
-                        key={val}
-                        style={[styles.arrayValBtn, isSelected && styles.arrayValBtnActive]}
-                        onPress={() => handleAssignStatValue(stat, val)}
-                      >
-                        <Text style={[styles.arrayValLabel, isSelected && styles.arrayValLabelActive]}>
-                          {val}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  })}
-                </View>
+          return (
+            <View style={styles.stepCard}>
+              <Text style={styles.stepTitle}>Atribuição de Atributos</Text>
+              
+              <View style={styles.methodSelectorRow}>
+                <TouchableOpacity 
+                  style={[styles.methodBtn, statMethod === 'standard' && styles.methodBtnActive]}
+                  onPress={() => handleSelectStatMethod('standard')}
+                >
+                  <Text style={[styles.methodBtnLabel, statMethod === 'standard' && styles.methodBtnLabelActive]}>Padrão</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={[styles.methodBtn, statMethod === 'pointbuy' && styles.methodBtnActive]}
+                  onPress={() => handleSelectStatMethod('pointbuy')}
+                >
+                  <Text style={[styles.methodBtnLabel, statMethod === 'pointbuy' && styles.methodBtnLabelActive]}>Pontos</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={[styles.methodBtn, statMethod === 'roll' && styles.methodBtnActive]}
+                  onPress={() => handleSelectStatMethod('roll')}
+                >
+                  <Text style={[styles.methodBtnLabel, statMethod === 'roll' && styles.methodBtnLabelActive]}>Dados</Text>
+                </TouchableOpacity>
               </View>
-            ))}
-          </View>
-        )}
+
+              {statMethod === 'standard' && (
+                <Text style={styles.stepDesc}>Distribua os valores padrão: 15, 14, 13, 12, 10 e 8.</Text>
+              )}
+              {statMethod === 'pointbuy' && (
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                  <Text style={styles.stepDesc}>Compre atributos (Custo 8=0, 15=9).</Text>
+                  <View style={{ backgroundColor: 'rgba(16, 185, 129, 0.1)', paddingHorizontal: 12, paddingVertical: 4, borderRadius: 12, borderWidth: 1, borderColor: '#10B981' }}>
+                    <Text style={{ color: '#10B981', fontWeight: '800', fontSize: 12 }}>{27 - pointsSpent} / 27 pts</Text>
+                  </View>
+                </View>
+              )}
+              {statMethod === 'roll' && (
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                  <Text style={styles.stepDesc}>Role 4d6 e descarte o menor.</Text>
+                  <TouchableOpacity style={styles.rollAllBtn} onPress={rollAllDice}>
+                    <Ionicons name="dice" size={16} color="#0F172A" style={{ marginRight: 4 }} />
+                    <Text style={styles.rollAllBtnText}>Rolar Tudo</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+
+              {(Object.keys(stats) as Array<keyof BaseStats>).map(stat => (
+                <View key={stat} style={styles.statAssignRow}>
+                  <View style={styles.statAssignMeta}>
+                    <Text style={styles.statAssignLabel}>{stat.toUpperCase()}</Text>
+                    <Text style={styles.statAssignSub}>
+                      Mod: {Math.floor((stats[stat] - 10) / 2) >= 0 ? '+' : ''}
+                      {Math.floor((stats[stat] - 10) / 2)}
+                    </Text>
+                  </View>
+
+                  {/* Score values selector */}
+                  {statMethod === 'standard' && (
+                    <View style={styles.arraySelector}>
+                      {standardArrayValues.map(val => {
+                        const isSelected = stats[stat] === val;
+                        return (
+                          <TouchableOpacity
+                            key={val}
+                            style={[styles.arrayValBtn, isSelected && styles.arrayValBtnActive]}
+                            onPress={() => handleAssignStatValue(stat, val)}
+                          >
+                            <Text style={[styles.arrayValLabel, isSelected && styles.arrayValLabelActive]}>
+                              {val}
+                            </Text>
+                          </TouchableOpacity>
+                        );
+                      })}
+                    </View>
+                  )}
+
+                  {statMethod === 'pointbuy' && (
+                    <View style={styles.pointBuySelector}>
+                      <TouchableOpacity style={styles.pbAdjustBtn} onPress={() => handlePointBuyChange(stat, false)}>
+                        <Ionicons name="remove" size={16} color="#F8FAFC" />
+                      </TouchableOpacity>
+                      <View style={styles.pbValueWrap}>
+                        <Text style={styles.pbValue}>{stats[stat]}</Text>
+                      </View>
+                      <TouchableOpacity style={styles.pbAdjustBtn} onPress={() => handlePointBuyChange(stat, true)}>
+                        <Ionicons name="add" size={16} color="#F8FAFC" />
+                      </TouchableOpacity>
+                    </View>
+                  )}
+
+                  {statMethod === 'roll' && (
+                    <View style={styles.pointBuySelector}>
+                      <View style={[styles.pbValueWrap, { width: 40 }]}>
+                        <TextInput 
+                          style={[styles.pbValue, { textAlign: 'center', padding: 0 }]}
+                          keyboardType="numeric"
+                          value={String(stats[stat])}
+                          onChangeText={(val) => {
+                            const num = parseInt(val) || 0;
+                            setStats(prev => ({ ...prev, [stat]: num }));
+                          }}
+                        />
+                      </View>
+                      <TouchableOpacity style={styles.rollBtn} onPress={() => rollDiceForStat(stat)}>
+                        <Ionicons name="dice" size={20} color="#F59E0B" />
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </View>
+              ))}
+            </View>
+          );
+        })()}
 
         {/* STEP 3: Skill Proficiencies */}
         {step === 3 && (() => {
@@ -1788,5 +1946,83 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginTop: 4,
     textAlign: 'center',
+  },
+  methodSelectorRow: {
+    flexDirection: 'row',
+    backgroundColor: '#090D16',
+    borderRadius: 8,
+    padding: 4,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#1E293B',
+  },
+  methodBtn: {
+    flex: 1,
+    paddingVertical: 8,
+    alignItems: 'center',
+    borderRadius: 6,
+  },
+  methodBtnActive: {
+    backgroundColor: 'rgba(245, 158, 11, 0.15)',
+  },
+  methodBtnLabel: {
+    color: '#64748B',
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  methodBtnLabelActive: {
+    color: '#F59E0B',
+    fontWeight: '800',
+  },
+  pointBuySelector: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    flex: 1,
+  },
+  pbAdjustBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#1E293B',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#334155',
+  },
+  pbValueWrap: {
+    width: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 8,
+  },
+  pbValue: {
+    color: '#F8FAFC',
+    fontSize: 18,
+    fontWeight: '900',
+  },
+  rollBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+    borderWidth: 1,
+    borderColor: '#F59E0B',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 8,
+  },
+  rollAllBtn: {
+    flexDirection: 'row',
+    backgroundColor: '#F59E0B',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+    alignItems: 'center',
+  },
+  rollAllBtnText: {
+    color: '#0F172A',
+    fontWeight: '800',
+    fontSize: 12,
   },
 });
