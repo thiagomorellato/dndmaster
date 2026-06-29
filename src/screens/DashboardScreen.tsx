@@ -1095,7 +1095,8 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   scrollContent: {
     padding: 16,
-    paddingBottom: 160 // Padding for Tab Bar + Sticky Footer height
+    paddingBottom: 160, // Padding for Tab Bar + Sticky Footer height
+    flexGrow: 1
   },
   logCard: {
     backgroundColor: colors.surface,

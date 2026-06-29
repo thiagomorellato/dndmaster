@@ -4,6 +4,7 @@ import { CombatConfig, BaseStats, EquipmentItem } from '../types/character';
 import { Ionicons } from '@expo/vector-icons';
 import Svg, { Path } from 'react-native-svg';
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system/legacy';
 import { useTheme, ThemeColors } from '../context/ThemeContext';
 import { isProficientInItem } from '../utils/dndRules';
 
@@ -207,6 +208,50 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
   const [tempImageUrl, setTempImageUrl] = useState('');
   const { colors } = useTheme();
   const styles = useStyles(colors);
+
+  const pickImage = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: false,
+        quality: 0.3,
+        base64: true,
+      });
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        const asset = result.assets[0];
+        if (asset.base64) {
+          const dataUri = `data:image/jpeg;base64,${asset.base64}`;
+          if (onUpdateImageUrl) onUpdateImageUrl(dataUri);
+          setAvatarModalVisible(false);
+        } else if (Platform.OS === 'web' && asset.uri) {
+          // No web, o expo-image-picker pode não retornar base64 nativamente. 
+          // Retorna um blob: URL que expira ao recarregar. Precisamos converter o blob para base64.
+          try {
+            const response = await fetch(asset.uri);
+            const blob = await response.blob();
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              if (onUpdateImageUrl) onUpdateImageUrl(reader.result as string);
+              setAvatarModalVisible(false);
+            };
+            reader.readAsDataURL(blob);
+          } catch (fetchErr) {
+            console.warn("Erro ao converter blob para base64", fetchErr);
+            if (onUpdateImageUrl) onUpdateImageUrl(asset.uri);
+            setAvatarModalVisible(false);
+          }
+        } else {
+          if (onUpdateImageUrl) onUpdateImageUrl(asset.uri);
+          setAvatarModalVisible(false);
+        }
+      }
+    } catch (e) {
+      console.warn("Erro ao selecionar imagem", e);
+    }
+  };
+
+
+
 
   const renderAmmunitionIcon = (name: string, color: string) => {
     const n = name.toLowerCase();
@@ -504,7 +549,7 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
         <View style={styles.modelPlaceholder}>
           {imageUrl ? (
             <TouchableOpacity onPress={() => setAvatarModalVisible(true)} activeOpacity={0.8} style={{ width: '100%', height: '100%', borderRadius: 12, overflow: 'hidden' }}>
-              <Image source={{ uri: imageUrl }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
+              <Image source={{ uri: imageUrl }} style={{ width: '100%', height: '100%' }} resizeMode="contain" />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={() => setAvatarModalVisible(true)} activeOpacity={0.8} style={{ alignItems: 'center' }}>
@@ -526,6 +571,14 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
                   value={tempImageUrl}
                   onChangeText={setTempImageUrl}
                 />
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 16 }}>
+                  <TouchableOpacity 
+                    onPress={pickImage} 
+                    style={{ flex: 1, padding: 12, backgroundColor: colors.surfaceHighlight, borderRadius: 8, alignItems: 'center', borderWidth: 1, borderColor: colors.border }}
+                  >
+                    <Text style={{ color: colors.textMain, fontWeight: 'bold' }}><Ionicons name="images-outline" size={16} style={{ marginRight: 6 }} /> Da Galeria</Text>
+                  </TouchableOpacity>
+                </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                   <TouchableOpacity onPress={() => setAvatarModalVisible(false)} style={{ padding: 12, marginRight: 8 }}>
                     <Text style={{ color: colors.textMuted }}>Cancelar</Text>
@@ -786,6 +839,7 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
   container: {
     width: '100%',
     marginBottom: 16,
+    flex: 1,
   },
   horizontalAttributesRow: {
     flexDirection: 'row',
@@ -875,13 +929,14 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   modelContainerFull: {
     width: '100%',
+    flex: 1,
     marginTop: 2,
     marginBottom: 6,
   },
   modelPlaceholder: {
+    flex: 1,
     borderWidth: 1,
-    borderStyle: 'dashed',
-    borderColor: colors.textMuted,
+    borderColor: colors.border,
     borderRadius: 12,
     backgroundColor: colors.surfaceSecondary,
     alignItems: 'center',
