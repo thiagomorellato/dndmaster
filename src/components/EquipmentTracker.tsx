@@ -76,25 +76,25 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
     if (!equipped) return colors.textMuted;
     switch (type) {
       case 'weapon':
-        return '#EF4444';
+        return colors.accentRed;
       case 'armor':
         return '#3B82F6';
       case 'shield':
-        return '#10B981';
+        return colors.accentEmerald;
       case 'ring':
-        return '#F59E0B';
+        return colors.accentAmber;
       default:
-        return '#A78BFA';
+        return colors.accentViolet;
     }
   };
 
   const getRarityColor = (rarity?: string) => {
     switch (rarity) {
       case 'Comum': return '#64748B';
-      case 'Incomum': return '#10B981';
+      case 'Incomum': return colors.accentEmerald;
       case 'Raro': return '#3B82F6';
       case 'Muito Raro': return '#8B5CF6';
-      case 'Lendário': return '#EF4444';
+      case 'Lendário': return colors.accentRed;
       default: return '#64748B';
     }
   };
@@ -272,7 +272,7 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
               <Ionicons
                 name={item.equipped ? "checkmark-circle" : "ellipse-outline"}
                 size={20}
-                color={item.equipped ? "#F59E0B" : "#475569"}
+                color={item.equipped ? colors.accentAmber : "#475569"}
               />
             </TouchableOpacity>
 
@@ -288,7 +288,7 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
           <View style={styles.descContainer}>
             {item.description ? <Text style={styles.descText}>{item.description}</Text> : null}
             {item.customResourceName && (
-              <Text style={{ fontSize: 9, fontWeight: '800', marginTop: 4, color: '#F59E0B' }}>
+              <Text style={{ fontSize: 9, fontWeight: '800', marginTop: 4, color: colors.accentAmber }}>
                 ✦ INJETA RECURSO: {item.customResourceName.toUpperCase()} ({item.customResourceMax} Cargas)
               </Text>
             )}
@@ -639,7 +639,7 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   addBtn: {
     flexDirection: 'row',
-    backgroundColor: '#F59E0B',
+    backgroundColor: colors.accentAmber,
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 6,
@@ -683,7 +683,7 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   itemCardEquipped: {
     borderColor: colors.border,
-    backgroundColor: 'rgba(245, 158, 11, 0.03)',
+    backgroundColor: colors.accentAmberBg,
   },
   cardHeaderRow: {
     flexDirection: 'row',
@@ -741,7 +741,7 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
     alignItems: 'center',
   },
   itemStat: {
-    color: '#F59E0B',
+    color: colors.accentAmber,
     fontSize: 12,
     fontWeight: '800',
   },
@@ -763,7 +763,7 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(15, 23, 42, 0.85)',
+    backgroundColor: colors.surfaceSecondary,
     justifyContent: 'center',
     padding: 20,
   },
@@ -809,7 +809,7 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
     borderRadius: 6,
   },
   modeBtnActive: {
-    backgroundColor: '#F59E0B',
+    backgroundColor: colors.accentAmber,
   },
   modeLabel: {
     color: colors.textMuted,
@@ -857,8 +857,8 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
     marginBottom: 8,
   },
   selectorBtnActive: {
-    backgroundColor: '#F59E0B',
-    borderColor: '#F59E0B',
+    backgroundColor: colors.accentAmber,
+    borderColor: colors.accentAmber,
   },
   selectorLabel: {
     color: colors.textMuted,
@@ -870,14 +870,14 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
     fontWeight: '800',
   },
   templateBtn: {
-    backgroundColor: 'rgba(51, 65, 85, 0.5)',
+    backgroundColor: colors.surfaceHighlight,
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 6,
     marginRight: 6,
     marginBottom: 6,
     borderWidth: 1,
-    borderColor: '#475569',
+    borderColor: colors.border,
   },
   templateBtnText: {
     color: '#E2E8F0',
@@ -911,8 +911,8 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
     marginBottom: 4,
   },
   magicItemRowActive: {
-    backgroundColor: 'rgba(245, 158, 11, 0.1)',
-    borderColor: '#F59E0B',
+    backgroundColor: colors.accentAmberBg,
+    borderColor: colors.accentAmber,
     borderWidth: 1,
   },
   magicItemHeader: {
@@ -951,13 +951,13 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
   selectedDetail: {
     backgroundColor: colors.background,
     borderRadius: 8,
-    borderColor: 'rgba(245, 158, 11, 0.4)',
+    borderColor: colors.accentAmberBg,
     borderWidth: 1,
     padding: 8,
     marginTop: 10,
   },
   selectedTitle: {
-    color: '#F59E0B',
+    color: colors.accentAmber,
     fontSize: 12,
     fontWeight: '800',
     marginBottom: 4,
@@ -983,7 +983,7 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
     fontWeight: '700',
   },
   saveBtn: {
-    backgroundColor: '#F59E0B',
+    backgroundColor: colors.accentAmber,
     paddingVertical: 10,
     paddingHorizontal: 18,
     borderRadius: 8,
@@ -1002,21 +1002,21 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
     alignSelf: 'center',
   },
   profSmallBadgeActive: {
-    backgroundColor: 'rgba(16, 185, 129, 0.12)',
-    borderColor: 'rgba(16, 185, 129, 0.4)',
+    backgroundColor: colors.accentEmeraldBg,
+    borderColor: colors.accentEmeraldBg,
   },
   profSmallBadgeInactive: {
-    backgroundColor: 'rgba(239, 68, 68, 0.12)',
-    borderColor: 'rgba(239, 68, 68, 0.4)',
+    backgroundColor: colors.accentRedBg,
+    borderColor: colors.accentRedBg,
   },
   profSmallBadgeText: {
     fontSize: 7.5,
     fontWeight: '800',
   },
   profSmallBadgeTextActive: {
-    color: '#10B981',
+    color: colors.accentEmerald,
   },
   profSmallBadgeTextInactive: {
-    color: '#EF4444',
+    color: colors.accentRed,
   },
 });

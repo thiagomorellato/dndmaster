@@ -509,7 +509,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     borderRadius: 12,
     padding: 12,
     borderWidth: 1,
-    borderColor: colors.surface,
+    borderColor: colors.border,
     marginBottom: 20
   },
   sectionTitle: {
@@ -613,11 +613,11 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     borderRadius: 10,
     marginBottom: 8,
     borderWidth: 1,
-    borderColor: colors.surface
+    borderColor: colors.border
   },
   spellPrepItemActive: {
     borderColor: colors.border,
-    backgroundColor: 'rgba(245, 158, 11, 0.05)'
+    backgroundColor: colors.accentAmberBg
   },
   spellPrepName: {
     color: colors.textMain,
@@ -653,7 +653,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     borderRadius: 12,
     padding: 12,
     borderWidth: 1,
-    borderColor: colors.surface,
+    borderColor: colors.border,
     marginBottom: 10
   },
   spellCastInfo: {

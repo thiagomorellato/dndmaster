@@ -661,7 +661,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
           const cName = selectedClass.trim();
           if (cName === 'Bárbaro') classDesc = 'Um guerreiro feroz de origem selvagem que pode entrar em fúria para ignorar dano e causar estragos corpo-a-corpo.';else if (cName === 'Bardo') classDesc = 'Um mestre da música e da magia que inspira seus aliados, cura ferimentos e manipula a mente dos inimigos.';else if (cName === 'Bruxo') classDesc = 'Um conjurador que obteve seus poderes mágicos através de um pacto com uma entidade sobrenatural poderosa.';else if (cName === 'Clérigo') classDesc = 'Um guerreiro sacerdotal que canaliza o poder divino de seu deus para curar aliados e punir infiéis.';else if (cName === 'Druida') classDesc = 'Um protetor da natureza que assume formas de feras selvagens e conjura magias baseadas nos elementos da terra.';else if (cName === 'Feiticeiro') classDesc = 'Um mago nato que possui magia intrínseca em suas veias devido a uma linhagem exótica ou evento cósmico.';else if (cName === 'Guerreiro') classDesc = 'Um especialista em combate físico altamente treinado com domínio sobre todas as armas e armaduras existentes.';else if (cName === 'Ladino') classDesc = 'Um trapaceiro furtivo especialista em ataques de oportunidade, arrombamento de fechaduras e truques sujos.';else if (cName === 'Mago') classDesc = 'Um acadêmico da magia que estuda grimórios e fórmulas arcanas para conjurar magias extremamente versáteis.';else if (cName === 'Monge') classDesc = 'Um mestre das artes marciais que canaliza a energia vital do Chi para desferir golpes rápidos e desvios sobrenaturais.';else if (cName === 'Paladino') classDesc = 'Um guerreiro sagrado vinculado a um juramento solene, capaz de desferir destruição divina e curar com as mãos.';else if (cName === 'Patrulheiro') classDesc = 'Um caçador destemido das fronteiras selvagens, mestre em rastreamento e combate contra inimigos específicos.';else if (cName === 'Artífice') classDesc = 'Um inventor genial que combina magia e tecnologia para infundir itens comuns com propriedades mágicas.';
           return <View style={{
-            backgroundColor: 'rgba(245, 158, 11, 0.03)',
+            backgroundColor: colors.accentAmberBg,
             borderColor: colors.accentAmber,
             borderWidth: 0.5,
             borderRadius: 8,
@@ -701,7 +701,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
             if (subLower.includes('berserker')) subclassBenefit = 'Ataques adicionais na Fúria e imunidade a charme/medo.';else if (subLower.includes('totem') || subLower.includes('totêmico')) subclassBenefit = 'Ganhe resistências de espíritos animais (Urso: resiste a todo dano exceto psíquico).';else if (subLower.includes('conhecimento') || subLower.includes('lore')) subclassBenefit = 'Ganhe 3 perícias extras e a habilidade Palavras de Corte para reduzir jogadas inimigas.';else if (subLower.includes('bravura') || subLower.includes('valor')) subclassBenefit = 'Proficiência com armaduras médias, escudos, armas marciais e Inspiração de Combate.';else if (subLower.includes('espadas') || subLower.includes('swords')) subclassBenefit = 'Estilo de combate de duelo/duas armas e uso de Inspiração para manobras de ataque.';else if (subLower.includes('corruptor') || subLower.includes('fiend')) subclassBenefit = 'Ganhe HP temporário ao derrotar inimigos e bônus em testes de salvaguarda.';else if (subLower.includes('arquifada') || subLower.includes('archfey')) subclassBenefit = 'Habilidade de enfeitiçar ou amedrontar criaturas ao seu redor.';else if (subLower.includes('grande antigo') || subLower.includes('great old')) subclassBenefit = 'Telepatia com qualquer criatura que você possa ver e defesas mentais.';else if (subLower.includes('lâmina maldita') || subLower.includes('hexblade')) subclassBenefit = 'Use Carisma para jogadas de ataque/dano e amaldiçoe alvos para causar críticos com 19 ou 20.';else if (subLower.includes('vida') || subLower.includes('life')) subclassBenefit = 'Sua cura ganha bônus de 2 + nível da magia. Proficiência em armadura pesada.';else if (subLower.includes('tempestade') || subLower.includes('tempest')) subclassBenefit = 'Retalie atacantes com raio/trovão e maximize dano de eletricidade.';else if (subLower.includes('guerra') || subLower.includes('war')) subclassBenefit = 'Ataque adicional como ação bônus e bônus de +10 no acerto. Proficiência em armadura pesada.';else if (subLower.includes('luz') || subLower.includes('light')) subclassBenefit = 'Use futilidades de luz para impor desvantagem a atacantes e conjure Bola de Fogo.';else if (subLower.includes('lua') || subLower.includes('moon')) subclassBenefit = 'Combata sob a forma de feras muito mais poderosas (Nível de Desafio 1 já no nível 2).';else if (subLower.includes('terra') || subLower.includes('land')) subclassBenefit = 'Recupere slots de magia em descansos curtos e ganhe magias de terrenos.';else if (subLower.includes('dracônica') || subLower.includes('draconic')) subclassBenefit = 'HP extra por nível, armadura natural de 13 + Dex e asas no nível 14.';else if (subLower.includes('selvagem') || subLower.includes('wild')) subclassBenefit = 'Role na tabela de Surtos de Magia Selvagem para efeitos mágicos aleatórios.';else if (subLower.includes('campeão') || subLower.includes('champion')) subclassBenefit = 'Margem de acerto crítico reduzida para 19 ou 20 nos dados.';else if (subLower.includes('mestre de batalha') || subLower.includes('battle')) subclassBenefit = 'Ganhe 4 Dados de Superioridade (d8) e aprenda manobras de combate para desarmar, derrubar, etc.';else if (subLower.includes('arcano') || subLower.includes('knight')) subclassBenefit = 'Aprenda magias de Mago (Abjuração/Evocação) e invoque sua arma vinculada.';else if (subLower.includes('ladrão') || subLower.includes('thief')) subclassBenefit = 'Use as mãos rápidas para usar itens como ação bônus e escale paredes com velocidade.';else if (subLower.includes('assassino') || subLower.includes('assassin')) subclassBenefit = 'Vantagem contra quem não agiu e acertos críticos automáticos contra alvos surpresos.';else if (subLower.includes('espadachim') || subLower.includes('swash')) subclassBenefit = 'Adicione Carisma na Iniciativa e use Ataque Furtivo sem precisar de aliados próximos.';else if (subLower.includes('evocação')) subclassBenefit = 'Esculpa feitiços de área para que seus aliados não sofram dano deles.';else if (subLower.includes('abjuração')) subclassBenefit = 'Crie uma barreira arcana protetora que absorve dano direcionado a você.';else if (subLower.includes('necromancia')) subclassBenefit = 'Recupere vida ao matar inimigos com magias e manipule mortos-vivos com perícia.';else if (subLower.includes('mão aberta') || subLower.includes('open')) subclassBenefit = 'Adicione efeitos extras ao seu Raçada de Golpes (derrubar, empurrar ou impedir reações).';else if (subLower.includes('sombras') || subLower.includes('shadow')) subclassBenefit = 'Fique invisível nas sombras e teletransporte-se através delas.';else if (subLower.includes('devoção') || subLower.includes('devotion')) subclassBenefit = 'Sagrar Arma (soma Carisma no acerto), Efeitos da Aura de Devoção (imunidade a charme) e Canalizar Divindade para expulsar mortos-vivos.';else if (subLower.includes('vingança') || subLower.includes('vengeance')) subclassBenefit = 'Voto de Inimizade (vantagem contra oponente por 1 min) e Abjurar Inimigo (assusta o alvo reduzindo velocidade a 0).';else if (subLower.includes('anciões') || subLower.includes('ancients')) subclassBenefit = 'Ira da Natureza (prende inimigo) e Aura de Proteção dos Anciões (resistência a danos de magias).';else if (subLower.includes('caçador') || subLower.includes('hunter')) subclassBenefit = 'Escolha habilidades ofensivas contra hordas ou presas gigantes.';else if (subLower.includes('bestas') || subLower.includes('beast')) subclassBenefit = 'Obtenha um companheiro animal que luta ao seu lado e obedece aos seus comandos.';else if (subLower.includes('gloom')) subclassBenefit = 'Invisível na escuridão sob visão no escuro e ataque extra no primeiro turno de combate.';else if (subLower.includes('alquimista')) subclassBenefit = 'Crie elixires experimentais que concedem voo, cura, CA ou bônus de ataque.';else if (subLower.includes('armeiro') || subLower.includes('armorer')) subclassBenefit = 'Crie uma armadura tecnológica com modos Guardião (defensivo) ou Infiltrador (furtivo).';else if (subLower.includes('artilheiro') || subLower.includes('artillerist')) subclassBenefit = 'Invoque canhões arcanos móveis que atiram fogo, projéteis de força ou concedem escudos temporários.';else if (subLower.includes('serralheiro') || subLower.includes('smith')) subclassBenefit = 'Lute ao lado de um Defensor de Aço e use Inteligência nas jogadas de ataque físico.';
             if (!subclassBenefit) return null;
             return <View style={{
-              backgroundColor: 'rgba(245, 158, 11, 0.05)',
+              backgroundColor: colors.accentAmberBg,
               borderColor: colors.accentAmber,
               borderWidth: 0.5,
               borderRadius: 8,
@@ -785,7 +785,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                 width: '31%',
                 marginBottom: 6,
                 borderColor: colors.accentAmber,
-                backgroundColor: 'rgba(245, 158, 11, 0.03)'
+                backgroundColor: colors.accentAmberBg
               }]} onPress={() => setIsExpanded(!isExpanded)}>
                       <Text style={[styles.pickerLabel, {
                   color: '#FBBF24',
@@ -839,7 +839,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
               const rLower = selectedRace.toLowerCase();
               if (rLower.includes('humano')) traitText = 'Versatilidade incomparável. +1 em todos os atributos base.';else if (rLower.includes('colina')) traitText = 'Tenacidade Anã: +1 de Vida máxima extra por nível e Visão no Escuro.';else if (rLower.includes('montanha')) traitText = 'Treinamento com Armaduras Anãs: Proficiência com armaduras leves e médias.';else if (rLower.includes('duergar')) traitText = 'Resistência mental contra ilusões, paralisia e magias de invisibilidade/crescimento inatas.';else if (rLower.includes('alto elfo')) traitText = 'Aprende 1 Truque extra de Mago e ganha proficiência com espadas/arcos.';else if (rLower.includes('floresta')) traitText = 'Pés Ligeiros: Velocidade base aumenta para 10.5m (35ft) e camuflagem natural.';else if (rLower.includes('drow')) traitText = 'Visão no Escuro Superior (24m) e Magia Drow inata (Globo de Trevas).';else if (rLower.includes('eladrin')) traitText = 'Passo Fey: Teletransporte de 9 metros como ação bônus com efeitos sazonais.';else if (rLower.includes('pés-leves')) traitText = 'Furtividade Natural: Consegue se esconder atrás de criaturas maiores que você.';else if (rLower.includes('robusto')) traitText = 'Resiliência dos Robustos: Vantagem e resistência contra venenos.';else if (rLower.includes('ghostwise')) traitText = 'Telepatia silenciosa com criaturas próximas a até 9 metros.';else if (rLower.includes('draconato')) traitText = 'Ancestralidade Dracônica: Arma de Sopro e resistência ao elemento correspondente.';else if (rLower.includes('gnomo da floresta')) traitText = 'Ilusionista Natural: Aprende o truque Ilusão Menor e fala com pequenos animais.';else if (rLower.includes('gnomo das rochas')) traitText = 'Gingado de Engenheiro: Cria pequenos dispositivos mecânicos (brinquedos, isqueiros).';else if (rLower.includes('svirfneblin')) traitText = 'Camuflagem de pedra e visão no escuro superior de 36 metros.';else if (rLower.includes('meio-elfo')) traitText = 'Versatilidade em Perícias: Ganha proficiência em duas perícias à sua escolha.';else if (rLower.includes('meio-orc')) traitText = 'Ataques Selvagens (críticos causam mais dano) e Resistência Inabalável (não cai a 0 de Vida uma vez).';else if (rLower.includes('winged')) traitText = 'Asas de Couro: Possui velocidade de voo natural de 9 metros.';else if (rLower.includes('feral')) traitText = 'Agilidade inata e inteligência apurada típica dos tieflings selvagens.';else if (rLower.includes('tiefling')) traitText = 'Resistência Infernal ao fogo e magias inatas de escuridão e fogo.';else if (rLower.includes('aarakocra')) traitText = 'Velocidade de voo natural de 15 metros (50ft) e garras afiadas.';else if (rLower.includes('goliath')) traitText = 'Resistência de Pedra: Reduz dano sofrido em 1d12 + Con. Considerado tamanho Grande.';else if (rLower.includes('tritão')) traitText = 'Guardião das profundezas: Resiste a frio, fala com animais aquáticos e respira na água.';else if (rLower.includes('tabaxi')) traitText = 'Agilidade Felina: Dobra a velocidade no turno. Garras escaladoras e proficiência em Furtividade.';else if (rLower.includes('goblin')) traitText = 'Fúria dos Pequenos: Causa dano extra contra alvos maiores. Escapa como ação bônus.';else if (rLower.includes('hobgoblin')) traitText = 'Salvo pela União: Ganha bônus em jogadas que falhou perto de aliados.';else if (rLower.includes('kenku')) traitText = 'Treinamento Kenku: Imita sons perfeitamente e é proficiente em duas perícias de ladino.';else if (rLower.includes('lizardfolk')) traitText = 'Armadura natural de 13 + Dex. Mordida regenerativa e produz armas de ossos.';else if (rLower.includes('firbolg')) traitText = 'Magia Firbolg: Invisibilidade curta e disfarces mágicos. Conversa com plantas e feras.';
               return <View style={{
-                backgroundColor: 'rgba(245, 158, 11, 0.05)',
+                backgroundColor: colors.accentAmberBg,
                 borderColor: colors.accentAmber,
                 borderWidth: 0.5,
                 borderRadius: 8,
@@ -890,7 +890,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
           const bg = BACKGROUNDS_LIST.find(b => b.name === selectedBackground);
           if (!bg) return null;
           return <View style={{
-            backgroundColor: 'rgba(245, 158, 11, 0.05)',
+            backgroundColor: colors.accentAmberBg,
             borderColor: colors.accentAmber,
             borderWidth: 0.5,
             borderRadius: 8,
@@ -969,7 +969,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
           }}>
                   <Text style={styles.stepDesc}>Compre atributos (Custo 8=0, 15=9).</Text>
                   <View style={{
-              backgroundColor: 'rgba(16, 185, 129, 0.1)',
+              backgroundColor: colors.accentEmeraldBg,
               paddingHorizontal: 12,
               paddingVertical: 4,
               borderRadius: 12,
@@ -1150,7 +1150,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                 borderColor: colors.accentSky
               }, isRacialFixed && {
                 opacity: 0.8,
-                backgroundColor: 'rgba(245, 158, 11, 0.08)',
+                backgroundColor: colors.accentAmberBg,
                 borderColor: colors.accentAmber
               }, isDisabled && !isSelected && {
                 opacity: 0.3
@@ -1617,7 +1617,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   skillCheckBtnActive: {
     borderColor: colors.borderHighlight,
-    backgroundColor: 'rgba(245, 158, 11, 0.03)'
+    backgroundColor: colors.accentAmberBg
   },
   skillCheckLabel: {
     color: colors.textMuted,
@@ -1640,7 +1640,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   equipOptionActive: {
     borderColor: colors.accentAmber,
-    backgroundColor: 'rgba(245, 158, 11, 0.04)'
+    backgroundColor: colors.accentAmberBg
   },
   equipOptionDisabled: {
     opacity: 0.5
@@ -1695,7 +1695,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   spellCardActive: {
     borderColor: colors.accentAmber,
-    backgroundColor: 'rgba(245, 158, 11, 0.04)'
+    backgroundColor: colors.accentAmberBg
   },
   spellHeader: {
     flexDirection: 'row',
@@ -1838,11 +1838,11 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   profSmallBadgeActive: {
     backgroundColor: colors.accentEmeraldBg,
-    borderColor: 'rgba(16, 185, 129, 0.4)'
+    borderColor: colors.accentEmeraldBg
   },
   profSmallBadgeInactive: {
     backgroundColor: colors.accentRedBg,
-    borderColor: 'rgba(239, 68, 68, 0.4)'
+    borderColor: colors.accentRedBg
   },
   profSmallBadgeText: {
     fontSize: 7.5,
@@ -1899,7 +1899,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     borderRadius: 6
   },
   methodBtnActive: {
-    backgroundColor: 'rgba(245, 158, 11, 0.15)'
+    backgroundColor: colors.accentAmberBg
   },
   methodBtnLabel: {
     color: colors.textMuted,

@@ -97,7 +97,7 @@ export const CharacterTab: React.FC<CharacterTabProps> = ({
 
         <View style={styles.otherProfRow}>
           <View style={styles.otherProfRowLeft}>
-            <Ionicons name="body-outline" size={14} color="#EF4444" style={{ marginRight: 6 }} />
+            <Ionicons name="body-outline" size={14} color={colors.accentRed} style={{ marginRight: 6 }} />
             <Text style={styles.otherProfLabel}>Salvaguardas:</Text>
           </View>
           <Text style={styles.otherProfValue}>{classDefaults.savingThrows}</Text>
@@ -106,7 +106,7 @@ export const CharacterTab: React.FC<CharacterTabProps> = ({
 
         <View style={styles.otherProfRowCol}>
           <View style={styles.otherProfRowLeft}>
-            <Ionicons name="hammer-outline" size={14} color="#10B981" style={{ marginRight: 6 }} />
+            <Ionicons name="hammer-outline" size={14} color={colors.accentEmerald} style={{ marginRight: 6 }} />
             <Text style={styles.otherProfLabel}>Ferramentas, Instrumentos e Idiomas:</Text>
           </View>
           <View style={styles.toolsBadgesContainer}>
@@ -124,7 +124,7 @@ export const CharacterTab: React.FC<CharacterTabProps> = ({
                         style={styles.toolBadgeDelete}
                         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                       >
-                        <Ionicons name="close-circle" size={14} color="#EF4444" style={{ marginLeft: 4 }} />
+                        <Ionicons name="close-circle" size={14} color={colors.accentRed} style={{ marginLeft: 4 }} />
                       </TouchableOpacity>
                     )}
                   </View>
@@ -159,10 +159,10 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
     marginBottom: 16,
   },
   card: {
-    backgroundColor: 'rgba(15, 23, 42, 0.45)',
+    backgroundColor: colors.surfaceSecondary,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: 'rgba(51, 65, 85, 0.3)',
+    borderColor: colors.surfaceHighlight,
     padding: 12,
     marginBottom: 12,
   },
@@ -173,7 +173,7 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
     letterSpacing: 1,
     marginBottom: 10,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(51, 65, 85, 0.3)',
+    borderBottomColor: colors.surfaceHighlight,
     paddingBottom: 6,
   },
   infoRow: {
@@ -181,7 +181,7 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 6,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(51, 65, 85, 0.15)',
+    borderBottomColor: colors.surfaceHighlight,
   },
   infoLabel: {
     color: colors.textMuted,
@@ -198,13 +198,13 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(51, 65, 85, 0.2)',
+    borderBottomColor: colors.surfaceHighlight,
   },
   otherProfRowCol: {
     flexDirection: 'column',
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(51, 65, 85, 0.2)',
+    borderBottomColor: colors.surfaceHighlight,
   },
   otherProfRowLeft: {
     flexDirection: 'row',
@@ -237,8 +237,8 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
   toolBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(15, 23, 42, 0.6)',
-    borderColor: 'rgba(51, 65, 85, 0.5)',
+    backgroundColor: colors.surfaceSecondary,
+    borderColor: colors.surfaceHighlight,
     borderWidth: 1,
     borderRadius: 6,
     paddingHorizontal: 8,
@@ -268,8 +268,8 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   addProfInput: {
     flex: 1,
-    backgroundColor: 'rgba(15, 23, 42, 0.6)',
-    borderColor: 'rgba(51, 65, 85, 0.5)',
+    backgroundColor: colors.surfaceSecondary,
+    borderColor: colors.surfaceHighlight,
     borderWidth: 1,
     borderRadius: 6,
     color: colors.textMain,
@@ -278,7 +278,7 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
     height: 36,
   },
   addProfBtn: {
-    backgroundColor: '#F59E0B',
+    backgroundColor: colors.accentAmber,
     borderRadius: 6,
     paddingHorizontal: 12,
     height: 36,
