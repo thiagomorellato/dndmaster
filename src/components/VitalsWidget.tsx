@@ -4,6 +4,7 @@ import { CombatConfig, BaseStats, EquipmentItem } from '../types/character';
 import { Ionicons } from '@expo/vector-icons';
 import Svg, { Path } from 'react-native-svg';
 import * as ImagePicker from 'expo-image-picker';
+import { File, Paths } from 'expo-file-system';
 import * as FileSystem from 'expo-file-system/legacy';
 import { useTheme, ThemeColors } from '../context/ThemeContext';
 import { isProficientInItem } from '../utils/dndRules';
@@ -214,18 +215,13 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: false,
-        quality: 0.3,
-        base64: true,
+        quality: 0.8,
       });
       if (!result.canceled && result.assets && result.assets.length > 0) {
         const asset = result.assets[0];
-        if (asset.base64) {
-          const dataUri = `data:image/jpeg;base64,${asset.base64}`;
-          if (onUpdateImageUrl) onUpdateImageUrl(dataUri);
-          setAvatarModalVisible(false);
-        } else if (Platform.OS === 'web' && asset.uri) {
-          // No web, o expo-image-picker pode não retornar base64 nativamente. 
-          // Retorna um blob: URL que expira ao recarregar. Precisamos converter o blob para base64.
+        
+        if (Platform.OS === 'web' && asset.uri) {
+          // Web flow (blob -> base64 fallback)
           try {
             const response = await fetch(asset.uri);
             const blob = await response.blob();
@@ -241,7 +237,21 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
             setAvatarModalVisible(false);
           }
         } else {
-          if (onUpdateImageUrl) onUpdateImageUrl(asset.uri);
+          // Native flow (File System API)
+          const sourceUri = asset.uri;
+          const filename = sourceUri.split('/').pop() || `avatar_${Date.now()}.jpg`;
+          
+          try {
+            const sourceFile = new File(sourceUri);
+            const destFile = new File(Paths.document, filename);
+            await sourceFile.copy(destFile);
+            
+            if (onUpdateImageUrl) onUpdateImageUrl(destFile.uri);
+          } catch (fsErr) {
+            console.warn("Erro ao copiar arquivo:", fsErr);
+            // Fallback to original URI if copy fails
+            if (onUpdateImageUrl) onUpdateImageUrl(sourceUri);
+          }
           setAvatarModalVisible(false);
         }
       }
