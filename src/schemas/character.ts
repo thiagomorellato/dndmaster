@@ -81,4 +81,5 @@ export const CharacterSchema = z.object({
     current: z.number().int().min(0),
     dieType: z.string().default('d8'),
   }).optional(),
+  imageUrl: z.string().optional(),
 });
