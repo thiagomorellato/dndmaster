@@ -92,6 +92,15 @@ export const CharacterTab: React.FC<CharacterTabProps> = ({
           <Text style={styles.otherProfValue}>{classDefaults.weapons}</Text>
         </View>
 
+        <View style={styles.otherProfRow}>
+          <View style={styles.otherProfRowLeft}>
+            <Ionicons name="body-outline" size={14} color="#EF4444" style={{ marginRight: 6 }} />
+            <Text style={styles.otherProfLabel}>Salvaguardas:</Text>
+          </View>
+          <Text style={styles.otherProfValue}>{classDefaults.savingThrows}</Text>
+        </View>
+
+
         <View style={styles.otherProfRowCol}>
           <View style={styles.otherProfRowLeft}>
             <Ionicons name="hammer-outline" size={14} color="#10B981" style={{ marginRight: 6 }} />

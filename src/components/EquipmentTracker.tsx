@@ -10,7 +10,7 @@ interface EquipmentTrackerProps {
   onToggleEquip: (itemId: string) => void;
   onAddItem: (item: { 
     name: string; 
-    type: 'weapon' | 'armor' | 'shield' | 'ring' | 'other'; 
+    type: 'weapon' | 'armor' | 'shield' | 'ring' | 'other' | 'ammunition'; 
     acBonus?: number; 
     dmgDice?: string;
     dmgType?: string;
@@ -48,6 +48,7 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
   const [customResourceName, setCustomResourceName] = useState('');
   const [customResourceMax, setCustomResourceMax] = useState('');
   const [linkedSpellName, setLinkedSpellName] = useState('');
+  const [weight, setWeight] = useState('');
 
   // Magic item states
   const [searchQuery, setSearchQuery] = useState('');
@@ -107,6 +108,9 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
         type,
         isMagic: false,
       };
+
+      const parsedWeight = parseFloat(weight.replace(',', '.'));
+      if (!isNaN(parsedWeight) && parsedWeight > 0) newItem.weight = parsedWeight;
 
       if (type === 'weapon') {
         if (dmgDice.trim()) {
@@ -476,7 +480,7 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
                           style={styles.templateBtn}
                           onPress={() => {
                             setName(at.name);
-                            setDmgDice(String(at.quantity));
+                            setDmgDice(String(at.customResourceMax));
                           }}
                         >
                           <Text style={styles.templateBtnText}>{at.name}</Text>
@@ -499,6 +503,9 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
                 )}
 
                 {/* Description / Lore / Effects */}
+                <Text style={styles.inputLabel}>Peso (lb)</Text>
+                <TextInput style={styles.textInput} placeholder="Ex: 5 ou 0.5" placeholderTextColor="#475569" value={weight} onChangeText={setWeight} keyboardType="numeric" />
+
                 <Text style={styles.inputLabel}>Descrição do Item (Efeitos especiais)</Text>
                 <TextInput
                   style={[styles.textInput, { height: 60, textAlignVertical: 'top', paddingTop: 8 }]}

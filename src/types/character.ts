@@ -59,6 +59,7 @@ export interface EquipmentItem {
   customResourceName?: string;
   customResourceMax?: number;
   linkedSpellName?: string;
+  weight?: number;
 }
 
 export interface HitDice {
@@ -82,6 +83,8 @@ export interface Character {
   coins?: Coins;
   hitDice?: HitDice;
   imageUrl?: string;
+  race?: string;
+  alignment?: string;
 }
 
 export type ActionType = 

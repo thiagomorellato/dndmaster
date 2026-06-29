@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,6 @@ import {
   FlatList,
   Modal,
   TextInput,
-  ScrollView,
   Image,
 } from 'react-native';
 import { Alert } from '../utils/alert';
@@ -15,6 +14,7 @@ import { Character } from '../types/character';
 import { StorageService } from '../services/storage';
 import { LoggerService } from '../services/logger';
 import { Ionicons } from '@expo/vector-icons';
+import { useTheme, ThemeColors } from '../context/ThemeContext';
 
 interface HomeScreenProps {
   onSelectCharacter: (id: string) => void;
@@ -22,11 +22,13 @@ interface HomeScreenProps {
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCreateCharacter }) => {
+  const { colors, theme, toggleTheme } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
+
   const [characters, setCharacters] = useState<Character[]>([]);
   const [importModalVisible, setImportModalVisible] = useState(false);
   const [jsonInput, setJsonInput] = useState('');
 
-  // Sample Paladin template to populate portfolio immediately
   const demoPaladin: Character = {
     id: 'lancelot-demo-id',
     name: 'Sir Lancelot',
@@ -136,7 +138,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
       >
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
            {item.imageUrl && (
-             <Image source={{uri: item.imageUrl}} style={{width: 50, height: 50, borderRadius: 25, marginRight: 12, borderWidth: 2, borderColor: '#F59E0B'}} />
+             <Image source={{uri: item.imageUrl}} style={{width: 50, height: 50, borderRadius: 25, marginRight: 12, borderWidth: 2, borderColor: colors.accentAmber}} />
            )}
            <View style={{flex: 1}}>
               <View style={styles.charRow}>
@@ -148,7 +150,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
                 {item.background ? ` | ${item.background.split(' (')[0]}` : ''}
               </Text>
               <View style={styles.hpMiniBar}>
-                <Ionicons name="heart" size={14} color="#EF4444" style={{ marginRight: 6 }} />
+                <Ionicons name="heart" size={14} color={colors.accentRed} style={{ marginRight: 6 }} />
                 <Text style={styles.hpText}>
                   HP: {item.hp.current} / {item.hp.max}
                 </Text>
@@ -157,15 +159,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
         </View>
       </TouchableOpacity>
 
-      {/* Control Buttons */}
       <View style={styles.actionRow}>
         <TouchableOpacity style={styles.actionBtn} onPress={() => handleExportJSON(item)}>
-          <Ionicons name="download" size={16} color="#60A5FA" />
+          <Ionicons name="download" size={16} color={colors.accentSky} />
           <Text style={styles.actionBtnLabel}>JSON</Text>
         </TouchableOpacity>
         
         <TouchableOpacity style={styles.actionBtn} onPress={() => handleExportCSV(item)}>
-          <Ionicons name="document-text" size={16} color="#34D399" />
+          <Ionicons name="document-text" size={16} color={colors.accentEmerald} />
           <Text style={styles.actionBtnLabel}>Logs CSV</Text>
         </TouchableOpacity>
 
@@ -173,7 +174,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
           style={[styles.actionBtn, styles.deleteBtn]} 
           onPress={() => handleDelete(item.id, item.name)}
         >
-          <Ionicons name="trash" size={16} color="#F87171" />
+          <Ionicons name="trash" size={16} color={colors.accentRed} />
         </TouchableOpacity>
       </View>
     </View>
@@ -181,27 +182,31 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity style={styles.themeToggleBtn} onPress={toggleTheme}>
+        <Ionicons name={theme === 'dark' ? 'sunny' : 'moon'} size={20} color={theme === 'dark' ? colors.accentAmber : colors.textMuted} />
+      </TouchableOpacity>
+
       <View style={styles.titleContainer}>
-        <Ionicons name="logo-octocat" size={32} color="#F59E0B" />
+        <Ionicons name="logo-octocat" size={32} color={colors.accentAmber} />
         <Text style={styles.headerTitle}>D&D 5e Tactical Manager</Text>
         <Text style={styles.headerSubtitle}>Data Architecture Portfólio (NoSQL + Event Sourcing)</Text>
       </View>
 
       {characters.length === 0 ? (
         <View style={styles.emptyContainer}>
-          <Ionicons name="people" size={60} color="#334155" />
+          <Ionicons name="people" size={60} color={colors.textSecondary} />
           <Text style={styles.emptyText}>No characters loaded yet.</Text>
           <Text style={styles.emptySubtext}>
             Paste a JSON sheet or start with the pre-made template below.
           </Text>
           
           <TouchableOpacity style={styles.primaryBtn} onPress={handleCreateDemo}>
-            <Ionicons name="flash" size={18} color="#0F172A" style={{ marginRight: 8 }} />
+            <Ionicons name="flash" size={18} color={theme === 'dark' ? '#0F172A' : '#FFFFFF'} style={{ marginRight: 8 }} />
             <Text style={styles.primaryBtnText}>Load Sir Lancelot (Demo Paladin)</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.primaryBtn, { backgroundColor: '#10B981', marginTop: 12 }]} onPress={onCreateCharacter}>
-            <Ionicons name="add-circle" size={18} color="#0F172A" style={{ marginRight: 8 }} />
+          <TouchableOpacity style={[styles.primaryBtn, { backgroundColor: colors.accentEmerald, marginTop: 12 }]} onPress={onCreateCharacter}>
+            <Ionicons name="add-circle" size={18} color={theme === 'dark' ? '#0F172A' : '#FFFFFF'} style={{ marginRight: 8 }} />
             <Text style={styles.primaryBtnText}>Criar Novo Personagem</Text>
           </TouchableOpacity>
         </View>
@@ -214,28 +219,26 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
         />
       )}
 
-      {/* Floating Action Menu */}
       <View style={styles.floatingMenu}>
         {characters.length > 0 && (
           <TouchableOpacity style={[styles.floatingBtn, styles.demoBtn]} onPress={handleCreateDemo}>
-            <Ionicons name="gift" size={22} color="#F59E0B" />
+            <Ionicons name="gift" size={22} color={colors.accentAmber} />
           </TouchableOpacity>
         )}
         <TouchableOpacity 
-          style={[styles.floatingBtn, styles.importBtn, { backgroundColor: '#475569' }]} 
+          style={[styles.floatingBtn, styles.importBtn]} 
           onPress={() => setImportModalVisible(true)}
         >
-          <Ionicons name="cloud-upload" size={24} color="#F8FAFC" />
+          <Ionicons name="cloud-upload" size={24} color="#FFFFFF" />
         </TouchableOpacity>
         <TouchableOpacity 
-          style={[styles.floatingBtn, { backgroundColor: '#10B981' }]} 
+          style={[styles.floatingBtn, { backgroundColor: colors.accentEmerald }]} 
           onPress={onCreateCharacter}
         >
-          <Ionicons name="add" size={30} color="#F8FAFC" />
+          <Ionicons name="add" size={30} color="#FFFFFF" />
         </TouchableOpacity>
       </View>
 
-      {/* Copy-Paste JSON Import Modal */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -247,7 +250,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Paste Character JSON</Text>
               <TouchableOpacity onPress={() => setImportModalVisible(false)}>
-                <Ionicons name="close" size={24} color="#94A3B8" />
+                <Ionicons name="close" size={24} color={colors.textMuted} />
               </TouchableOpacity>
             </View>
             <Text style={styles.modalInstructions}>
@@ -258,7 +261,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
               style={styles.modalInput}
               multiline
               placeholder='{ "id": "char-1", "name": "Hero", "level": 1, ... }'
-              placeholderTextColor="#475569"
+              placeholderTextColor={colors.textMuted}
               value={jsonInput}
               onChangeText={setJsonInput}
             />
@@ -274,7 +277,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
                 <Text style={styles.cancelModalText}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.confirmModalBtn} onPress={handleImportJSON}>
-                <Ionicons name="checkmark-done" size={18} color="#F8FAFC" style={{ marginRight: 6 }} />
+                <Ionicons name="checkmark-done" size={18} color="#FFFFFF" style={{ marginRight: 6 }} />
                 <Text style={styles.confirmModalText}>Validate & Import</Text>
               </TouchableOpacity>
             </View>
@@ -285,26 +288,46 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (colors: ThemeColors) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0F172A',
+    backgroundColor: colors.background,
     paddingTop: 48,
+  },
+  themeToggleBtn: {
+    position: 'absolute',
+    top: 56,
+    right: 24,
+    zIndex: 10,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   titleContainer: {
     alignItems: 'center',
     paddingHorizontal: 24,
     marginBottom: 20,
+    marginTop: 20,
   },
   headerTitle: {
-    color: '#F8FAFC',
+    color: colors.textMain,
     fontSize: 22,
     fontWeight: '900',
     marginTop: 8,
     fontFamily: 'System',
   },
   headerSubtitle: {
-    color: '#64748B',
+    color: colors.textMuted,
     fontSize: 12,
     fontWeight: '700',
     marginTop: 4,
@@ -318,13 +341,13 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   emptyText: {
-    color: '#E2E8F0',
+    color: colors.textMain,
     fontSize: 18,
     fontWeight: '700',
     marginTop: 16,
   },
   emptySubtext: {
-    color: '#64748B',
+    color: colors.textMuted,
     fontSize: 14,
     textAlign: 'center',
     marginTop: 8,
@@ -333,12 +356,12 @@ const styles = StyleSheet.create({
   },
   primaryBtn: {
     flexDirection: 'row',
-    backgroundColor: '#F59E0B',
+    backgroundColor: colors.accentAmber,
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
     alignItems: 'center',
-    shadowColor: '#F59E0B',
+    shadowColor: colors.accentAmber,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 6,
@@ -354,10 +377,10 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
   },
   charCard: {
-    backgroundColor: '#1E293B',
+    backgroundColor: colors.surface,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: colors.border,
     marginBottom: 16,
     overflow: 'hidden',
   },
@@ -370,23 +393,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   charName: {
-    color: '#F8FAFC',
+    color: colors.textMain,
     fontSize: 20,
     fontWeight: '800',
   },
   charBadge: {
-    backgroundColor: '#334155',
-    color: '#F59E0B',
+    backgroundColor: colors.surfaceSecondary,
+    color: colors.accentAmber,
     fontSize: 12,
     fontWeight: '800',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: '#475569',
+    borderColor: colors.borderHighlight,
   },
   charClass: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 14,
     fontWeight: '600',
     marginTop: 4,
@@ -397,15 +420,15 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   hpText: {
-    color: '#E2E8F0',
+    color: colors.textSecondary,
     fontSize: 13,
     fontWeight: '700',
   },
   actionRow: {
     flexDirection: 'row',
     borderTopWidth: 1,
-    borderTopColor: '#334155',
-    backgroundColor: '#0F172A',
+    borderTopColor: colors.border,
+    backgroundColor: colors.surfaceSecondary,
     alignItems: 'center',
   },
   actionBtn: {
@@ -415,10 +438,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRightWidth: 1,
-    borderRightColor: '#334155',
+    borderRightColor: colors.border,
   },
   actionBtnLabel: {
-    color: '#E2E8F0',
+    color: colors.textSecondary,
     fontSize: 12,
     fontWeight: '700',
     marginLeft: 6,
@@ -448,32 +471,32 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   importBtn: {
-    backgroundColor: '#2563EB',
+    backgroundColor: '#334155',
   },
   demoBtn: {
-    backgroundColor: '#1E293B',
+    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: '#475569',
+    borderColor: colors.borderHighlight,
     width: 46,
     height: 46,
     borderRadius: 23,
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(15, 23, 42, 0.85)',
+    backgroundColor: colors.overlayBg,
     justifyContent: 'center',
     padding: 20,
   },
   modalContent: {
-    backgroundColor: '#1E293B',
+    backgroundColor: colors.surface,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: colors.border,
     padding: 20,
     maxHeight: '80%',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.5,
+    shadowOpacity: 0.3,
     shadowRadius: 10,
     elevation: 10,
   },
@@ -484,22 +507,22 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   modalTitle: {
-    color: '#F8FAFC',
+    color: colors.textMain,
     fontSize: 18,
     fontWeight: '800',
   },
   modalInstructions: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 13,
     lineHeight: 18,
     marginBottom: 16,
   },
   modalInput: {
-    backgroundColor: '#0F172A',
-    borderColor: '#334155',
+    backgroundColor: colors.surfaceSecondary,
+    borderColor: colors.border,
     borderWidth: 1,
     borderRadius: 8,
-    color: '#F8FAFC',
+    color: colors.textMain,
     height: 220,
     padding: 12,
     textAlignVertical: 'top',
@@ -518,20 +541,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cancelModalText: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 14,
     fontWeight: '700',
   },
   confirmModalBtn: {
     flexDirection: 'row',
-    backgroundColor: '#2563EB',
+    backgroundColor: colors.accentSky,
     paddingVertical: 10,
     paddingHorizontal: 16,
     borderRadius: 8,
     alignItems: 'center',
   },
   confirmModalText: {
-    color: '#F8FAFC',
+    color: '#FFFFFF',
     fontSize: 14,
     fontWeight: '700',
   },

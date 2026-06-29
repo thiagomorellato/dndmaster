@@ -16,6 +16,7 @@ export interface WeaponTemplate {
   properties: string[]; // ['Acuidade', 'Arremesso', 'Leve', 'Pesada', 'Alcance', etc.]
   category: 'Simples' | 'Marcial';
   rangeType: 'Corpo-a-corpo' | 'À Distância';
+  weight?: number;
 }
 
 export interface ArmorTemplate {
@@ -24,6 +25,7 @@ export interface ArmorTemplate {
   type: 'armor' | 'shield' | 'ring' | 'other';
   strengthReq?: number; // Minimum Strength score required
   stealthDisadvantage: boolean;
+  weight?: number;
 }
 
 export const CLASSES_LIST: ClassData[] = [
@@ -413,14 +415,15 @@ export const SKILLS_LIST = [
 export interface AmmunitionTemplate {
   name: string;
   type: 'ammunition';
-  quantity: number;
+  customResourceMax: number;
+  weight?: number;
 }
 
 export const AMMUNITION_TEMPLATES: AmmunitionTemplate[] = [
-  { name: 'Flechas', type: 'ammunition', quantity: 20 },
-  { name: 'Virotes de Besta', type: 'ammunition', quantity: 20 },
-  { name: 'Balas de Funda', type: 'ammunition', quantity: 20 },
-  { name: 'Agulhas de Zarabatana', type: 'ammunition', quantity: 50 },
+  { name: 'Flechas', type: 'ammunition', customResourceMax: 20, weight: 1 },
+  { name: 'Virotes de Besta', type: 'ammunition', customResourceMax: 20, weight: 1 },
+  { name: 'Balas de Funda', type: 'ammunition', customResourceMax: 20, weight: 1 },
+  { name: 'Agulhas de Zarabatana', type: 'ammunition', customResourceMax: 50, weight: 1 },
 ];
 
 

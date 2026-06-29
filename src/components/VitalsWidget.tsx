@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, LayoutAnimation, Platform, UIManager, TextInput, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, LayoutAnimation, Platform, UIManager, Image, Modal, TextInput, Alert } from 'react-native';
 import { CombatConfig, BaseStats, EquipmentItem } from '../types/character';
 import { Ionicons } from '@expo/vector-icons';
 import { isProficientInItem } from '../utils/dndRules';
@@ -29,6 +29,9 @@ interface VitalsWidgetProps {
   characterClass: string;
   onUpdateProficiencies?: (updatedProficiencies: string[]) => Promise<void>;
   onUpdateEquipment?: (updatedEq: EquipmentItem[]) => void;
+  coins?: any;
+  imageUrl?: string;
+  onUpdateImageUrl?: (url: string) => void;
 }
 
 export const SKILL_MAPPING: Record<keyof BaseStats, string[]> = {
@@ -67,51 +70,65 @@ export const getClassProficienciesSummary = (characterClass: string) => {
   
   let armors = "Nenhuma";
   let weapons = "Nenhuma";
+  let savingThrows = "Nenhuma";
   let tools = [] as string[];
 
   if (normalized.includes('paladin') || normalized.includes('paladino') ||
       normalized.includes('fighter') || normalized.includes('guerreiro')) {
     armors = "Leves, Médias, Pesadas, Escudos";
     weapons = "Armas Simples, Armas Marciais";
+    savingThrows = (normalized.includes('paladin') || normalized.includes('paladino')) ? "Sabedoria, Carisma" : "Força, Constituição";
   } else if (normalized.includes('barbarian') || normalized.includes('bárbaro')) {
     armors = "Leves, Médias, Escudos";
     weapons = "Armas Simples, Armas Marciais";
+    savingThrows = "Força, Constituição";
   } else if (normalized.includes('ranger') || normalized.includes('patrulheiro')) {
     armors = "Leves, Médias, Escudos";
     weapons = "Armas Simples, Armas Marciais";
+    savingThrows = "Força, Destreza";
   } else if (normalized.includes('rogue') || normalized.includes('ladino')) {
     armors = "Leves";
     weapons = "Armas Simples, Besta de Mão, Rapieira, Espada Curta, Espada Longa";
+    savingThrows = "Destreza, Inteligência";
     tools.push("Ferramentas de Ladrão");
   } else if (normalized.includes('bard') || normalized.includes('bardo')) {
     armors = "Leves";
     weapons = "Armas Simples, Besta de Mão, Rapieira, Espada Curta, Espada Longa";
+    savingThrows = "Destreza, Carisma";
     tools.push("3 Instrumentos Musicais");
   } else if (normalized.includes('cleric') || normalized.includes('clérigo')) {
     const isWarOrLife = normalized.includes('guerra') || normalized.includes('vida') || normalized.includes('tempestade');
     armors = isWarOrLife ? "Leves, Médias, Pesadas, Escudos" : "Leves, Médias, Escudos";
     weapons = (normalized.includes('guerra') || normalized.includes('tempestade')) ? "Armas Simples, Armas Marciais" : "Armas Simples";
+    savingThrows = "Sabedoria, Carisma";
+    savingThrows = "Sabedoria, Carisma";
   } else if (normalized.includes('druid') || normalized.includes('druida')) {
     armors = "Leves, Médias (não-metálicas), Escudos";
     weapons = "Adaga, Dardo, Clava, Maça, Foice, Cimitarra, Lança, Funda, Bordão";
+    savingThrows = "Inteligência, Sabedoria";
     tools.push("Kit de Herbalismo");
   } else if (normalized.includes('monk') || normalized.includes('monge')) {
     armors = "Nenhuma";
     weapons = "Armas Simples, Espada Curta";
+    savingThrows = "Força, Destreza";
   } else if (normalized.includes('wizard') || normalized.includes('mago') ||
              normalized.includes('sorcerer') || normalized.includes('feiticeiro')) {
     armors = "Nenhuma";
     weapons = "Adaga, Dardo, Funda, Bordão, Besta Leve";
+    savingThrows = (normalized.includes('sorcerer') || normalized.includes('feiticeiro')) ? "Constituição, Carisma" : "Inteligência, Sabedoria";
+    savingThrows = (normalized.includes('sorcerer') || normalized.includes('feiticeiro')) ? "Constituição, Carisma" : "Inteligência, Sabedoria";
   } else if (normalized.includes('warlock') || normalized.includes('bruxo')) {
     armors = "Leves";
     weapons = "Armas Simples";
+    savingThrows = "Sabedoria, Carisma";
   } else if (normalized.includes('artificer') || normalized.includes('artífice')) {
     armors = "Leves, Médias, Escudos";
     weapons = "Armas Simples";
+    savingThrows = "Constituição, Inteligência";
     tools.push("Ferramentas de Ladrão", "Ferramentas de Inventor");
   }
 
-  return { armors, weapons, tools  };
+  return { armors, weapons, savingThrows, tools };
 };
 
 const WeaponCard = ({ 
@@ -161,16 +178,30 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
   equipment = [],
   characterClass,
   onUpdateProficiencies,
-  onUpdateEquipment
+  onUpdateEquipment,
+  coins,
+  imageUrl,
+  onUpdateImageUrl
 }) => {
   const [skillsExpanded, setSkillsExpanded] = useState(false);
   const [newProfText, setNewProfText] = useState('');
-  const [vitalsExpanded, setVitalsExpanded] = useState(false);
+  const [activeDetail, setActiveDetail] = useState<string | null>(null);
+  const [avatarModalVisible, setAvatarModalVisible] = useState(false);
+  const [tempImageUrl, setTempImageUrl] = useState('');
 
-  const handleToggleVitals = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setVitalsExpanded(prev => !prev);
-  };
+
+  let totalWeight = 0;
+  equipment?.forEach(eq => {
+    if (eq.weight) totalWeight += eq.weight;
+  });
+  const coinsWeight = coins ? ((coins.cp || 0) + (coins.sp || 0) + (coins.ep || 0) + (coins.gp || 0) + (coins.pp || 0)) / 50 : 0;
+  totalWeight += coinsWeight;
+  const maxWeight = stats.str * 15;
+  const isOverweight = totalWeight > maxWeight;
+
+  const classDefaults = getClassProficienciesSummary(characterClass);
+  const handleToggleVitals = () => {};
+  const handleShowDetail = (detail: string) => setActiveDetail(detail);
 
   const handleAddProficiency = () => {
     const trimmed = newProfText.trim();
@@ -312,13 +343,22 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
                     <Text style={styles.otherProfValue}>{classDefaults.armors}</Text>
                   </View>
                   
-                  {/* Weapons row */}
+                                    {/* Weapons row */}
                   <View style={styles.otherProfRow}>
                     <View style={styles.otherProfRowLeft}>
                       <Ionicons name="cut-outline" size={13} color="#F59E0B" style={{ marginRight: 6 }} />
                       <Text style={styles.otherProfLabel}>Armas:</Text>
                     </View>
                     <Text style={styles.otherProfValue}>{classDefaults.weapons}</Text>
+                  </View>
+                  
+                  {/* Saving Throws row */}
+                  <View style={styles.otherProfRow}>
+                    <View style={styles.otherProfRowLeft}>
+                      <Ionicons name="body-outline" size={13} color="#EF4444" style={{ marginRight: 6 }} />
+                      <Text style={styles.otherProfLabel}>Salvaguardas:</Text>
+                    </View>
+                    <Text style={styles.otherProfValue}>{classDefaults.savingThrows}</Text>
                   </View>
                   
                   {/* Tools row */}
@@ -378,79 +418,157 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
       {/* Central View (Model placeholder taking 100% width with absolute stats overlay) */}
       <View style={styles.modelContainerFull}>
         <View style={styles.modelPlaceholder}>
-          {/* Absolute HUD Badges Overlays */}
-          <TouchableOpacity 
-            style={styles.hudBadgesRow} 
-            onPress={handleToggleVitals}
-            activeOpacity={0.7}
-          >
-            {/* C.A. */}
-            <View style={styles.hudBadge}>
-              <Ionicons name="shield" size={16} color={combat.shieldOfFaithActive ? '#60A5FA' : '#F59E0B'} style={{ marginRight: 6 }} />
-              <Text style={styles.hudBadgeValue}>{acDisplay}</Text>
-            </View>
-
-            {/* INICIA. */}
-            <View style={styles.hudBadge}>
-              <Ionicons name="flash" size={16} color="#38BDF8" style={{ marginRight: 6 }} />
-              <Text style={styles.hudBadgeValue}>{initiativeStr}</Text>
-            </View>
-
-            {/* DESLOC. */}
-            <View style={styles.hudBadge}>
-              <Ionicons name="footsteps" size={16} color="#10B981" style={{ marginRight: 6 }} />
-              <Text style={styles.hudBadgeValue}>9m</Text>
-            </View>
-
-            {/* PERC. PASSIVA */}
-            <View style={styles.hudBadge}>
-              <Ionicons name="eye" size={16} color="#A78BFA" style={{ marginRight: 6 }} />
-              <Text style={styles.hudBadgeValue}>{passivePerception}</Text>
-            </View>
-
-            {/* PROF. */}
-            <View style={styles.hudBadge}>
-              <Ionicons name="star" size={16} color="#F59E0B" style={{ marginRight: 6 }} />
-              <Text style={styles.hudBadgeValue}>+{proficiencyBonus}</Text>
-            </View>
-          </TouchableOpacity>
-
-          {/* Vitals Expanded Breakdown */}
-          {vitalsExpanded && (
-            <View style={styles.vitalsExpandedPanel}>
-              <Text style={styles.vitalsPanelTitle}>Detalhes dos Status</Text>
-              
-              <View style={styles.vitalsPanelRow}>
-                <Text style={styles.vitalsPanelLabel}>Classe de Armadura</Text>
-                <Text style={styles.vitalsPanelValue}>{combat.baseArmorClass} (Base/Equipamentos) {combat.shieldOfFaithActive ? '+ 2 (Escudo da Fé)' : ''} = {currentAC}</Text>
-              </View>
-
-              <View style={styles.vitalsPanelRow}>
-                <Text style={styles.vitalsPanelLabel}>Iniciativa</Text>
-                <Text style={styles.vitalsPanelValue}>{dexMod >= 0 ? `+${dexMod}` : dexMod} (Destreza)</Text>
-              </View>
-
-              <View style={styles.vitalsPanelRow}>
-                <Text style={styles.vitalsPanelLabel}>Deslocamento</Text>
-                <Text style={styles.vitalsPanelValue}>9m (Base)</Text>
-              </View>
-
-              <View style={styles.vitalsPanelRow}>
-                <Text style={styles.vitalsPanelLabel}>Percepção Passiva</Text>
-                <Text style={styles.vitalsPanelValue}>10 + {wisMod} (Sabedoria) {hasPerceptionProf ? `+ ${proficiencyBonus} (Proficiência)` : ''} = {passivePerception}</Text>
-              </View>
-
-              <View style={styles.vitalsPanelRow}>
-                <Text style={styles.vitalsPanelLabel}>Bônus de Proficiência</Text>
-                <Text style={styles.vitalsPanelValue}>+{proficiencyBonus} (Nível {level})</Text>
-              </View>
-            </View>
+          {imageUrl ? (
+            <TouchableOpacity onPress={() => setAvatarModalVisible(true)} activeOpacity={0.8} style={{ width: '100%', height: '100%', borderRadius: 12, overflow: 'hidden' }}>
+              <Image source={{ uri: imageUrl }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={() => setAvatarModalVisible(true)} activeOpacity={0.8} style={{ alignItems: 'center' }}>
+              <Ionicons name="body-outline" size={32} color="rgba(148, 163, 184, 0.25)" />
+              <Text style={styles.modelPlaceholderText}>ADICIONAR AVATAR</Text>
+              <Text style={styles.modelPlaceholderSub}>Toque para inserir URL da imagem</Text>
+            </TouchableOpacity>
           )}
 
-          {/* Skeleton Placeholder */}
-          <Ionicons name="body-outline" size={32} color="rgba(148, 163, 184, 0.25)" />
-          <Text style={styles.modelPlaceholderText}>MODELO DE BONECO</Text>
-          <Text style={styles.modelPlaceholderSub}>Espaço reservado para visualização do personagem</Text>
+          {/* Avatar URL Modal */}
+          <Modal visible={avatarModalVisible} transparent animationType="fade">
+            <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.7)', justifyContent: 'center', padding: 20 }}>
+              <View style={{ backgroundColor: '#1c1c1e', borderRadius: 12, padding: 20 }}>
+                <Text style={{ color: '#F8FAFC', fontSize: 16, fontWeight: 'bold', marginBottom: 12 }}>URL do Avatar</Text>
+                <TextInput
+                  style={{ borderWidth: 1, borderColor: '#334155', borderRadius: 8, padding: 12, color: '#F8FAFC', marginBottom: 16 }}
+                  placeholder="https://..."
+                  placeholderTextColor="#94A3B8"
+                  value={tempImageUrl}
+                  onChangeText={setTempImageUrl}
+                />
+                <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+                  <TouchableOpacity onPress={() => setAvatarModalVisible(false)} style={{ padding: 12, marginRight: 8 }}>
+                    <Text style={{ color: '#94A3B8' }}>Cancelar</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity 
+                    onPress={() => {
+                      if (onUpdateImageUrl) onUpdateImageUrl(tempImageUrl);
+                      setAvatarModalVisible(false);
+                    }} 
+                    style={{ padding: 12, backgroundColor: '#F59E0B', borderRadius: 8 }}
+                  >
+                    <Text style={{ color: '#000', fontWeight: 'bold' }}>Salvar</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
+
+          {/* Absolute HUD Badges Overlays */}
+          <View pointerEvents="box-none" style={styles.hudBadgesRow}>
+            <View pointerEvents="box-none" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+                          {/* CA and Prof stacked left */}
+              <TouchableOpacity onPress={() => handleShowDetail('ca')} activeOpacity={0.7} style={[styles.hudBadge, { marginBottom: 8 }]}>
+                <Ionicons name="shield" size={16} color={combat.shieldOfFaithActive ? '#60A5FA' : '#F59E0B'} style={{ marginRight: 6 }} />
+                <Text style={styles.hudBadgeValue}>{acDisplay}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleShowDetail('prof')} activeOpacity={0.7} style={styles.hudBadge}>
+                <Ionicons name="star" size={16} color="#F59E0B" style={{ marginRight: 6 }} />
+                <Text style={styles.hudBadgeValue}>+{proficiencyBonus}</Text>
+              </TouchableOpacity>
+
+            </View>
+            
+            <View pointerEvents="box-none" style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-end', flex: 1, paddingLeft: 16 }}>
+              <TouchableOpacity onPress={() => handleShowDetail('init')} activeOpacity={0.7} style={[styles.hudBadge, { marginBottom: 8, marginLeft: 8 }]}>
+                <Ionicons name="flash" size={16} color="#38BDF8" style={{ marginRight: 6 }} />
+                <Text style={styles.hudBadgeValue}>{initiativeStr}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => handleShowDetail('speed')} activeOpacity={0.7} style={[styles.hudBadge, { marginBottom: 8, marginLeft: 8 }]}>
+                <Ionicons name="footsteps" size={16} color="#10B981" style={{ marginRight: 6 }} />
+                <Text style={styles.hudBadgeValue}>9m</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => handleShowDetail('perception')} activeOpacity={0.7} style={[styles.hudBadge, { marginBottom: 8, marginLeft: 8 }]}>
+                <Ionicons name="eye" size={16} color="#A78BFA" style={{ marginRight: 6 }} />
+                <Text style={styles.hudBadgeValue}>{passivePerception}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => handleShowDetail('weight')} activeOpacity={0.7} style={[styles.hudBadge, { marginLeft: 8, borderColor: isOverweight ? '#EF4444' : 'rgba(255, 255, 255, 0.1)' }]}>
+                <Ionicons name="scale-outline" size={16} color={isOverweight ? '#EF4444' : '#F59E0B'} style={{ marginRight: 6 }} />
+                <Text style={[styles.hudBadgeValue, { color: isOverweight ? '#EF4444' : '#F8FAFC' }]}>{totalWeight.toFixed(1)} / {maxWeight} lb</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Vitals Expanded Breakdown */}
+          
+          {/* Detail Modal */}
+          <Modal visible={!!activeDetail} transparent animationType="fade">
+            <TouchableOpacity style={styles.modalBackdrop} activeOpacity={1} onPress={() => setActiveDetail(null)}>
+              <TouchableOpacity activeOpacity={1} style={styles.detailModalContent}>
+                {activeDetail === 'ca' && (
+                  <>
+                    <Text style={styles.detailModalTitle}>Classe de Armadura</Text>
+                    <Text style={styles.detailModalText}>{combat.baseArmorClass} (Base/Equipamentos) {combat.shieldOfFaithActive ? '+ 2 (Escudo da Fé)' : ''}</Text>
+                    <Text style={styles.detailModalText}>Total: {currentAC}</Text>
+                  </>
+                )}
+                {activeDetail === 'init' && (
+                  <>
+                    <Text style={styles.detailModalTitle}>Iniciativa</Text>
+                    <Text style={styles.detailModalText}>{dexMod >= 0 ? `+${dexMod}` : dexMod} (Modificador de Destreza)</Text>
+                  </>
+                )}
+                {activeDetail === 'speed' && (
+                  <>
+                    <Text style={styles.detailModalTitle}>Deslocamento</Text>
+                    <Text style={styles.detailModalText}>9m (Base)</Text>
+                  </>
+                )}
+                {activeDetail === 'perception' && (
+                  <>
+                    <Text style={styles.detailModalTitle}>Percepção Passiva</Text>
+                    <Text style={styles.detailModalText}>10 + {wisMod} (Sabedoria) = {passivePerception}</Text>
+                  </>
+                )}
+                {activeDetail === 'weight' && (
+                  <>
+                    <Text style={styles.detailModalTitle}>Peso do Equipamento</Text>
+                    <Text style={styles.detailModalText}>Atual: {totalWeight.toFixed(1)} lb</Text>
+                    <Text style={styles.detailModalText}>Máximo: {maxWeight} lb ({stats.str} * 15)</Text>
+                    {isOverweight && <Text style={[styles.detailModalText, { color: '#EF4444', marginTop: 8 }]}>Você está sobrecarregado! Seu deslocamento cai em 3m.</Text>}
+                  </>
+                )}
+                {activeDetail === 'prof' && (
+                  <View style={{ width: '100%' }}>
+                    <Text style={styles.detailModalTitle}>Proficiências e Treinamentos</Text>
+                    <View style={styles.otherProfRow}>
+                      <View style={styles.otherProfRowLeft}>
+                        <Ionicons name="shield-half-outline" size={13} color="#60A5FA" style={{ marginRight: 6 }} />
+                        <Text style={styles.otherProfLabel}>Armaduras & Escudos:</Text>
+                      </View>
+                      <Text style={styles.otherProfValue}>{classDefaults.armors}</Text>
+                    </View>
+                    <View style={styles.otherProfRow}>
+                      <View style={styles.otherProfRowLeft}>
+                        <Ionicons name="cut-outline" size={13} color="#F59E0B" style={{ marginRight: 6 }} />
+                        <Text style={styles.otherProfLabel}>Armas:</Text>
+                      </View>
+                      <Text style={styles.otherProfValue}>{classDefaults.weapons}</Text>
+                    </View>
+                    <View style={styles.otherProfRow}>
+                      <View style={styles.otherProfRowLeft}>
+                        <Ionicons name="body-outline" size={13} color="#EF4444" style={{ marginRight: 6 }} />
+                        <Text style={styles.otherProfLabel}>Salvaguardas:</Text>
+                      </View>
+                      <Text style={styles.otherProfValue}>{classDefaults.savingThrows}</Text>
+                    </View>
+                  </View>
+                )}
+              </TouchableOpacity>
+            </TouchableOpacity>
+          </Modal>
+
+
+
         </View>
       </View>
 
@@ -544,6 +662,43 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
 };
 
 const styles = StyleSheet.create({
+
+  modalBackdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  detailModalContent: {
+    backgroundColor: 'rgba(30, 41, 59, 0.95)',
+    borderWidth: 1,
+    borderColor: 'rgba(56, 189, 248, 0.3)',
+    borderRadius: 16,
+    padding: 20,
+    width: '100%',
+    maxWidth: 340,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 10,
+  },
+  detailModalTitle: {
+    color: '#F8FAFC',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 12,
+    textAlign: 'center',
+  },
+  detailModalText: {
+    color: '#94A3B8',
+    fontSize: 14,
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+
   container: {
     width: '100%',
     marginBottom: 16,
