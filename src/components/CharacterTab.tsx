@@ -1,3 +1,4 @@
+import { useTheme, ThemeColors } from '../context/ThemeContext';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import { BaseStats, Character } from '../types/character';
@@ -19,6 +20,8 @@ export const CharacterTab: React.FC<CharacterTabProps> = ({
   onUpdateProficiencies,
 }) => {
   const [newProfText, setNewProfText] = useState('');
+    const { colors } = useTheme();
+  const styles = useStyles(colors);
 
   const classDefaults = getClassProficienciesSummary(character.characterClass);
   const customProficiencies = (character.proficiencies || []).filter(p => !STANDARD_SKILLS_SET.has(p));
@@ -86,7 +89,7 @@ export const CharacterTab: React.FC<CharacterTabProps> = ({
         
         <View style={styles.otherProfRow}>
           <View style={styles.otherProfRowLeft}>
-            <Ionicons name="cut-outline" size={14} color="#F59E0B" style={{ marginRight: 6 }} />
+            <Ionicons name="cut-outline" size={14} color={colors.accentSky} style={{ marginRight: 6 }} />
             <Text style={styles.otherProfLabel}>Armas:</Text>
           </View>
           <Text style={styles.otherProfValue}>{classDefaults.weapons}</Text>
@@ -141,8 +144,8 @@ export const CharacterTab: React.FC<CharacterTabProps> = ({
             onSubmitEditing={handleAddProficiency}
           />
           <TouchableOpacity style={styles.addProfBtn} onPress={handleAddProficiency} activeOpacity={0.7}>
-            <Ionicons name="add" size={16} color="#0F172A" />
-            <Text style={{ color: '#0F172A', fontSize: 11, fontWeight: '800', marginLeft: 4 }}>Add</Text>
+            <Ionicons name="add" size={16} color={colors.textMain} />
+            <Text style={{ color: colors.textMain, fontSize: 11, fontWeight: '800', marginLeft: 4 }}>Add</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -150,7 +153,7 @@ export const CharacterTab: React.FC<CharacterTabProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
+const useStyles = (colors: ThemeColors) => StyleSheet.create({
   container: {
     width: '100%',
     marginBottom: 16,
@@ -164,7 +167,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   cardTitle: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 10,
     fontWeight: '800',
     letterSpacing: 1,
@@ -181,12 +184,12 @@ const styles = StyleSheet.create({
     borderBottomColor: 'rgba(51, 65, 85, 0.15)',
   },
   infoLabel: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 12,
     fontWeight: '600',
   },
   infoValue: {
-    color: '#F8FAFC',
+    color: colors.textMain,
     fontSize: 12,
     fontWeight: '700',
   },
@@ -209,7 +212,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   otherProfLabel: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 12,
     fontWeight: '700',
   },
@@ -222,7 +225,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   otherProfValueEmpty: {
-    color: '#64748B',
+    color: colors.textMuted,
     fontSize: 11,
     fontStyle: 'italic',
   },
@@ -269,7 +272,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(51, 65, 85, 0.5)',
     borderWidth: 1,
     borderRadius: 6,
-    color: '#F8FAFC',
+    color: colors.textMain,
     paddingHorizontal: 10,
     fontSize: 12,
     height: 36,

@@ -1,10 +1,10 @@
+import { useTheme, ThemeColors } from '../context/ThemeContext';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, ScrollView } from 'react-native';
 import { Alert } from '../utils/alert';
 import { EquipmentItem } from '../types/character';
 import { Ionicons } from '@expo/vector-icons';
 import { MAGIC_ITEMS_LIST, MagicItemTemplate, isProficientInItem, WEAPON_TEMPLATES, AMMUNITION_TEMPLATES } from '../utils/dndRules';
-import { useTheme, ThemeColors } from '../context/ThemeContext';
 
 interface EquipmentTrackerProps {
   equipment: EquipmentItem[];
@@ -35,6 +35,7 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
   characterClass,
 }) => {
   const { colors } = useTheme();
+  const styles = useStyles(colors);
   const [modalVisible, setModalVisible] = useState(false);
   const [creationMode, setCreationMode] = useState<'custom' | 'magic'>('custom');
   
@@ -307,7 +308,7 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
       <View style={styles.header}>
         <Text style={styles.title}>EQUIPAMENTOS & MOCHILA</Text>
         <TouchableOpacity style={styles.addBtn} onPress={() => setModalVisible(true)}>
-          <Ionicons name="add" size={14} color="#0F172A" style={{ marginRight: 4 }} />
+          <Ionicons name="add" size={14} color={colors.textMain} style={{ marginRight: 4 }} />
           <Text style={styles.addBtnText}>Novo Item</Text>
         </TouchableOpacity>
       </View>
@@ -324,7 +325,7 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
       </View>
 
       {/* Bag / Unequipped Section */}
-      <View style={[styles.section, { borderTopWidth: 1, borderTopColor: '#334155', marginTop: 12, paddingTop: 12 }]}>
+      <View style={[styles.section, { borderTopWidth: 1, borderTopColor: colors.border, marginTop: 12, paddingTop: 12 }]}>
         <Text style={styles.sectionTitle}>MOCHILA / INVENTÁRIO</Text>
         {unequippedItems.length === 0 ? (
           <Text style={styles.emptyText}>Mochila vazia.</Text>
@@ -345,7 +346,7 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Adicionar Novo Item</Text>
               <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Ionicons name="close" size={22} color="#94A3B8" />
+                <Ionicons name="close" size={22} color={colors.textMuted} />
               </TouchableOpacity>
             </View>
 
@@ -355,14 +356,14 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
                 style={[styles.modeBtn, creationMode === 'custom' && styles.modeBtnActive]} 
                 onPress={() => setCreationMode('custom')}
               >
-                <Ionicons name="create-outline" size={14} color={creationMode === 'custom' ? '#0F172A' : '#94A3B8'} style={{ marginRight: 6 }} />
+                <Ionicons name="create-outline" size={14} color={creationMode === 'custom' ? colors.accentSky : colors.textMuted} style={{ marginRight: 6 }} />
                 <Text style={[styles.modeLabel, creationMode === 'custom' && styles.modeLabelActive]}>Customizado</Text>
               </TouchableOpacity>
               <TouchableOpacity 
                 style={[styles.modeBtn, creationMode === 'magic' && styles.modeBtnActive]} 
                 onPress={() => setCreationMode('magic')}
               >
-                <Ionicons name="sparkles" size={14} color={creationMode === 'magic' ? '#0F172A' : '#94A3B8'} style={{ marginRight: 6 }} />
+                <Ionicons name="sparkles" size={14} color={creationMode === 'magic' ? colors.accentSky : colors.textMuted} style={{ marginRight: 6 }} />
                 <Text style={[styles.modeLabel, creationMode === 'magic' && styles.modeLabelActive]}>Item Mágico (Livro)</Text>
               </TouchableOpacity>
             </View>
@@ -610,13 +611,13 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
+const useStyles = (colors: ThemeColors) => StyleSheet.create({
   container: {
-    backgroundColor: '#1E293B',
+    backgroundColor: colors.surface,
     borderRadius: 16,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: colors.border,
     marginBottom: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
@@ -631,7 +632,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   title: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 12,
     fontWeight: '800',
     letterSpacing: 1.5,
@@ -645,12 +646,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   addBtnText: {
-    color: '#0F172A',
+    color: colors.textMain,
     fontSize: 11,
     fontWeight: '800',
   },
   subText: {
-    color: '#64748B',
+    color: colors.textMuted,
     fontSize: 11,
     marginBottom: 16,
   },
@@ -658,14 +659,14 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   sectionTitle: {
-    color: '#64748B',
+    color: colors.textMuted,
     fontSize: 10,
     fontWeight: '800',
     letterSpacing: 1,
     marginBottom: 10,
   },
   emptyText: {
-    color: '#475569',
+    color: colors.textMuted,
     fontSize: 12,
     fontStyle: 'italic',
     paddingVertical: 12,
@@ -673,15 +674,15 @@ const styles = StyleSheet.create({
   },
   itemCard: {
     flexDirection: 'column',
-    backgroundColor: '#0F172A',
-    borderColor: '#1E293B',
+    backgroundColor: colors.background,
+    borderColor: colors.border,
     borderWidth: 1,
     borderRadius: 10,
     padding: 10,
     marginBottom: 8,
   },
   itemCardEquipped: {
-    borderColor: '#334155',
+    borderColor: colors.border,
     backgroundColor: 'rgba(245, 158, 11, 0.03)',
   },
   cardHeaderRow: {
@@ -711,13 +712,13 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   itemName: {
-    color: '#64748B',
+    color: colors.textMuted,
     fontSize: 14,
     fontWeight: '700',
     marginRight: 6,
   },
   itemNameEquipped: {
-    color: '#F8FAFC',
+    color: colors.textMain,
   },
   magicBadge: {
     paddingHorizontal: 5,
@@ -730,7 +731,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
   },
   itemType: {
-    color: '#475569',
+    color: colors.textMuted,
     fontSize: 9,
     fontWeight: '700',
     marginTop: 2,
@@ -752,10 +753,10 @@ const styles = StyleSheet.create({
     marginTop: 8,
     paddingTop: 8,
     borderTopWidth: 1,
-    borderTopColor: '#1E293B',
+    borderTopColor: colors.border,
   },
   descText: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 11,
     lineHeight: 16,
     fontStyle: 'italic',
@@ -767,10 +768,10 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   modalContent: {
-    backgroundColor: '#1E293B',
+    backgroundColor: colors.surface,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: colors.border,
     padding: 20,
     maxHeight: '85%',
     shadowColor: '#000',
@@ -786,18 +787,18 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   modalTitle: {
-    color: '#F8FAFC',
+    color: colors.textMain,
     fontSize: 16,
     fontWeight: '800',
   },
   modeSelector: {
     flexDirection: 'row',
-    backgroundColor: '#0F172A',
+    backgroundColor: colors.background,
     borderRadius: 8,
     padding: 3,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#334155',
+    borderColor: colors.border,
   },
   modeBtn: {
     flex: 1,
@@ -811,27 +812,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#F59E0B',
   },
   modeLabel: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 12,
     fontWeight: '700',
   },
   modeLabelActive: {
-    color: '#0F172A',
+    color: colors.textMain,
     fontWeight: '800',
   },
   inputLabel: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 11,
     fontWeight: '700',
     marginBottom: 6,
     marginTop: 10,
   },
   textInput: {
-    backgroundColor: '#0F172A',
-    borderColor: '#334155',
+    backgroundColor: colors.background,
+    borderColor: colors.border,
     borderWidth: 1,
     borderRadius: 8,
-    color: '#F8FAFC',
+    color: colors.textMain,
     height: 40,
     paddingHorizontal: 12,
     fontSize: 14,
@@ -845,8 +846,8 @@ const styles = StyleSheet.create({
   },
   selectorBtn: {
     width: '31%',
-    backgroundColor: '#0F172A',
-    borderColor: '#334155',
+    backgroundColor: colors.background,
+    borderColor: colors.border,
     borderWidth: 1,
     borderRadius: 6,
     height: 34,
@@ -860,12 +861,12 @@ const styles = StyleSheet.create({
     borderColor: '#F59E0B',
   },
   selectorLabel: {
-    color: '#64748B',
+    color: colors.textMuted,
     fontSize: 10,
     fontWeight: '700',
   },
   selectorLabelActive: {
-    color: '#0F172A',
+    color: colors.textMain,
     fontWeight: '800',
   },
   templateBtn: {
@@ -884,11 +885,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   searchBar: {
-    backgroundColor: '#0F172A',
-    borderColor: '#334155',
+    backgroundColor: colors.background,
+    borderColor: colors.border,
     borderWidth: 1,
     borderRadius: 8,
-    color: '#F8FAFC',
+    color: colors.textMain,
     height: 36,
     paddingHorizontal: 12,
     fontSize: 13,
@@ -896,16 +897,16 @@ const styles = StyleSheet.create({
   },
   magicList: {
     flex: 1,
-    backgroundColor: '#0F172A',
+    backgroundColor: colors.background,
     borderRadius: 8,
-    borderColor: '#334155',
+    borderColor: colors.border,
     borderWidth: 1,
     padding: 6,
   },
   magicItemRow: {
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#1E293B',
+    borderBottomColor: colors.border,
     borderRadius: 6,
     marginBottom: 4,
   },
@@ -921,7 +922,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   magicItemName: {
-    color: '#F8FAFC',
+    color: colors.textMain,
     fontSize: 13,
     fontWeight: '700',
   },
@@ -930,25 +931,25 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   magicItemType: {
-    color: '#64748B',
+    color: colors.textMuted,
     fontSize: 10,
     fontWeight: '600',
     marginBottom: 4,
   },
   magicItemDesc: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 11,
     lineHeight: 15,
   },
   emptySearchText: {
-    color: '#475569',
+    color: colors.textMuted,
     fontSize: 12,
     fontStyle: 'italic',
     textAlign: 'center',
     paddingVertical: 30,
   },
   selectedDetail: {
-    backgroundColor: '#0F172A',
+    backgroundColor: colors.background,
     borderRadius: 8,
     borderColor: 'rgba(245, 158, 11, 0.4)',
     borderWidth: 1,
@@ -977,7 +978,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   cancelBtnText: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 14,
     fontWeight: '700',
   },
@@ -988,7 +989,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   saveBtnText: {
-    color: '#0F172A',
+    color: colors.textMain,
     fontSize: 14,
     fontWeight: '800',
   },

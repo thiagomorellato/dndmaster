@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, LayoutAnimation, Platform, UIManager, Image, Modal, TextInput, Alert } from 'react-native';
 import { CombatConfig, BaseStats, EquipmentItem } from '../types/character';
 import { Ionicons } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
+import { useTheme, ThemeColors } from '../context/ThemeContext';
 import { isProficientInItem } from '../utils/dndRules';
 
 import SwordIcon from '../../assets/icons/ffffff/transparent/1x1/delapouite/sword-brandish.svg';
@@ -44,11 +46,24 @@ export const SKILL_MAPPING: Record<keyof BaseStats, string[]> = {
 };
 
 export const SKILL_FULL_NAMES: Record<string, string> = {
-  'Sleight': 'Sleight of Hand',
-  'Investig.': 'Investigation',
-  'Animal H.': 'Animal Handling',
-  'Intimid.': 'Intimidation',
-  'Perform.': 'Performance',
+  'Sleight': 'Prestidigitação',
+  'Investig.': 'Investigação',
+  'Animal H.': 'Adestrar Animais',
+  'Intimid.': 'Intimidação',
+  'Perform.': 'Atuação',
+  'Religiãon': 'Religião',
+  'Acrobatics': 'Acrobacia',
+  'Athletics': 'Atletismo',
+  'Stealth': 'Furtividade',
+  'Arcana': 'Arcanismo',
+  'History': 'História',
+  'Nature': 'Natureza',
+  'Insight': 'Intuição',
+  'Medicine': 'Medicina',
+  'Perception': 'Percepção',
+  'Survival': 'Sobrevivência',
+  'Deception': 'Enganação',
+  'Persuasion': 'Persuasão'
 };
 
 export const STANDARD_SKILLS_SET = new Set([
@@ -131,12 +146,13 @@ export const getClassProficienciesSummary = (characterClass: string) => {
   return { armors, weapons, savingThrows, tools };
 };
 
-const WeaponCard = ({ 
-  item, 
-  atkBonusStr, 
-  currentDmg, 
+const WeaponCard = ({
+  item,
+  atkBonusStr,
+  currentDmg,
   rangeText,
-  getSvgIcon 
+  getSvgIcon,
+  styles
 }: any) => {
   const [expanded, setExpanded] = useState(false);
 
@@ -188,6 +204,8 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
   const [activeDetail, setActiveDetail] = useState<string | null>(null);
   const [avatarModalVisible, setAvatarModalVisible] = useState(false);
   const [tempImageUrl, setTempImageUrl] = useState('');
+  const { colors } = useTheme();
+  const styles = useStyles(colors);
 
 
   let totalWeight = 0;
@@ -271,8 +289,8 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
               onPress={handleToggleSkills}
               activeOpacity={0.7}
             >
-              <Text style={styles.attributeLabelHorizontal}>{stat.toUpperCase()}</Text>
-              <Text style={styles.attributeMãodHorizontal}>{modStr}</Text>
+              <Text style={styles.attributeLabelHorizontal}>{stat === "str" ? "FOR" : stat === "dex" ? "DES" : stat === "con" ? "CON" : stat === "int" ? "INT" : stat === "wis" ? "SAB" : stat === "cha" ? "CAR" : (stat as string).toUpperCase()}</Text>
+              <Text style={[styles.attributeMãodHorizontal, { color: colors.textMain }]}>{modStr}</Text>
               <Text style={styles.attributeScoreHorizontal}>{stats[stat]}</Text>
             </TouchableOpacity>
           );
@@ -304,7 +322,7 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
                         ]}
                       >
                         <View style={{ marginRight: 4, justifyContent: 'center' }}>
-                          <Ionicons name="ellipse" size={4} color={isProficient ? '#F59E0B' : 'rgba(51, 65, 85, 0.6)'} />
+                          <Ionicons name="ellipse" size={4} color={isProficient ? '#F59E0B' : colors.textMuted} />
                         </View>
                         <Text 
                           style={[styles.columnSkillName, isProficient && styles.columnSkillNameProficient]}
@@ -346,7 +364,7 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
                                     {/* Weapons row */}
                   <View style={styles.otherProfRow}>
                     <View style={styles.otherProfRowLeft}>
-                      <Ionicons name="cut-outline" size={13} color="#F59E0B" style={{ marginRight: 6 }} />
+                      <Ionicons name="cut-outline" size={13} color={colors.accentSky} style={{ marginRight: 6 }} />
                       <Text style={styles.otherProfLabel}>Armas:</Text>
                     </View>
                     <Text style={styles.otherProfValue}>{classDefaults.weapons}</Text>
@@ -404,7 +422,7 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
                         onSubmitEditing={handleAddProficiency}
                       />
                       <TouchableOpacity style={styles.addProfBtn} onPress={handleAddProficiency} activeOpacity={0.7}>
-                        <Ionicons name="add" size={16} color="#0F172A" />
+                        <Ionicons name="add" size={16} color={colors.textMain} />
                       </TouchableOpacity>
                     </View>
                   )}
@@ -424,7 +442,7 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={() => setAvatarModalVisible(true)} activeOpacity={0.8} style={{ alignItems: 'center' }}>
-              <Ionicons name="body-outline" size={32} color="rgba(148, 163, 184, 0.25)" />
+              <Ionicons name="body-outline" size={32} color={colors.border} />
               <Text style={styles.modelPlaceholderText}>ADICIONAR AVATAR</Text>
               <Text style={styles.modelPlaceholderSub}>Toque para inserir URL da imagem</Text>
             </TouchableOpacity>
@@ -433,18 +451,18 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
           {/* Avatar URL Modal */}
           <Modal visible={avatarModalVisible} transparent animationType="fade">
             <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.7)', justifyContent: 'center', padding: 20 }}>
-              <View style={{ backgroundColor: '#1c1c1e', borderRadius: 12, padding: 20 }}>
-                <Text style={{ color: '#F8FAFC', fontSize: 16, fontWeight: 'bold', marginBottom: 12 }}>URL do Avatar</Text>
+              <View style={{ backgroundColor: colors.surface, borderRadius: 12, padding: 20 }}>
+                <Text style={{ color: colors.textMain, fontSize: 16, fontWeight: 'bold', marginBottom: 12 }}>URL do Avatar</Text>
                 <TextInput
-                  style={{ borderWidth: 1, borderColor: '#334155', borderRadius: 8, padding: 12, color: '#F8FAFC', marginBottom: 16 }}
+                  style={{ borderWidth: 1, borderColor: colors.border, borderRadius: 8, padding: 12, color: colors.textMain, marginBottom: 16 }}
                   placeholder="https://..."
-                  placeholderTextColor="#94A3B8"
+                  placeholderTextColor={colors.textMuted}
                   value={tempImageUrl}
                   onChangeText={setTempImageUrl}
                 />
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                   <TouchableOpacity onPress={() => setAvatarModalVisible(false)} style={{ padding: 12, marginRight: 8 }}>
-                    <Text style={{ color: '#94A3B8' }}>Cancelar</Text>
+                    <Text style={{ color: colors.textMuted }}>Cancelar</Text>
                   </TouchableOpacity>
                   <TouchableOpacity 
                     onPress={() => {
@@ -469,7 +487,7 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
                 <Text style={styles.hudBadgeValue}>{acDisplay}</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleShowDetail('prof')} activeOpacity={0.7} style={styles.hudBadge}>
-                <Ionicons name="star" size={16} color="#F59E0B" style={{ marginRight: 6 }} />
+                <Ionicons name="star" size={16} color={colors.accentSky} style={{ marginRight: 6 }} />
                 <Text style={styles.hudBadgeValue}>+{proficiencyBonus}</Text>
               </TouchableOpacity>
 
@@ -493,7 +511,7 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
 
               <TouchableOpacity onPress={() => handleShowDetail('weight')} activeOpacity={0.7} style={[styles.hudBadge, { marginLeft: 8, borderColor: isOverweight ? '#EF4444' : 'rgba(255, 255, 255, 0.1)' }]}>
                 <Ionicons name="scale-outline" size={16} color={isOverweight ? '#EF4444' : '#F59E0B'} style={{ marginRight: 6 }} />
-                <Text style={[styles.hudBadgeValue, { color: isOverweight ? '#EF4444' : '#F8FAFC' }]}>{totalWeight.toFixed(1)} / {maxWeight} lb</Text>
+                <Text style={[styles.hudBadgeValue, { color: isOverweight ? colors.accentRed : colors.textMain }]}>{totalWeight.toFixed(1)} / {maxWeight} lb</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -549,7 +567,7 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
                     </View>
                     <View style={styles.otherProfRow}>
                       <View style={styles.otherProfRowLeft}>
-                        <Ionicons name="cut-outline" size={13} color="#F59E0B" style={{ marginRight: 6 }} />
+                        <Ionicons name="cut-outline" size={13} color={colors.accentSky} style={{ marginRight: 6 }} />
                         <Text style={styles.otherProfLabel}>Armas:</Text>
                       </View>
                       <Text style={styles.otherProfValue}>{classDefaults.weapons}</Text>
@@ -617,7 +635,7 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
             }
             
             return (
-              <WeaponCard 
+              <WeaponCard styles={styles} 
                 key={item.id}
                 item={item}
                 atkBonusStr={atkBonusStr}
@@ -651,7 +669,7 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
                 }
               }}
             >
-              <ArrowIcon width={14} height={14} fill="#64748B" />
+              <ArrowIcon width={14} height={14} fill={colors.textMain} />
               <Text style={styles.ammoCount}>{ammo.customResourceMax || 0}</Text>
             </TouchableOpacity>
           ));
@@ -661,7 +679,7 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
+const useStyles = (colors: ThemeColors) => StyleSheet.create({
 
   modalBackdrop: {
     flex: 1,
@@ -686,14 +704,14 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   detailModalTitle: {
-    color: '#F8FAFC',
+    color: colors.textMain,
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 12,
     textAlign: 'center',
   },
   detailModalText: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 14,
     marginBottom: 4,
     textAlign: 'center',
@@ -724,18 +742,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(245, 158, 11, 0.12)',
   },
   attributeLabelHorizontal: {
-    color: '#64748B',
+    color: colors.textMuted,
     fontSize: 8,
     fontWeight: '800',
   },
   attributeMãodHorizontal: {
-    color: '#F8FAFC',
+    color: colors.textMain,
     fontSize: 14,
     fontWeight: '900',
     marginVertical: 1,
   },
   attributeScoreHorizontal: {
-    color: '#475569',
+    color: colors.textMuted,
     fontSize: 8,
     fontWeight: '700',
     marginTop: -2,
@@ -769,7 +787,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(245, 158, 11, 0.12)',
   },
   columnSkillBonus: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 9.5,
     fontWeight: '900',
   },
@@ -777,7 +795,7 @@ const styles = StyleSheet.create({
     color: '#F59E0B',
   },
   columnSkillName: {
-    color: '#64748B',
+    color: colors.textMuted,
     fontSize: 7.5,
     fontWeight: '700',
     textAlign: 'center',
@@ -807,14 +825,14 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   modelPlaceholderText: {
-    color: '#64748B',
+    color: colors.textMuted,
     fontSize: 9,
     fontWeight: '800',
     marginTop: 8,
     letterSpacing: 0.5,
   },
   modelPlaceholderSub: {
-    color: '#475569',
+    color: colors.textMuted,
     fontSize: 8,
     textAlign: 'center',
     marginTop: 4,
@@ -834,7 +852,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(15, 23, 42, 0.85)',
-    borderColor: '#334155',
+    borderColor: colors.border,
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 10,
@@ -842,7 +860,7 @@ const styles = StyleSheet.create({
     minWidth: 46,
   },
   hudBadgeValue: {
-    color: '#F8FAFC',
+    color: colors.textMain,
     fontSize: 13,
     fontWeight: '900',
   },
@@ -864,7 +882,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   vitalsPanelTitle: {
-    color: '#F8FAFC',
+    color: colors.textMain,
     fontSize: 12,
     fontWeight: '800',
     marginBottom: 8,
@@ -876,7 +894,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   vitalsPanelLabel: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 9,
     fontWeight: '700',
   },
@@ -961,12 +979,12 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   weaponRangeCompact: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 9,
     fontWeight: '600',
   },
   weaponPropsCompact: {
-    color: '#64748B',
+    color: colors.textMuted,
     fontSize: 8,
     fontWeight: '500',
     marginTop: 2,
@@ -999,7 +1017,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   otherProfsTitle: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 10,
     fontWeight: '800',
     marginBottom: 8,
@@ -1030,7 +1048,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   otherProfValue: {
-    color: '#94A3B8',
+    color: colors.textMuted,
     fontSize: 9,
     lineHeight: 14,
   },
@@ -1040,7 +1058,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   otherProfValueEmpty: {
-    color: '#475569',
+    color: colors.textMuted,
     fontSize: 9,
     fontStyle: 'italic',
   },
@@ -1084,7 +1102,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(51, 65, 85, 0.6)',
     borderWidth: 1,
     borderRadius: 6,
-    color: '#F8FAFC',
+    color: colors.textMain,
     fontSize: 10,
     paddingHorizontal: 8,
     height: 32,

@@ -187,7 +187,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
       </TouchableOpacity>
 
       <View style={styles.titleContainer}>
-        <Ionicons name="logo-octocat" size={32} color={colors.accentAmber} />
+        <Ionicons name="logo-octocat" size={32} color={colors.accentSky} />
         <Text style={styles.headerTitle}>D&D 5e Tactical Manager</Text>
         <Text style={styles.headerSubtitle}>Data Architecture Portfólio (NoSQL + Event Sourcing)</Text>
       </View>
@@ -201,12 +201,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
           </Text>
           
           <TouchableOpacity style={styles.primaryBtn} onPress={handleCreateDemo}>
-            <Ionicons name="flash" size={18} color={theme === 'dark' ? '#0F172A' : '#FFFFFF'} style={{ marginRight: 8 }} />
+            <Ionicons name="flash" size={18} color={colors.background} style={{ marginRight: 8 }} />
             <Text style={styles.primaryBtnText}>Load Sir Lancelot (Demo Paladin)</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={[styles.primaryBtn, { backgroundColor: colors.accentEmerald, marginTop: 12 }]} onPress={onCreateCharacter}>
-            <Ionicons name="add-circle" size={18} color={theme === 'dark' ? '#0F172A' : '#FFFFFF'} style={{ marginRight: 8 }} />
+            <Ionicons name="add-circle" size={18} color={colors.background} style={{ marginRight: 8 }} />
             <Text style={styles.primaryBtnText}>Criar Novo Personagem</Text>
           </TouchableOpacity>
         </View>
@@ -222,7 +222,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
       <View style={styles.floatingMenu}>
         {characters.length > 0 && (
           <TouchableOpacity style={[styles.floatingBtn, styles.demoBtn]} onPress={handleCreateDemo}>
-            <Ionicons name="gift" size={22} color={colors.accentAmber} />
+            <Ionicons name="gift" size={22} color={colors.accentSky} />
           </TouchableOpacity>
         )}
         <TouchableOpacity 
@@ -356,7 +356,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   primaryBtn: {
     flexDirection: 'row',
-    backgroundColor: colors.accentAmber,
+    backgroundColor: colors.accentSky,
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
@@ -368,7 +368,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     elevation: 6,
   },
   primaryBtnText: {
-    color: '#0F172A',
+    color: colors.background,
     fontSize: 14,
     fontWeight: '800',
   },
@@ -471,7 +471,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     marginTop: 12,
   },
   importBtn: {
-    backgroundColor: '#334155',
+    backgroundColor: colors.border,
   },
   demoBtn: {
     backgroundColor: colors.surface,

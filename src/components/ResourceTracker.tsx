@@ -284,7 +284,7 @@ export const ResourceTracker: React.FC<ResourceTrackerProps> = ({
   return <View style={styles.card}>
       <View style={styles.header}>
         <Text style={styles.title}>GERENCIAMENTO DE MAGIAS</Text>
-        <Ionicons name="flash" size={18} color={colors.accentAmber} />
+        <Ionicons name="flash" size={18} color={colors.accentSky} />
       </View>
 
       {/* Quick Divine Smite Banner removed - integrated as spell */}
@@ -312,7 +312,7 @@ export const ResourceTracker: React.FC<ResourceTrackerProps> = ({
       {isSpellcaster && <View style={styles.menuHeader}>
           <Text style={styles.sectionTitle}>LIVRO DE MAGIAS PREPARADAS</Text>
           <TouchableOpacity style={styles.prepareToggleBtn} onPress={() => setIsEditMode(!isEditMode)}>
-            <Ionicons name={isEditMode ? "checkbox" : "create-outline"} size={16} color={colors.accentAmber} style={{
+            <Ionicons name={isEditMode ? "checkbox" : "create-outline"} size={16} color={colors.accentSky} style={{
           marginRight: 6
         }} />
             <Text style={styles.prepareToggleText}>
@@ -441,7 +441,7 @@ export const ResourceTracker: React.FC<ResourceTrackerProps> = ({
               setSmiteModalVisible(false);
               executeSmiteCast(levelKey, smiteTarget);
             }}>
-                    <Ionicons name="flame" size={16} color={colors.accentAmber} style={{
+                    <Ionicons name="flame" size={16} color={colors.accentSky} style={{
                 marginRight: 8
               }} />
                     <Text style={styles.smiteLevelBtnText}>
@@ -695,7 +695,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   castBtn: {
     flexDirection: 'row',
-    backgroundColor: colors.accentAmber,
+    backgroundColor: colors.accentSky,
     height: 34,
     paddingHorizontal: 14,
     borderRadius: 6,
@@ -708,7 +708,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     fontWeight: '800'
   },
   spellLimitBanner: {
-    backgroundColor: colors.accentAmberBg,
+    backgroundColor: colors.accentSkyBg,
     borderColor: colors.accentAmber,
     borderWidth: 0.5,
     borderRadius: 8,

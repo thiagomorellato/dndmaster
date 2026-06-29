@@ -60,7 +60,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
 }) => {
   const {
     colors,
-    toggleTheme
+    toggleTheme,
+      theme
   } = useTheme();
   const styles = React.useMemo(() => createStyles(colors), [colors]);
   const {
@@ -616,7 +617,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
   };
   if (loading) {
     return <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color={colors.accentAmber} />
+        <ActivityIndicator size="large" color={colors.accentSky} />
         <Text style={styles.loadingText}>Carregando Dashboard...</Text>
       </View>;
   }
@@ -630,7 +631,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           <TouchableOpacity style={styles.backBtnCompact} onPress={onBack} activeOpacity={0.7}>
-            <Ionicons name="chevron-back" size={24} color={colors.accentAmber} />
+            <Ionicons name="chevron-back" size={24} color={colors.accentSky} />
           </TouchableOpacity>
           {character.imageUrl && <Image source={{
             uri: character.imageUrl
@@ -651,7 +652,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity onPress={toggleTheme} style={{marginRight: 12}}>
-            <Ionicons name={colors.background === '#0F172A' ? "sunny" : "moon"} size={20} color={colors.accentAmber} />
+            <Ionicons name={theme === 'dark' ? "sunny" : "moon"} size={20} color={colors.accentSky} />
           </TouchableOpacity>
           <View style={styles.levelBadgeCircle}>
             <Text style={styles.levelBadgeNumber}>{character.level}</Text>
@@ -700,7 +701,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
               
               <View style={styles.logsActionRow}>
                 <TouchableOpacity style={styles.logActionBtn} onPress={handleExportCSV}>
-                  <Ionicons name="share-social-outline" size={16} color={colors.accentAmber} />
+                  <Ionicons name="share-social-outline" size={16} color={colors.accentSky} />
                   <Text style={styles.logActionLabel}>CSV</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.logActionBtn, styles.logClearBtn]} onPress={handleClearLogs}>
@@ -750,7 +751,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
         }} activeOpacity={0.8}>
             <View style={styles.coinBadgeCompact}>
               <View style={[styles.coinDot, {
-              backgroundColor: colors.accentAmber
+              backgroundColor: colors.accentSky
             }]} />
               <Text style={styles.coinTextCompact}>{character.coins?.gp || 0} gp</Text>
             </View>
@@ -908,7 +909,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
               <View style={styles.coinInputsContainer}>
               <View style={styles.coinInputRow}>
                 <View style={[styles.coinDot, {
-                  backgroundColor: colors.accentAmber
+                  backgroundColor: colors.accentSky
                 }]} />
                 <Text style={styles.coinInputLabel}>Ouro (PO):</Text>
                 <TextInput style={styles.coinTextInput} keyboardType="numeric" value={editGP} onChangeText={setEditGP} />
@@ -1451,7 +1452,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     fontWeight: '700'
   },
   saveBtn: {
-    backgroundColor: colors.accentAmber,
+    backgroundColor: colors.accentSky,
     paddingVertical: 10,
     paddingHorizontal: 18,
     borderRadius: 8
