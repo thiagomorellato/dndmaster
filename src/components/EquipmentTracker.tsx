@@ -250,6 +250,7 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
                 {item.handedness ? ` | ${item.handedness}` : ''}
                 {item.dmgType ? ` (${item.dmgType})` : ''}
                 {item.properties && item.properties.length > 0 ? ` | ${item.properties.join(', ')}` : ''}
+                {item.weight ? ` | ${item.type === 'ammunition' && item.customResourceMax !== undefined ? (item.weight * item.customResourceMax).toFixed(1) : item.weight} lb` : ''}
               </Text>
             </View>
           </TouchableOpacity>
@@ -880,7 +881,7 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
     borderColor: colors.border,
   },
   templateBtnText: {
-    color: '#E2E8F0',
+    color: colors.textMain,
     fontSize: 12,
     fontWeight: '600',
   },

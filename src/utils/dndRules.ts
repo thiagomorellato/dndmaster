@@ -863,42 +863,6 @@ export const WEAPON_TEMPLATES: WeaponTemplate[] = [
     ],
     "category": "Marcial",
     "rangeType": "À Distância"
-  },
-  {
-    "name": "Arrows (20)",
-    "dmgDice": "1d4",
-    "handedness": "1 Mão",
-    "dmgType": "Cortante",
-    "properties": [],
-    "category": "Marcial",
-    "rangeType": "Corpo-a-corpo"
-  },
-  {
-    "name": "Blowgun Needles (50)",
-    "dmgDice": "1d4",
-    "handedness": "1 Mão",
-    "dmgType": "Cortante",
-    "properties": [],
-    "category": "Marcial",
-    "rangeType": "Corpo-a-corpo"
-  },
-  {
-    "name": "Crossbow Bolts (20)",
-    "dmgDice": "1d4",
-    "handedness": "1 Mão",
-    "dmgType": "Cortante",
-    "properties": [],
-    "category": "Marcial",
-    "rangeType": "Corpo-a-corpo"
-  },
-  {
-    "name": "Sling Bullets (20)",
-    "dmgDice": "1d4",
-    "handedness": "1 Mão",
-    "dmgType": "Cortante",
-    "properties": [],
-    "category": "Marcial",
-    "rangeType": "Corpo-a-corpo"
   }
 ];
 

@@ -899,7 +899,12 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Gerenciador de Moedas</Text>
+              <View>
+                <Text style={styles.modalTitle}>Gerenciador de Moedas</Text>
+                <Text style={{ color: colors.textMuted, fontSize: 13, marginTop: 4, fontWeight: '500' }}>
+                  Peso total: {(((parseInt(editCP)||0) + (parseInt(editSP)||0) + (parseInt(editEP)||0) + (parseInt(editGP)||0) + (parseInt(editPP)||0)) / 50).toFixed(1)} lb
+                </Text>
+              </View>
               <TouchableOpacity onPress={() => setCoinsModalVisible(false)}>
                 <Ionicons name="close" size={22} color={colors.textMuted} />
               </TouchableOpacity>
