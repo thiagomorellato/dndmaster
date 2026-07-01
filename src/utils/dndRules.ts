@@ -412,6 +412,39 @@ export const SKILLS_LIST = [
   'Adestrar Animais', 'Intuição', 'Medicina', 'Percepção', 'Sobrevivência',
   'Enganação', 'Intimidação', 'Atuação', 'Persuasão'
 ];
+
+// Pontos de XP necessários para cada nível (D&D 5e oficial)
+export const XP_THRESHOLDS: Record<number, number> = {
+  1: 0,       2: 300,     3: 900,     4: 2700,
+  5: 6500,    6: 14000,   7: 23000,   8: 34000,
+  9: 48000,   10: 64000,  11: 85000,  12: 100000,
+  13: 120000, 14: 140000, 15: 165000, 16: 195000,
+  17: 225000, 18: 265000, 19: 305000, 20: 355000,
+};
+
+// Nível mínimo para ativar vantagens da subclasse por classe
+export const SUBCLASS_LEVEL_MAP: Record<string, number> = {
+  'Bárbaro': 3,
+  'Bardo': 3,
+  'Clérigo': 1,
+  'Druida': 2,
+  'Guerreiro': 3,
+  'Monge': 3,
+  'Paladino': 3,
+  'Patrulheiro': 3,
+  'Ladino': 3,
+  'Feiticeiro': 1,
+  'Bruxo': 1,
+  'Mago': 2,
+  'Artífice': 3,
+};
+
+// Retorna o nível mínimo de subclasse para uma classe
+export const getSubclassMinLevel = (characterClass: string): number => {
+  const baseClass = characterClass.split(' (')[0].trim();
+  return SUBCLASS_LEVEL_MAP[baseClass] ?? 3;
+};
+
 export interface AmmunitionTemplate {
   name: string;
   type: 'ammunition';

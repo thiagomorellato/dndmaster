@@ -244,6 +244,13 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
                     <Text style={[styles.magicBadgeText, { color: getRarityColor(item.rarity) }]}>{item.rarity}</Text>
                   </View>
                 )}
+                {item.customResourceName && item.customResourceMax && (
+                  <View style={[styles.magicBadge, { backgroundColor: colors.accentAmber + '22', borderColor: colors.accentAmber }]}>
+                    <Text style={[styles.magicBadgeText, { color: colors.accentAmber }]}>
+                      ⚡ {item.customResourceMax} Cargas
+                    </Text>
+                  </View>
+                )}
               </View>
               <Text style={styles.itemType}>
                 {item.type.toUpperCase()}
@@ -289,8 +296,8 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
           <View style={styles.descContainer}>
             {item.description ? <Text style={styles.descText}>{item.description}</Text> : null}
             {item.customResourceName && (
-              <Text style={{ fontSize: 9, fontWeight: '800', marginTop: 4, color: colors.accentAmber }}>
-                ✦ INJETA RECURSO: {item.customResourceName.toUpperCase()} ({item.customResourceMax} Cargas)
+              <Text style={{ fontSize: 10, fontWeight: '700', marginTop: 4, color: colors.accentAmber }}>
+                ✦ Adiciona habilidade: {item.customResourceName}
               </Text>
             )}
             {item.linkedSpellName && (

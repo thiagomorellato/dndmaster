@@ -68,10 +68,10 @@ export const lightTheme: ThemeColors = {
   border: '#CBD5E1', // Slate 300
   borderHighlight: '#94A3B8', // Slate 400
   
-  accentAmber: '#1D4ED8', // Darker blue for better contrast
-  accentAmberBg: 'rgba(29, 78, 216, 0.1)',
-  accentSky: '#1D4ED8',
-  accentSkyBg: 'rgba(29, 78, 216, 0.1)',
+  accentAmber: '#D97706', // Amber 600
+  accentAmberBg: 'rgba(217, 119, 6, 0.1)',
+  accentSky: '#0284C7', // Sky 600
+  accentSkyBg: 'rgba(2, 132, 199, 0.1)',
   accentEmerald: '#059669',
   accentEmeraldBg: 'rgba(5, 150, 105, 0.1)',
   accentRed: '#DC2626',

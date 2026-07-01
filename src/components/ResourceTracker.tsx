@@ -36,11 +36,10 @@ export const ResourceTracker: React.FC<ResourceTrackerProps> = ({
   level,
   stats
 }) => {
-  const {
-    colors
-  } = useTheme();
+  const { colors } = useTheme();
   const styles = React.useMemo(() => createStyles(colors), [colors]);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [targets, setTargets] = useState<Record<string, string>>({}); // Tracks target inputs per spell
   const [smiteModalVisible, setSmiteModalVisible] = useState(false);
   const [smiteTarget, setSmiteTarget] = useState('Self');
@@ -334,22 +333,46 @@ export const ResourceTracker: React.FC<ResourceTrackerProps> = ({
 
       {isSpellcaster ? isEditMode ? (/* Edit Mode: Select which spells to prepare */
     <View style={styles.spellsList}>
-            {maxLevelAvailable > 0 && <View style={styles.spellLimitBanner}>
+              <View style={styles.spellLimitBanner}>
                 <Text style={styles.spellLimitText}>
                   Limite: {selectedPreparedCount} de {prepLimit} magias preparadas (Truques são à vontade)
                 </Text>
-              </View>}
-            {classSpells.filter(s => s.name !== 'Divine Smite (Destruição Divina)').map(spell => {
+              </View>
+            
+            <View style={styles.searchContainer}>
+              <Ionicons name="search" size={16} color={colors.textMuted} style={{ marginRight: 8 }} />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Buscar magia por nome..."
+                placeholderTextColor={colors.textMuted}
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+              />
+              {searchQuery.length > 0 && (
+                <TouchableOpacity onPress={() => setSearchQuery('')}>
+                  <Ionicons name="close-circle" size={16} color={colors.textMuted} />
+                </TouchableOpacity>
+              )}
+            </View>
+
+            {classSpells.filter(s => 
+              s.name !== 'Divine Smite (Destruição Divina)' && 
+              s.name.toLowerCase().includes(searchQuery.toLowerCase())
+            ).map(spell => {
         const isPrepared = preparedSpells.includes(spell.name);
         const isCantrip = spell.level === 0;
         return <TouchableOpacity key={spell.name} style={[styles.spellPrepItem, isPrepared && styles.spellPrepItemActive]} onPress={() => handleTogglePrepareSpell(spell.name)} activeOpacity={0.8}>
                   <Ionicons name={isPrepared ? "checkbox" : "square-outline"} size={20} color={isPrepared ? colors.accentAmber : colors.textMuted} style={{
             marginRight: 12
           }} />
-                  <View style={{
-            flex: 1
-          }}>
+                  <View style={{ flex: 1 }}>
                     <Text style={styles.spellPrepName}>{spell.name}</Text>
+                    <View style={styles.spellTagsRow}>
+                      <View style={styles.spellTag}><Text style={styles.spellTagText}>{spell.school}</Text></View>
+                      <View style={styles.spellTag}><Text style={styles.spellTagText}>{spell.castingTime}</Text></View>
+                      <View style={styles.spellTag}><Text style={styles.spellTagText}>{spell.range}</Text></View>
+                      <View style={styles.spellTag}><Text style={styles.spellTagText}>{spell.duration}</Text></View>
+                    </View>
                     <Text style={styles.spellPrepDesc}>{spell.description}</Text>
                   </View>
                   <Text style={styles.spellPrepLvl}>
@@ -366,10 +389,14 @@ export const ResourceTracker: React.FC<ResourceTrackerProps> = ({
         const isCantrip = spell.level === 0;
         return <View key={spell.name} style={styles.spellCastCard}>
                       <View style={styles.spellCastInfo}>
-                        <View style={{
-              flex: 1
-            }}>
+                        <View style={{ flex: 1 }}>
                           <Text style={styles.spellCastName}>{spell.name}</Text>
+                          <View style={styles.spellTagsRow}>
+                            <View style={styles.spellTag}><Text style={styles.spellTagText}>{spell.school}</Text></View>
+                            <View style={styles.spellTag}><Text style={styles.spellTagText}>{spell.castingTime}</Text></View>
+                            <View style={styles.spellTag}><Text style={styles.spellTagText}>{spell.range}</Text></View>
+                            <View style={styles.spellTag}><Text style={styles.spellTagText}>{spell.duration}</Text></View>
+                          </View>
                           <Text style={styles.spellCastDesc}>{spell.description}</Text>
                         </View>
                         <Text style={styles.spellCastLvl}>
@@ -518,6 +545,22 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     fontWeight: '800',
     letterSpacing: 1,
     marginBottom: 10
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.surfaceSecondary,
+    borderWidth: 1,
+    borderColor: colors.borderHighlight,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    marginBottom: 12,
+    height: 40,
+  },
+  searchInput: {
+    flex: 1,
+    color: colors.textMain,
+    fontSize: 13,
   },
   slotRow: {
     flexDirection: 'row',
@@ -808,6 +851,26 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   smiteCancelBtnText: {
     color: colors.textMuted,
     fontSize: 14,
+    fontWeight: '700'
+  },
+  spellTagsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+    marginTop: 6,
+    marginBottom: 4
+  },
+  spellTag: {
+    backgroundColor: colors.surfaceHighlight,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: colors.border
+  },
+  spellTagText: {
+    color: colors.textSecondary,
+    fontSize: 9,
     fontWeight: '700'
   }
 });

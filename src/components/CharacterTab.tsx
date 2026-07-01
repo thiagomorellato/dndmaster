@@ -9,6 +9,7 @@ import {
   STANDARD_SKILLS_SET,
   getClassProficienciesSummary
 } from './VitalsWidget';
+import { getSubclassMinLevel } from '../utils/dndRules';
 
 interface CharacterTabProps {
   character: Character;
@@ -20,7 +21,7 @@ export const CharacterTab: React.FC<CharacterTabProps> = ({
   onUpdateProficiencies,
 }) => {
   const [newProfText, setNewProfText] = useState('');
-    const { colors } = useTheme();
+  const { colors } = useTheme();
   const styles = useStyles(colors);
 
   const classDefaults = getClassProficienciesSummary(character.characterClass);
@@ -31,7 +32,7 @@ export const CharacterTab: React.FC<CharacterTabProps> = ({
     const trimmed = newProfText.trim();
     if (!trimmed) return;
     if ((character.proficiencies || []).includes(trimmed)) {
-      Alert.alert('Aviso', 'Esta proficiência jáá existe!');
+      Alert.alert('Aviso', 'Esta proficiência já existe!');
       return;
     }
     const nextProfs = [...(character.proficiencies || []), trimmed];
@@ -46,7 +47,14 @@ export const CharacterTab: React.FC<CharacterTabProps> = ({
 
   const parts = character.characterClass.split(' (');
   const className = parts[0];
-  const subclass = parts[1] ? parts[1].replace(')', '') : 'Nenhuma';
+  let subclass = parts[1] ? parts[1].replace(')', '') : 'Nenhuma';
+  
+  const minLvl = getSubclassMinLevel(className);
+  if (character.level < minLvl) {
+    subclass = `Bloqueado (Libera no Nível ${minLvl})`;
+  } else if (!parts[1]) {
+    subclass = 'Pendente de Escolha';
+  }
   
   return (
     <View style={styles.container}>

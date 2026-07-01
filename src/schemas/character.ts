@@ -61,6 +61,7 @@ export const EquipmentItemSchema = z.object({
   customResourceName: z.string().optional(),
   customResourceMax: z.number().int().optional(),
   linkedSpellName: z.string().optional(),
+  weight: z.number().min(0).optional(),
 });
 
 export const CharacterSchema = z.object({
@@ -82,4 +83,8 @@ export const CharacterSchema = z.object({
     dieType: z.string().default('d8'),
   }).optional(),
   imageUrl: z.string().optional(),
+  race: z.string().optional(),
+  alignment: z.string().optional(),
+  xp: z.number().int().min(0).default(0),
+  conditions: z.array(z.string()).default([]),
 });

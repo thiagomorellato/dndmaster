@@ -9,8 +9,12 @@ import { VitalsWidget } from '../components/VitalsWidget';
 import { ResourceTracker } from '../components/ResourceTracker';
 import { EquipmentTracker } from '../components/EquipmentTracker';
 import { CharacterTab } from '../components/CharacterTab';
+import { SpellbookWidget } from '../components/SpellbookWidget';
+import { DiceRollerWidget } from '../components/DiceRollerWidget';
+import { RestModal } from '../components/RestModal';
+import { StatusConditions } from '../components/StatusConditions';
 import { Ionicons } from '@expo/vector-icons';
-import { getHitDieType, getArmorCategory } from '../utils/dndRules';
+import { getHitDieType, getArmorCategory, getSpellSlotsForClass, XP_THRESHOLDS } from '../utils/dndRules';
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -71,7 +75,11 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
   const [character, setCharacter] = useState<Character | null>(null);
   const [logs, setLogs] = useState<CombatLogEntry[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('tatico');
+  const [restModalVisible, setRestModalVisible] = useState(false);
+  const [addXpModalVisible, setAddXpModalVisible] = useState(false);
+  const [xpInputValue, setXpInputValue] = useState('');
   const loadData = async () => {
     try {
       const char = await StorageService.getCharacter(characterId);
@@ -423,7 +431,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
     try {
       await StorageService.saveCharacter(updatedChar);
       setCharacter(updatedChar);
-      await LoggerService.logEvent(character.id, 'SHIELD_OF_FAITH', detail, hpSummary);
+      await LoggerService.logEvent(character.id, isNowEquipped ? 'EQUIP_ITEM' : 'UNEQUIP_ITEM', detail, hpSummary);
       const logList = await LoggerService.getLogs(character.id);
       setLogs(logList);
     } catch (error: any) {
@@ -457,7 +465,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
         };
       } else {
         const newItem: EquipmentItem = {
-          id: Math.random().toString(36).substring(2, 9) + Date.now().toString(36),
+          id: crypto.randomUUID(),
           name: item.name,
           type: item.type as 'ammunition',
           equipped: false,
@@ -475,7 +483,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       }
     } else {
       const newItem: EquipmentItem = {
-        id: Math.random().toString(36).substring(2, 9) + Date.now().toString(36),
+        id: crypto.randomUUID(),
         name: item.name,
         type: item.type as any,
         equipped: false,
@@ -563,6 +571,140 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       console.error(error);
     }
   };
+
+  // XP and Level Up
+  const handleAddXP = async (amount: number) => {
+    if (!character) return;
+    setIsSaving(true);
+    try {
+      const currentXP = character.xp ?? 0;
+      const newXP = currentXP + amount;
+      const updatedChar = { ...character, xp: newXP };
+      await StorageService.saveCharacter(updatedChar);
+      setCharacter(updatedChar);
+      const totalAC = character.combat.baseArmorClass + (character.combat.shieldOfFaithActive ? 2 : 0);
+      await LoggerService.logEvent(character.id, 'XP_GAIN', `+${amount} XP (Total: ${newXP.toLocaleString('pt-BR')})`, getHpSummary(character.hp, totalAC));
+      const logList = await LoggerService.getLogs(character.id);
+      setLogs(logList);
+      // Check if leveled up
+      const nextLevelThreshold = XP_THRESHOLDS[character.level + 1];
+      if (nextLevelThreshold !== undefined && newXP >= nextLevelThreshold) {
+        Alert.alert('🎉 Level Up disponível!', `Você atingiu ${newXP.toLocaleString('pt-BR')} XP! Já pode subir para o Nível ${character.level + 1}.`);
+      }
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleLevelUp = async () => {
+    if (!character || character.level >= 20) return;
+    const newLevel = character.level + 1;
+    const dieType = character.hitDice?.dieType || getHitDieType(character.characterClass);
+    const dieSize = parseInt(dieType.replace('d', ''), 10);
+    const conMod = Math.floor((character.baseStats.con - 10) / 2);
+    const hpRoll = Math.floor(Math.random() * dieSize) + 1;
+    const hpGain = Math.max(1, hpRoll + conMod);
+
+    // Get base class name for spell slots
+    const baseClass = character.characterClass.split(' (')[0];
+    const getNormClass = (cls: string) => {
+      const n = cls.trim().toLowerCase();
+      if (n.includes('paladino') || n.includes('paladin')) return 'Paladino';
+      if (n.includes('clérigo') || n.includes('cleric')) return 'Clérigo';
+      if (n.includes('mago') || n.includes('wizard')) return 'Mago';
+      if (n.includes('bardo') || n.includes('bard')) return 'Bardo';
+      if (n.includes('druida') || n.includes('druid')) return 'Druida';
+      if (n.includes('feiticeiro') || n.includes('sorcerer')) return 'Feiticeiro';
+      if (n.includes('bruxo') || n.includes('warlock')) return 'Bruxo';
+      if (n.includes('patrulheiro') || n.includes('ranger')) return 'Patrulheiro';
+      if (n.includes('artífice') || n.includes('artificer')) return 'Artífice';
+      return cls;
+    };
+    const normClass = getNormClass(baseClass);
+    const newSpellSlots = getSpellSlotsForClass(normClass, newLevel);
+
+    const updatedChar: Character = {
+      ...character,
+      level: newLevel,
+      hp: { ...character.hp, max: character.hp.max + hpGain, current: character.hp.current + hpGain },
+      resources: { ...character.resources, spellSlots: newSpellSlots },
+      hitDice: { current: (character.hitDice?.current ?? character.level) + 1, dieType },
+    };
+    setIsSaving(true);
+    try {
+      await StorageService.saveCharacter(updatedChar);
+      setCharacter(updatedChar);
+      await LoggerService.logEvent(
+        character.id, 'LEVEL_UP',
+        `⬆️ Subiu para Nível ${newLevel}! HP +${hpGain} (rolou ${hpRoll} + ${conMod} CON)`,
+        `Nível ${newLevel} | HP: ${updatedChar.hp.current}/${updatedChar.hp.max}`
+      );
+      const logList = await LoggerService.getLogs(character.id);
+      setLogs(logList);
+      Alert.alert(`🎉 Nível ${newLevel}!`, `Parabéns! Você subiu para o Nível ${newLevel}!\n\nHP ganho: +${hpGain} (rolou ${hpRoll} + ${conMod} CON)`);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleShortRest = async (hpGained: number, hitDiceUsed: number) => {
+    if (!character) return;
+    setIsSaving(true);
+    try {
+      const newCurrentHp = Math.min(character.hp.max, character.hp.current + hpGained);
+      const newHitDiceCurrent = Math.max(0, (character.hitDice?.current ?? character.level) - hitDiceUsed);
+      const dieType = character.hitDice?.dieType || getHitDieType(character.characterClass);
+      const updatedChar: Character = {
+        ...character,
+        hp: { ...character.hp, current: newCurrentHp },
+        hitDice: { current: newHitDiceCurrent, dieType },
+      };
+      await StorageService.saveCharacter(updatedChar);
+      setCharacter(updatedChar);
+      const totalAC = character.combat.baseArmorClass + (character.combat.shieldOfFaithActive ? 2 : 0);
+      await LoggerService.logEvent(character.id, 'HP_HEAL', `💤 Descanso Curto: +${hpGained} HP (${hitDiceUsed}x ${dieType} gastos)`, getHpSummary(updatedChar.hp, totalAC));
+      const logList = await LoggerService.getLogs(character.id);
+      setLogs(logList);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleLongRest = async () => {
+    if (!character) return;
+    setIsSaving(true);
+    try {
+      const restoredSlots = Object.fromEntries(
+        Object.entries(character.resources.spellSlots).map(([k, v]) => [k, { ...v, current: v.max }])
+      );
+      const restoredResources = character.resources.customResources.map(r => ({ ...r, current: r.max }));
+      const dieType = character.hitDice?.dieType || getHitDieType(character.characterClass);
+      const updatedChar: Character = {
+        ...character,
+        hp: { ...character.hp, current: character.hp.max, temp: 0 },
+        hitDice: { current: character.level, dieType },
+        resources: { spellSlots: restoredSlots, customResources: restoredResources },
+      };
+      await StorageService.saveCharacter(updatedChar);
+      setCharacter(updatedChar);
+      await LoggerService.logEvent(character.id, 'RESOURCE_REGAIN', '🌙 Descanso Longo: HP, slots e recursos restaurados ao máximo', `HP: ${character.hp.max}/${character.hp.max}`);
+      const logList = await LoggerService.getLogs(character.id);
+      setLogs(logList);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleUpdateConditions = async (conditions: string[]) => {
+    if (!character) return;
+    const updatedChar = { ...character, conditions };
+    try {
+      await StorageService.saveCharacter(updatedChar);
+      setCharacter(updatedChar);
+    } catch (error: any) {
+      console.error('Error updating conditions:', error.message);
+    }
+  };
   const handleClearLogs = () => {
     Alert.alert('Limpar Histórico', 'Tem certeza de que deseja apagar todo o histórico de combate deste personagem?', [{
       text: 'Cancelar',
@@ -589,30 +731,29 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
   const getLogIcon = (type: ActionType) => {
     switch (type) {
       case 'HP_DAMAGE':
-        return {
-          name: 'heart-dislike',
-          color: colors.accentRed
-        };
+        return { name: 'heart-dislike', color: colors.accentRed };
       case 'HP_HEAL':
-        return {
-          name: 'heart-half',
-          color: colors.accentEmerald
-        };
+        return { name: 'heart-half', color: colors.accentEmerald };
       case 'SHIELD_OF_FAITH':
-        return {
-          name: 'shield',
-          color: colors.accentSky
-        };
+        return { name: 'shield', color: colors.accentSky };
       case 'SMITE_USE':
-        return {
-          name: 'flame',
-          color: colors.accentAmber
-        };
+        return { name: 'flame', color: colors.accentAmber };
+      case 'EQUIP_ITEM':
+        return { name: 'bag-add', color: colors.accentEmerald };
+      case 'UNEQUIP_ITEM':
+        return { name: 'bag-remove', color: colors.textMuted };
+      case 'ITEM_ADDED':
+        return { name: 'add-circle', color: colors.accentEmerald };
+      case 'ITEM_REMOVED':
+        return { name: 'remove-circle', color: colors.accentRed };
+      case 'LEVEL_UP':
+        return { name: 'arrow-up-circle', color: '#F59E0B' };
+      case 'XP_GAIN':
+        return { name: 'star', color: '#F59E0B' };
+      case 'DICE_ROLL':
+        return { name: 'dice', color: colors.accentSky };
       default:
-        return {
-          name: 'flash',
-          color: colors.accentViolet
-        };
+        return { name: 'flash', color: colors.accentViolet };
     }
   };
   if (loading) {
@@ -651,8 +792,12 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
           </View>
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          {isSaving && <ActivityIndicator size="small" color={colors.accentSky} style={{marginRight: 8}} />}
           <TouchableOpacity onPress={toggleTheme} style={{marginRight: 12}}>
             <Ionicons name={theme === 'dark' ? "sunny" : "moon"} size={20} color={colors.accentSky} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setRestModalVisible(true)} style={{marginRight: 12}}>
+            <Ionicons name="moon-outline" size={20} color={colors.textMuted} />
           </TouchableOpacity>
           <View style={styles.levelBadgeCircle}>
             <Text style={styles.levelBadgeNumber}>{character.level}</Text>
@@ -663,28 +808,86 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
 
       {/* Main Content Area */}
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {activeTab === 'tatico' && <VitalsWidget combat={character.combat} stats={character.baseStats} proficiencies={character.proficiencies} level={character.level} equipment={character.equipment} characterClass={character.characterClass} coins={character.coins} imageUrl={character.imageUrl} onUpdateImageUrl={async (url) => {
-          if (character) {
-            const updatedChar = { ...character, imageUrl: url };
-            try {
-              await StorageService.saveCharacter(updatedChar);
-              setCharacter(updatedChar);
-            } catch (err) {}
-          }
-        }} onUpdateProficiencies={handleUpdateProficiencies} onUpdateEquipment={async updatedEq => {
-          if (character) {
-            const updatedChar = {
-              ...character,
-              equipment: updatedEq
-            };
-            try {
-              await StorageService.saveCharacter(updatedChar);
-              setCharacter(updatedChar);
-            } catch (err) {
-              console.error('Error saving ammo:', err);
+        {activeTab === 'tatico' && <>
+          <VitalsWidget combat={character.combat} stats={character.baseStats} proficiencies={character.proficiencies} level={character.level} equipment={character.equipment} characterClass={character.characterClass} coins={character.coins} imageUrl={character.imageUrl} onUpdateImageUrl={async (url) => {
+            if (character) {
+              const updatedChar = { ...character, imageUrl: url };
+              try {
+                await StorageService.saveCharacter(updatedChar);
+                setCharacter(updatedChar);
+              } catch (err) {}
             }
-          }
-        }} />}
+          }} onUpdateProficiencies={handleUpdateProficiencies} onUpdateEquipment={async updatedEq => {
+            if (character) {
+              const updatedChar = { ...character, equipment: updatedEq };
+              try {
+                await StorageService.saveCharacter(updatedChar);
+                setCharacter(updatedChar);
+              } catch (err) { console.error('Error saving ammo:', err); }
+            }
+          }} />
+
+          {/* XP Widget */}
+          {(() => {
+            const currentXP = character.xp ?? 0;
+            const level = character.level;
+            const nextLevelXP = XP_THRESHOLDS[level + 1];
+            const currentLevelXP = XP_THRESHOLDS[level] ?? 0;
+            const progress = nextLevelXP
+              ? Math.min(1, (currentXP - currentLevelXP) / (nextLevelXP - currentLevelXP))
+              : 1;
+            const canLevelUp = nextLevelXP !== undefined && currentXP >= nextLevelXP;
+            return (
+              <View style={[styles.xpCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+                <View style={styles.xpHeader}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                    <Ionicons name="star" size={14} color="#F59E0B" />
+                    <Text style={[styles.xpTitle, { color: colors.textMuted }]}>EXPERIÊNCIA</Text>
+                  </View>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <Text style={[styles.xpValue, { color: colors.textMain }]}>{currentXP.toLocaleString('pt-BR')} XP</Text>
+                    <TouchableOpacity
+                      style={[styles.addXpBtn, { backgroundColor: colors.surfaceHighlight, borderColor: colors.border }]}
+                      onPress={() => { setXpInputValue(''); setAddXpModalVisible(true); }}
+                    >
+                      <Ionicons name="add" size={14} color="#F59E0B" />
+                      <Text style={[styles.addXpText, { color: '#F59E0B' }]}>+XP</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <View style={[styles.xpBarBg, { backgroundColor: colors.surfaceSecondary }]}>
+                  <View style={[styles.xpBarFill, { width: `${progress * 100}%` as any }]} />
+                </View>
+                <View style={styles.xpFooter}>
+                  <Text style={[styles.xpNextLabel, { color: colors.textMuted }]}>
+                    {nextLevelXP
+                      ? `Para Nível ${level + 1}: ${nextLevelXP.toLocaleString('pt-BR')} XP`
+                      : 'Nível máximo atingido!'}
+                  </Text>
+                  {canLevelUp && (
+                    <TouchableOpacity
+                      style={[styles.levelUpBtn, { backgroundColor: '#F59E0B' }]}
+                      onPress={handleLevelUp}
+                    >
+                      <Ionicons name="arrow-up-circle" size={14} color="#000" style={{ marginRight: 4 }} />
+                      <Text style={styles.levelUpBtnText}>Nível {level + 1}!</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              </View>
+            );
+          })()}
+
+          <SpellbookWidget
+            preparedSpells={character.preparedSpells}
+            spellSlots={character.resources.spellSlots}
+          />
+
+          <StatusConditions
+            conditions={character.conditions ?? []}
+            onUpdateConditions={handleUpdateConditions}
+          />
+        </>}
 
         {activeTab === 'personagem' && <CharacterTab character={character} onUpdateProficiencies={handleUpdateProficiencies} />}
 
@@ -818,11 +1021,11 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
                   {/* Middle: HP Adjustments (- / + / Multiplier) */}
                   <View style={styles.quickControls}>
                     <TouchableOpacity style={[styles.controlBtnCompact, styles.btnDamageCompact]} onPress={() => handleAdjust(false)}>
-                      <Ionicons name="remove" size={14} color={colors.textMain} />
+                      <Ionicons name="remove" size={18} color="#FFF" />
                     </TouchableOpacity>
 
                     <TouchableOpacity style={[styles.controlBtnCompact, styles.btnHealCompact]} onPress={() => handleAdjust(true)}>
-                      <Ionicons name="add" size={14} color={colors.textMain} />
+                      <Ionicons name="add" size={18} color="#FFF" />
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.multiplierBtnCompact} onPress={cycleMultiplier}>
@@ -894,7 +1097,58 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
           </Text>
         </TouchableOpacity>
       </View>
+      {/* RestModal */}
+      <RestModal
+        visible={restModalVisible}
+        character={character}
+        onClose={() => setRestModalVisible(false)}
+        onShortRest={handleShortRest}
+        onLongRest={handleLongRest}
+      />
+      {/* Add XP Modal */}
+      <Modal animationType="fade" transparent visible={addXpModalVisible} onRequestClose={() => setAddXpModalVisible(false)}>
+        <View style={styles.modalOverlay}>
+          <View style={[styles.modalContent, { maxHeight: 220 }]}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Adicionar XP</Text>
+              <TouchableOpacity onPress={() => setAddXpModalVisible(false)}>
+                <Ionicons name="close" size={22} color={colors.textMuted} />
+              </TouchableOpacity>
+            </View>
+            <Text style={{ color: colors.textMuted, fontSize: 13, marginBottom: 12 }}>
+              Quantos pontos de experiência ganhos?
+            </Text>
+            <TextInput
+              style={[styles.coinTextInput, { marginBottom: 16, fontSize: 20, fontWeight: '800' }]}
+              keyboardType="numeric"
+              value={xpInputValue}
+              onChangeText={setXpInputValue}
+              placeholder="Ex: 450"
+              placeholderTextColor={colors.textMuted}
+              autoFocus
+            />
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end', gap: 12 }}>
+              <TouchableOpacity onPress={() => setAddXpModalVisible(false)} style={{ paddingVertical: 10, paddingHorizontal: 16 }}>
+                <Text style={{ color: colors.textMuted, fontWeight: '700' }}>Cancelar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  const amount = parseInt(xpInputValue, 10);
+                  if (!isNaN(amount) && amount > 0) {
+                    handleAddXP(amount);
+                    setAddXpModalVisible(false);
+                  }
+                }}
+                style={{ backgroundColor: '#F59E0B', borderRadius: 10, paddingVertical: 10, paddingHorizontal: 20 }}
+              >
+                <Text style={{ color: '#000', fontWeight: '800' }}>Confirmar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
       {/* Coins Editing Modal */}
+
       <Modal animationType="slide" transparent={true} visible={coinsModalVisible} onRequestClose={() => setCoinsModalVisible(false)}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
@@ -1327,9 +1581,9 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     flex: 1.2
   },
   controlBtnCompact: {
-    width: 24,
-    height: 24,
-    borderRadius: 5,
+    width: 32,
+    height: 32,
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -1338,12 +1592,12 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   btnHealCompact: {
     backgroundColor: colors.accentEmerald,
-    marginLeft: 4
+    marginLeft: 8
   },
   multiplierBtnCompact: {
-    width: 24,
-    height: 24,
-    borderRadius: 5,
+    width: 32,
+    height: 32,
+    borderRadius: 8,
     backgroundColor: colors.overlayBg,
     borderWidth: 1,
     borderColor: colors.accentAmber,
@@ -1467,5 +1721,72 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     color: colors.background,
     fontSize: 14,
     fontWeight: '800'
+  },
+  xpCard: {
+    borderRadius: 14,
+    borderWidth: 1,
+    padding: 12,
+    marginBottom: 16,
+  },
+  xpHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  xpTitle: {
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 0.5,
+  },
+  xpValue: {
+    fontSize: 14,
+    fontWeight: '800',
+  },
+  addXpBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 6,
+    borderWidth: 1,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    gap: 2,
+  },
+  addXpText: {
+    fontSize: 10,
+    fontWeight: '800',
+  },
+  xpBarBg: {
+    height: 6,
+    borderRadius: 3,
+    width: '100%',
+    overflow: 'hidden',
+    marginBottom: 6,
+  },
+  xpBarFill: {
+    height: '100%',
+    backgroundColor: '#F59E0B',
+    borderRadius: 3,
+  },
+  xpFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  xpNextLabel: {
+    fontSize: 10,
+    fontWeight: '600',
+  },
+  levelUpBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 6,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  levelUpBtnText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#000',
   }
 });

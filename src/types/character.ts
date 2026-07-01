@@ -85,6 +85,8 @@ export interface Character {
   imageUrl?: string;
   race?: string;
   alignment?: string;
+  xp?: number;
+  conditions?: string[];
 }
 
 export type ActionType = 
@@ -95,7 +97,14 @@ export type ActionType =
   | 'SPELL_SLOT_REGAIN'
   | 'SMITE_USE' 
   | 'RESOURCE_USE'
-  | 'RESOURCE_REGAIN';
+  | 'RESOURCE_REGAIN'
+  | 'EQUIP_ITEM'
+  | 'UNEQUIP_ITEM'
+  | 'ITEM_ADDED'
+  | 'ITEM_REMOVED'
+  | 'LEVEL_UP'
+  | 'XP_GAIN'
+  | 'DICE_ROLL';
 
 export interface CombatLogEntry {
   id: string;
