@@ -87,4 +87,5 @@ export const CharacterSchema = z.object({
   alignment: z.string().optional(),
   xp: z.number().int().min(0).default(0),
   conditions: z.array(z.string()).default([]),
+  journal: z.string().optional(),
 });

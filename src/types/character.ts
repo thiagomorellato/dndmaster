@@ -87,6 +87,7 @@ export interface Character {
   alignment?: string;
   xp?: number;
   conditions?: string[];
+  journal?: string;
 }
 
 export type ActionType = 
@@ -114,3 +115,4 @@ export interface CombatLogEntry {
   value_change: string; // e.g., "-5", "+1", "active", "L1 slots: 3/4"
   current_state: string; // snapshot e.g. "HP: 35/40, AC: 18"
 }
+

@@ -13,7 +13,7 @@ interface CharacterCreationScreenProps {
   onSuccess: () => void;
 }
 type StepType = 1 | 2 | 3 | 4 | 5; // 1: Info, 2: Stats, 3: Perícias, 4: Equipamentos, 5: Magias
-type StatMethod = 'standard' | 'pointbuy' | 'roll';
+type StatMethod = 'standard' | 'pointbuy' | 'roll' | 'manual';
 export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = ({
   onBack,
   onSuccess
@@ -30,7 +30,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
   const [selectedSubclass, setSelectedSubclass] = useState('Juramento de Devoção');
   const [selectedRace, setSelectedRace] = useState('Humano');
   const [selectedBackground, setSelectedBackground] = useState('Acólito');
-  const [level, setLevel] = useState(5);
+  const [level, setLevel] = useState(1);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -80,6 +80,15 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
         int: 8,
         wis: 8,
         cha: 8
+      });
+    } else if (method === 'manual') {
+      setStats({
+        str: 10,
+        dex: 10,
+        con: 10,
+        int: 10,
+        wis: 10, 
+        cha: 10 
       });
     } else {
       setStats({
@@ -970,6 +979,9 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                 <TouchableOpacity style={[styles.methodBtn, statMethod === 'roll' && styles.methodBtnActive]} onPress={() => handleSelectStatMethod('roll')}>
                   <Text style={[styles.methodBtnLabel, statMethod === 'roll' && styles.methodBtnLabelActive]}>Dados</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={[styles.methodBtn, statMethod === 'manual' && styles.methodBtnActive]} onPress={() => handleSelectStatMethod('manual')}>
+                  <Text style={[styles.methodBtnLabel, statMethod === 'manual' && styles.methodBtnLabelActive]}>Manual</Text>
+                </TouchableOpacity>
               </View>
 
               {statMethod === 'standard' && <Text style={styles.stepDesc}>Distribua os valores padrão: 15, 14, 13, 12, 10 e 8.</Text>}
@@ -1018,7 +1030,19 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                       {Math.floor((stats[stat] - 10) / 2)}
                     </Text>
                   </View>
-
+                  {statMethod === 'manual' && (
+                    <View style={styles.pointBuySelector}>
+                      <TextInput
+                        style={[styles.pbValue, { textAlign: 'center', width: 60, borderWidth: 1, borderColor: colors.border, borderRadius: 8, padding: 5 }]}
+                        keyboardType="numeric"
+                        value={String(stats[stat])}
+                        onChangeText={(val) => {
+                          const num = parseInt(val) || 0;
+                          setStats(prev => ({ ...prev, [stat]: num }));
+                        }}
+                      />
+                    </View>
+                  )}
                   {/* Score values selector */}
                   {statMethod === 'standard' && <View style={styles.arraySelector}>
                       {standardArrayValues.map(val => {
@@ -1159,7 +1183,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
               return <TouchableOpacity key={skill} style={[styles.skillCheckBtn, isSelected && styles.skillCheckBtnActive, isFromBg && {
                 opacity: 0.8,
                 backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                borderColor: colors.accentSky
+                borderColor: colors.accentAmber
               }, isRacialFixed && {
                 opacity: 0.8,
                 backgroundColor: colors.accentAmberBg,
@@ -1170,14 +1194,14 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                 if (isDisabled) return;
                 toggleSkill(skill);
               }} activeOpacity={isFromBg || isRacialFixed || isDisabled ? 1.0 : 0.8}>
-                      <Ionicons name={isSelected ? 'checkbox' : 'square-outline'} size={18} color={isFromBg ? colors.accentSky : isRacialFixed ? colors.accentAmber : isSelected ? colors.accentAmber : colors.borderHighlight} style={{
+                      <Ionicons name={isSelected ? 'checkbox' : 'square-outline'} size={18} color={isFromBg ? colors.accentAmber : isRacialFixed ? colors.accentAmber : isSelected ? colors.accentAmber : colors.borderHighlight} style={{
                   marginRight: 8
                 }} />
                       <View style={{
                   flex: 1
                 }}>
                         <Text style={[styles.skillCheckLabel, isSelected && styles.skillCheckLabelActive, isFromBg && {
-                    color: colors.accentSky,
+                    color: colors.accentAmber,
                     fontWeight: '800'
                   }, isRacialFixed && {
                     color: '#FBBF24',
@@ -1186,7 +1210,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                           {skill}
                         </Text>
                         {isFromBg && <Text style={{
-                    color: colors.accentSky,
+                    color: colors.accentAmber,
                     fontSize: 7,
                     fontWeight: '700',
                     marginTop: 1
@@ -1314,7 +1338,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
                   <Switch disabled={isWeapon2H} trackColor={{
               false: colors.background,
               true: '#2563EB'
-            }} thumbColor={hasShield ? colors.accentSky : colors.textMuted} onValueChange={val => {
+            }} thumbColor={hasShield ? colors.accentAmber : colors.textMuted} onValueChange={val => {
               if (val && isWeapon2H) {
                 Alert.alert('Aviso D&D', 'Não é possível equipar escudo enquanto usa arma de duas mãos.');
                 return;

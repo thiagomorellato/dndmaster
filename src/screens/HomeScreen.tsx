@@ -161,7 +161,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
 
       <View style={styles.actionRow}>
         <TouchableOpacity style={styles.actionBtn} onPress={() => handleExportJSON(item)}>
-          <Ionicons name="download" size={16} color={colors.accentSky} />
+          <Ionicons name="download" size={16} color={colors.accentAmber} />
           <Text style={styles.actionBtnLabel}>JSON</Text>
         </TouchableOpacity>
         
@@ -187,7 +187,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
       </TouchableOpacity>
 
       <View style={styles.titleContainer}>
-        <Ionicons name="logo-octocat" size={32} color={colors.accentSky} />
+        <Ionicons name="logo-octocat" size={32} color={colors.accentAmber} />
         <Text style={styles.headerTitle}>D&D 5e Tactical Manager</Text>
         <Text style={styles.headerSubtitle}>Data Architecture Portfólio (NoSQL + Event Sourcing)</Text>
       </View>
@@ -222,7 +222,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
       <View style={styles.floatingMenu}>
         {characters.length > 0 && (
           <TouchableOpacity style={[styles.floatingBtn, styles.demoBtn]} onPress={handleCreateDemo}>
-            <Ionicons name="gift" size={22} color={colors.accentSky} />
+            <Ionicons name="gift" size={22} color={colors.accentAmber} />
           </TouchableOpacity>
         )}
         <TouchableOpacity 
@@ -356,7 +356,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   primaryBtn: {
     flexDirection: 'row',
-    backgroundColor: colors.accentSky,
+    backgroundColor: colors.accentAmber,
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
@@ -547,7 +547,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   confirmModalBtn: {
     flexDirection: 'row',
-    backgroundColor: colors.accentSky,
+    backgroundColor: colors.accentAmber,
     paddingVertical: 10,
     paddingHorizontal: 16,
     borderRadius: 8,

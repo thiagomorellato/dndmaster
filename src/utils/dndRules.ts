@@ -577,7 +577,7 @@ export const WEAPON_TEMPLATES: WeaponTemplate[] = [
     "dmgDiceVersatile": "1d8"
   },
   {
-    "name": "Light Crossbow",
+    "name": "Besta Leve",
     "dmgDice": "1d8",
     "handedness": "2 Mãos",
     "dmgType": "Cortante",
@@ -790,7 +790,7 @@ export const WEAPON_TEMPLATES: WeaponTemplate[] = [
   },
   {
     "name": "Tridente",
-    "dmgDice": "1d7",
+    "dmgDice": "1d6/1d8",
     "handedness": "Versátil",
     "dmgType": "Perfurante",
     "properties": [
@@ -847,7 +847,7 @@ export const WEAPON_TEMPLATES: WeaponTemplate[] = [
     "rangeType": "À Distância"
   },
   {
-    "name": "Hand Crossbow",
+    "name": "Besta de mão",
     "dmgDice": "1d6",
     "handedness": "1 Mão",
     "dmgType": "Cortante",
@@ -860,10 +860,10 @@ export const WEAPON_TEMPLATES: WeaponTemplate[] = [
     "rangeType": "À Distância"
   },
   {
-    "name": "Heavy Crossbow",
+    "name": "Besta Pesada",
     "dmgDice": "1d10",
-    "handedness": "1 Mão",
-    "dmgType": "Cortante",
+    "handedness": "2 Mãos",
+    "dmgType": "Perfurante",
     "properties": [
       "Munição (dist. 100/400m)",
       "Pesada (Heavy)",
@@ -875,12 +875,11 @@ export const WEAPON_TEMPLATES: WeaponTemplate[] = [
   {
     "name": "Arco Longo",
     "dmgDice": "1d8",
-    "handedness": "1 Mão",
-    "dmgType": "Cortante",
+    "handedness": "2 Mãos",
+    "dmgType": "Perfurante",
     "properties": [
       "Munição (dist. 150/600m)",
-      "Pesada (Heavy)",
-      "Recarga"
+      "Pesada (Heavy)"
     ],
     "category": "Marcial",
     "rangeType": "À Distância"

@@ -60,7 +60,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Até três criaturas de sua escolha que você possa ver dentro do alcance devem fazer Teste de resistência de Carismas. Sempre que um alvo que falha neste teste de resistência faz uma jogada de ataque ou um teste de resistência antes da magia terminar, o alvo deve rolar um d4 e subtrair o número rolado da jogada de ataque ou teste de resistência."
   },
   {
@@ -88,7 +88,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você abençoa até três criaturas de sua escolha dentro do alcance. Sempre que um alvo faz uma jogada de ataque ou um teste de resistência antes da magia terminar, o alvo pode rolar um d4 e adicionar o número obtido à jogada de ataque ou teste de resistência."
   },
   {
@@ -183,7 +183,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 bonus ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você tenta obrigar uma criatura a um duelo. Uma criatura que você possa ver dentro do alcance deve fazer um Teste de resistência de Sabedoria. Em um teste de resistência falho, a criatura é atraída até você, compelida por sua exigência divina. Durante todo o período, ele tem manobra de ataque contra criaturas que não sejam você, e deve fazer um Teste de resistência de Sabedoria cada vez que tentar se mover para um espaço que esteja a mais de 9 metros de distância de você; se obtiver sucesso neste teste de resistência, o feitiço não restringe o movimento do alvo naquele turno.\n\nA magia termina se você atacar qualquer outra criatura, se você lançar um feitiço que atinja uma criatura hostil que não seja o alvo, se uma criatura amiga a você danificar o alvo ou lançar um feitiço prejudicial sobre ele, ou se você terminar seu turno a mais de 9 metros de distância do alvo."
   },
   {
@@ -241,7 +241,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você cria até quatro luzes do tamanho de tochas dentro do alcance, fazendo-as aparecer como tochas, lanternas ou orbes brilhantes que pairam no ar durante todo o tempo. Você também pode combinar as quatro luzes em uma forma vagamente humanóide brilhante de tamanho médio. Seja qual for a forma que você escolher, cada luz emite luz fraca em um raio de 3 metros. Como ação bônus no seu turno, você pode mover as luzes até 18 metros para um novo local dentro do alcance. Uma luz deve estar a até 6 metros de outra luz criada por esta magia, e uma luz apaga se exceder o alcance da magia."
   },
   {
@@ -254,7 +254,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Adivinhação",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Ao longo do tempo, você saberá se há uma aberração, celestial, elemental, feérico, inimigo ou mortos-vivos a até 9 metros de você, bem como onde a criatura está localizada. Da mesma forma, você sabe se existe um lugar ou objeto a até 9 metros de você que foi consagrado ou profanado magicamente.\n\nA magia pode penetrar a maioria das barreiras, mas é bloqueada por 30 centímetros de pedra, 2,5 centímetros de metal comum, uma folha fina de chumbo ou 90 centímetros de madeira ou terra."
   },
   {
@@ -272,7 +272,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Adivinhação",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Durante todo o tempo, você sente a presença de magia a até 9 metros de você. Se você sentir magia desta forma, você pode usar sua ação para ver uma aura fraca em qualquer criatura ou objeto visível na área que contenha magia, e você aprenderá sua escola de magia, se houver.\n\nA magia pode penetrar a maioria das barreiras, mas é bloqueada por 30 centímetros de pedra, 2,5 centímetros de metal comum, uma folha fina de chumbo ou 90 centímetros de madeira ou terra."
   },
   {
@@ -287,7 +287,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Adivinhação",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Durante esse período, você poderá sentir a presença e localização de venenos, criaturas venenosas e doenças a até 9 metros de você. Você também identifica o tipo de veneno, criatura venenosa ou doença em cada caso.\n\nA magia pode penetrar a maioria das barreiras, mas é bloqueada por 30 centímetros de pedra, 2,5 centímetros de metal comum, uma folha fina de chumbo ou 90 centímetros de madeira ou terra."
   },
   {
@@ -314,7 +314,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 bonus ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Sua oração capacita você com brilho divino. Até o fim da magia, seus ataques com arma causam 1d4 de dano radiante extra."
   },
   {
@@ -362,7 +362,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 bonus ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Na próxima vez que você acertar uma criatura com um ataque de arma antes que a magia termine, uma massa contorcida de vinhas espinhosas aparece no ponto de impacto, e o alvo deve ter sucesso em um Teste de resistência de Força ou será imobilizado pelas vinhas mágicas até o fim da magia. Uma criatura grande ou maior tem vantagem neste teste de resistência. Se o alvo conseguir salvar, as vinhas murcham.\n\nEnquanto estiver imobilizado por este feitiço, o alvo sofre 1d6 dano perfurante no início de cada um de seus turnos. Uma criatura imobilizada pelas vinhas ou que possa tocar uma criatura pode usar sua ação para fazer um teste de Força contra seu CD de resistência de magia. Com sucesso, o alvo é libertado."
   },
   {
@@ -374,7 +374,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "27 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Ervas daninhas e trepadeiras brotam da grodada em um quadrado de 6 metros começando em um ponto dentro do alcance. Durante o período, essas plantaas transformam a grodada da região em terreno difícil.\n\nUma criatura na área quando você conjura uma magia deve ter sucesso em um Teste de resistência de Força ou ser imobilizada pelas plantas emaranhadas até o fim da magia. Uma criatura imobilizada pelas plantas pode usar sua ação para fazer um teste de Força contra seu CD de resistência de magia. Com um sucesso, ele se liberta.\n\nQuando a magia termina, as plantaas conjuradas murcham."
   },
   {
@@ -387,7 +387,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Cada objeto em um cubo de 6 metros dentro do alcance é contornado em luz azul, verde ou violeta (sua escolha). Qualquer criatura na área quando o feitiço é lançado também é delineada em luz se falhar no Teste de resistência de Destreza. Durante todo o período, objetos e criaturas afetadas emitem luz fraca em um raio de 3 metros.\n\nQualquer ataque de ataque contra uma criatura ou objeto afetado tem vantagem se o atacante puder vê-lo, e a criatura ou objeto afetado não pode se beneficiar por ser invisível."
   },
   {
@@ -401,7 +401,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 bonus ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Este feitiço permite que você se mova em um ritmo incrível. Quando você conjura essa magia, e então como uma ação bônus em cada um dos seus turnos até o final da magia, você pode realizar a ação Dash."
   },
   {
@@ -468,7 +468,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você cria uma esfera de neblina com raio de 6 metros centrada em um ponto dentro do alcance. A esfera se espalha pelos cantos arodada e sua área fica fortemente obscurecida. Dura enquanto durar ou até que um vento de velocidade moderada ou maior (pelo menos 10 milhas por hora) o disperse."
   },
   {
@@ -483,7 +483,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Enquanto durar, você terá vantagem em todos os testes de Carisma direcionados a uma criatura de sua escolha que não seja hostil a você. Quando a magia termina, a criatura percebe que você usou magia para influenciar seu humor e se torna hostil com você. Uma criatura caída na violência pode atacar você. Outra criatura pode buscar retribuição de outras maneiras (a critério do Mestre), dependendo da natureza de sua interação com ela."
   },
   {
@@ -521,7 +521,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Adivinhação",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você toca uma criatura voluntária. Uma vez antes da magia terminar, o alvo pode rolar um d4 e adicionar o número obtido a um teste de habilidade de sua escolha. Ele pode lançar o dado antes ou depois de fazer o teste de habilidade. O feitiço então termina."
   },
   {
@@ -545,7 +545,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 bonus ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Na próxima vez que você atacar uma criatura com um ataque à distância com arma antes que a magia termine, este feitiço criará uma chuva de espinhos que brotará de sua arma de longo alcance ou munição. Além dos efeitos normais do ataque, o alvo do ataque e cada criatura a até 1,5 metro dele devem fazer um Teste de resistência de Destreza. Uma criatura sofre 1d10 de dano perfurante em um teste de resistência falho, ou metade do dano se for bem sucedido."
   },
   {
@@ -583,7 +583,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 bonus ação",
     "range": "27 metros",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você amaldiçoa uma criatura que você pode ver dentro do alcance. Até o fim da magia, você causa 1d6 de dano necrótico extra ao alvo sempre que o acerta com um ataque. Escolha também uma habilidade ao conjurar uma magia. O alvo tem desvantagens no teste de habilidades feito com a habilidade escolhida.\n\nSe o alvo cair para 0 pontos de vida antes que esta magia termine, você poderá usar uma ação bônus em um turno subsequente para amaldiçoar uma nova criatura.\n\nUma maldição de remoção lançada no alvo encerra este feitiço mais cedo."
   },
   {
@@ -596,7 +596,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Uma criatura voluntária que você toca é imbuída de bravura. Até o final da magia, a criatura fica imune a ser amedrontada e ganha pontos de vida temporários iguais ao seu modificador de atributo de conjuração no início de cada um de seus turnos. Quando a magia termina, o alvo perde quaisquer pontos de vida temporários restantes desta magia."
   },
   {
@@ -608,7 +608,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Adivinhação",
     "castingTime": "1 bonus ação",
     "range": "27 metros",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você escolhe uma criatura que pode ver dentro do alcance e a marca misticamente como sua presa. Até o fim da magia, você causa 1d6 de dano extra ao alvo sempre que acertá-lo com um ataque com arma, e você tem vantagem em qualquer teste de Sabedoria (Percepção) ou Sabedoria (Sobrevivência) que fizer para encontrá-lo. Se o alvo cair para 0 pontos de vida antes desta magia terminar, você poderá usar uma ação bônus em um turno subsequente para marcar uma nova criatura."
   },
   {
@@ -835,7 +835,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Até o fim da magia, uma criatura voluntária que você toca fica protegida contra certos tipos de criaturas: aberrações, celestiais, elementais, feéricos, inimigos e mortos-vivos.\n\nA proteção concede vários benefícios. Criaturas desse tipo têm manobras de ataque contra o alvo. O alvo também não pode ser enfeitiçado, amedrontado, ou possuído por eles. Se o alvo já estiver enfeitiçado, amedrontado ou possuído por tal criatura, o alvo terá vantagem em qualquer novo teste de resistência contra o efeito relevante."
   },
   {
@@ -903,7 +903,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você toca uma criatura voluntária. Uma vez antes da magia terminar, o alvo pode rolar um d4 e adicionar o número obtido a um teste de resistência de sua escolha. Pode-se rolar a matriz antes ou depois de fazer o teste de resistência. O feitiço então termina."
   },
   {
@@ -940,7 +940,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 bonus ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Um campo cintilante aparece e envolve uma criatura de sua escolha dentro do alcance, concedendo-lhe um bônus de +2 na CA durante a duração."
   },
   {
@@ -952,7 +952,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 bonus ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Na próxima vez que você acertar uma criatura com um ataque corpo a corpo com arma durante a duração do feitiço, sua arma brilha com intensidade wsucessoe-hot, e o ataque causa 1d6 de dano de fogo extra ao alvo e faz com que o alvo se incendeie em chamas. No início de cada um de seus turnos até a magia terminar, o alvo deve fazer um Teste de resistência de Constituição. Em um teste de resistência falho, são necessários 1d6 de dano de fogo. Em um teste de resistência bem sucedido, a magia termina. Se o alvo ou uma criatura a até 1,5 metro dele usar uma ação para apagar as chamas, ou se algum outro efeito apagar as chamas (como o alvo ser submerso na água), a magia termina."
   },
   {
@@ -1004,7 +1004,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Ilusão",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Você cria a imagem de um objeto, uma criatura, ou algum outro fenômeno visível que não seja maior que um cubo de 4,5 metros. A imagem aparece em um ponto dentro do alcance e perdura por toda a duração. A imagem é puramente visual; não é acompanhado por som, cheiro ou outros efeitos sensoriais.\n\nVocê pode usar sua ação para fazer com que a imagem se mova para qualquer local dentro do alcance. À medida que a imagem muda de local, você pode alterar sua aparência para que seus movimentos pareçam naturais para a imagem. Por exemplo, se você criar a imagem de uma criatura e movê-la, poderá alterar a imagem para que ela pareça estar andando.\n\nA interação física com a imagem revela que ela é uma ilusão, pois coisas podem passar por ela. Uma criatura que use sua ação para examinar a imagem pode determinar que se trata de uma ilusão com um teste bem-sucedido de Inteligência (Investigação) contra seu CD de resistência de magia. Se uma criatura discernir a ilusão pelo que ela é, a criatura poderá ver através da imagem."
   },
   {
@@ -1080,7 +1080,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 bonus ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Na primeira vez que você tiver sucesso com um ataque corpo a corpo com arma durante a duração deste feitiço, sua arma soa com um trovão que é audível a até 90 metros de você, e o ataque causa 2d6 de dano sônico extra ao alvo. Além disso, se o alvo for uma criatura, ele deverá ter sucesso em um Teste de resistência de Força ou será empurrado a 3 metros de distância de você e derrubado."
   },
   {
@@ -1110,7 +1110,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Adivinhação",
     "castingTime": "1 ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 1 round",
+    "duration": "Concentração, até 1 round",
     "description": "Você estende a mão e aponta o dedo para um alvo ao alcance. Sua magia lhe concede uma breve visão das defesas do alvo. No seu próximo turno, você ganha vantagem na sua primeira jogada de ataque contra o alvo, desde que este feitiço não tenha terminado."
   },
   {
@@ -1150,7 +1150,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Um feixe de energia azul crepitante é lançado em direção a uma criatura dentro do alcance, formando um arco sustentado de relâmpago entre você e o alvo. Faça um ataque de magia à distância contra essa criatura. Sem sucesso, o alvo leva 1d12 dano de raio, e em cada um de seus turnos durante o período, você pode usar sua ação para causar 1d12 dano de raio ao alvo automaticamente. A magia termina se você usar sua ação para fazer qualquer outra coisa. A magia também termina se o alvo estiver fora do alcance da magia ou se tiver cobertura total de você."
   },
   {
@@ -1162,7 +1162,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 bonus ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Na próxima vez que você tiver sucesso com um ataque corpo a corpo com arma durante a duração deste feitiço, seu ataque causará 1d6 de dano psíquico extra. Além disso, se o alvo for uma criatura, ele deverá fazer um Teste de resistência de Sabedoria ou ser amedrontado por você até o fim da magia. Como uma ação, a criatura pode fazer um teste de Sabedoria contra seu CD de resistência de magia para fortalecer sua determinação e encerrar este feitiço."
   },
   {
@@ -1229,7 +1229,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você tenta suprimir emoções fortes em um grupo de pessoas. Cada humanóide em uma esfera de 6 metros de raio centrada em um ponto que você escolher dentro do alcance deve fazer um Teste de resistência de Carisma; uma criatura pode optar por falhar neste teste de resistência se desejar. Se uma criatura falhar no teste de resistência, escolha um dos dois efeitos a seguir. Você pode suprimir qualquer efeito fazendo com que um alvo fique enfeitiçado ou amedrontado. Quando esta magia termina, qualquer efeito suprimido é retomado, desde que sua duração não tenha expirado nesse meio tempo.\n\nAlternativamente, você pode tornar um alvo indiferente sobre criaturas de sua escolha às quais ele é hostil. Essa indiferença termina se o alvo for atacado ou ferido por um feitiço ou se presenciar algum de seus amigos sendo ferido. Quando a magia termina, a criatura torna-se hostil novamente, a menos que o Mestre determine o contrário."
   },
   {
@@ -1246,7 +1246,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Escolha um humanoide que você possa ver dentro do alcance. O deve ser aprovado em Teste de resistência de Sabedoria ou ficar paralisado durante o período. Ao final de cada um de seus turnos, o alvo pode fazer outro Teste de resistência de Sabedoria. Com um sucesso, a magia termina no alvo."
   },
   {
@@ -1288,7 +1288,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Ilusão",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Durante a duração, nenhum som pode ser criado dentro ou passar através de uma esfera de 6 metros de raio centrada em um ponto escolhido dentro do alcance. Qualquer criatura ou objeto inteiramente dentro da esfera é imune ao dano sônico, e as criaturas ficam ensurdecidas enquanto estiverem inteiramente dentro dela."
   },
   {
@@ -1337,7 +1337,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Adivinhação",
     "castingTime": "1 ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você cria um olho invisível e mágico dentro do alcance que paira durante todo o tempo.\n\nVocê recebe mentalmente informações visuais do olho, que tem visão normal e visão no escuro de até 9 metros. O olho pode olhar em todas as direções.\n\nComo ação, você pode mover o olho até 9 metros em qualquer direção. Não há limite para o quão longe de você o olho pode se mover, mas ele não pode entrar em outro plano de existência. Uma barreira sólida bloqueia o movimento do olho, mas o olho pode passar por uma abertura de até 2,5 cm de diâmetro."
   },
   {
@@ -1349,7 +1349,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 ação",
     "range": "Self (30-foot radius)",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "A energia que preserva a vida irradia de você em uma aura com raio de 9 metros. Até a magia terminar, a aura se move com você, centrada em você. Cada criatura não hostil na aura (incluindo você) tem resistência ao dano necrótico e seu ponto de vida máximo não pode ser reduzido. Além disso, uma criatura viva e não hostil recupera 1 ponto de vida quando inicia seu turno na aura com 0 pontos de vida."
   },
   {
@@ -1361,7 +1361,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 ação",
     "range": "Self (30-foot radius)",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "A energia purificadora irradia de você em uma aura com raio de 9 metros. Até a magia terminar, a aura se move com você, centrada em você. Cada criatura não hostil na aura (incluindo você) não pode ficar doente, tem resistência a dano de veneno e tem vantagem em testes de resistência contra efeitos que causam qualquer uma das seguintes condições: cego, enfeitiçado, ensurdecido, amedrontado, paralisado, envenenado e atordoado."
   },
   {
@@ -1373,7 +1373,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "Self (30-foot radius)",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "A energia curativa irradia de você em uma aura com raio de 9 metros. Até a magia terminar, a aura se move com você, centrada em você. Você pode usar uma ação bônus para fazer com que uma criatura na aura (incluindo você) recupere 2d6 pontos de vida."
   },
   {
@@ -1389,7 +1389,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você tenta enviar uma criatura que você possa ver dentro do alcance para outro plano de existência. O alvo deve ter sucesso em um Teste de resistência de Carisma ou será banido.\n\nSe o alvo for nativo do plano de existência em que você está, você banirá o alvo para um semiplano inofensivo. Enquanto estiver lá, o alvo fica incapacitado. O alvo permanece lá até a magia terminar, momento em que o alvo reaparece no espaço que deixou ou no espaço desocupado mais próximo, se esse espaço estiver ocupado.\n\nSe o alvo for nativo de um plano de existência diferente daquele em que você está, o alvo é banido com um leve estalo, retornando ao seu plano natal. Se a magia terminar antes de decorrido 1 minuto, o alvo reaparece no espaço que deixou ou no espaço desocupado mais próximo, se esse espaço estiver ocupado. Caso contrário, o alvo não retorna."
   },
   {
@@ -1401,7 +1401,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Este feitiço confere esperança e vitalidade. Escolha qualquer número de criaturas dentro do alcance. Durante a duração, cada alvo tem vantagem em Teste de resistência de Sabedorias e testes de resistência de morte, e recupera o número máximo de pontos de vida possíveis de qualquer cura."
   },
   {
@@ -1430,7 +1430,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Necromancia",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você toca uma criatura, e essa criatura deve ter sucesso em um Teste de resistência de Sabedoria ou será amaldiçoada durante a duração da magia. Quando você conjura essa magia, escolha a natureza da maldição entre as seguintes opções:\n\n* Escolha uma pontuação de habilidade. Enquanto amaldiçoado, o alvo tem manobras em testes de habilidades e testes de resistência feitos com esse valor de habilidade.\n* Enquanto amaldiçoado, o alvo tem manobras de ataque contra você.\n* Enquanto amaldiçoado, o alvo deverá fazer um Teste de resistência de Sabedoria no início de cada um de seus turnos. Se falhar, desperdiça sua ação naquele turno sem fazer nada.\n* Enquanto o alvo estiver amaldiçoado, seus ataques e feitiços causam 1d8 de dano necrótico extra ao alvo.\n\nUma magia de remoção de maldição encerra esse efeito. A critério do Mestre, você pode escolher um efeito de maldição alternativo, mas não deve ser mais poderoso do que os descritos acima. O Mestre tem a palavra final sobre o efeito de tal maldição."
   },
   {
@@ -1442,7 +1442,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 bonus ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Na próxima vez que você acertar uma criatura com um ataque corpo a corpo com arma durante a duração desta magia, sua arma brilhará com uma luz brilhante e o ataque causará 3d8 de dano radiante extra ao alvo. Além disso, o alvo deve ser aprovado em Teste de resistência de Constituição ou ser cego até a magia terminar.\n\nUma criatura cega por este feitiço faz outro Teste de resistência de Constituição ao final de cada um de seus turnos. Em um teste de resistência bem sucedido, não é mais cego."
   },
   {
@@ -1467,7 +1467,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Uma nuvem de tempestade aparece na forma de um cilindro com 3 metros de altura e 18 metros de raio, centrado em um ponto que você pode ver 100 pés diretamente acima de você. A magia falha se você não conseguir ver um ponto no ar onde a nuvem de tempestade possa aparecer (por exemplo, se você estiver em uma sala que não possa acomodar a nuvem).\n\nQuando você conjurar uma magia, escolha um ponto que você possa ver dentro do alcance. Um raio desce da nuvem até aquele ponto. Cada criatura a até 1,5 metro desse ponto deve fazer um Teste de resistência de Destreza. Uma criatura sofre 3d10 dano de raio em um teste de resistência falho, ou metade do dano em caso de sucesso. Em cada um de seus turnos até o final da magia, você pode usar sua ação para invocar relâmpagos desta forma novamente, visando o mesmo ponto ou um ponto diferente.\n\nSe você estiver ao ar livre em condições de tempestade Quando você conjura essa magia, o feitiço lhe dá controle sobre a tempestade existente em vez de criar uma nova. Sob tais condições, o dano do feitiço aumenta em 1d10."
   },
   {
@@ -1482,7 +1482,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Adivinhação",
     "castingTime": "10 minutes",
     "range": "1 mile",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Você cria um sensor invisível dentro do alcance em um local familiar para você (um lugar que você visitou ou viu antes) ou em um local óbvio que não é familiar para você (como atrás de uma porta, em um canto ou em um bosque). O sensor permanece no lugar durante todo o período e não pode ser atacado ou interagir de outra forma.\n\nQuando você conjura uma magia, você escolhe ver ou ouvir. Você pode usar o sentido escolhido através do sensor como se estivesse em seu espaço. Conforme sua ação, você pode alternar entre ver e ouvir.\n\nUma criatura que pode ver o sensor (como uma criatura que se beneficia da invisibilidade (nível 2) ou da visão verdadeira vê um orbe luminoso e intangível do tamanho do seu punho."
   },
   {
@@ -1497,7 +1497,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você preenche o ar com adagas giratórias em um cubo de 1,5 metro de cada lado, centrado em um ponto que você escolher dentro do alcance. Uma criatura sofre 4d4 de dano cortante quando entra na área da magia pela primeira vez em um turno ou inicia seu turno lá."
   },
   {
@@ -1509,7 +1509,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Criaturas de sua escolha que você possa ver dentro do alcance e que possam ouvir você deve fazer um Teste de resistência de Sabedoria. Um alvo automaticamente obtém sucesso neste teste de resistência se não puder ser feitiçado. Em um teste de resistência falho, um alvo é afetado por este feitiço. Até o fim da magia, você pode usar um bônus de ação em cada um de seus turnos para designar uma direção que seja horizontal para você. Cada alvo afetado deve usar o máximo de movimento possível para se mover naquela direção no próximo turno. Pode ser necessária qualquer ação antes de se mover. Depois de se mover dessa forma, ele pode fazer outro salvamento de Sabedoria para tentar encerrar o efeito.\n\nUm alvo não é obrigado a se mover em direção a um perigo obviamente mortal, como um incêndio ou um poço, mas provocará um ataque de oportunidades para se mover na direção designada."
   },
   {
@@ -1522,7 +1522,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você convoca espíritos feéricos que assumem a forma de bestas e aparecem em espaços desocupados que você pode ver dentro do alcance. Escolha uma das seguintes opções para o que aparece:Uma besta com classificação de desafio 2 ou inferior\nDois bestas de nível de desafio 1 ou inferior\nQuatro bestas de classificação de desafio 1/2 ou inferior\nOito bestas com classificação de desafio 1/4 ou inferior Cada besta também é considerado feérico e desaparece quando cai para 0 pontos de vida ou quando a magia termina.\n\nAs criaturas convocadas são amigáveis ​​com você e seus companheiros. Role a iniciativa para as criaturas convocadas como um grupo, que tem seus próprios turnos. Eles obedecem a quaisquer comandos verbais que você emite a eles (nenhuma ação exigida por você). Se você não der nenhum comando a eles, eles se defenderão de criaturas hostis, mas por outro lado não tomarão nenhuma atitude.\n\nO Mestre possui as estatísticas das criaturas."
   },
   {
@@ -1573,7 +1573,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "O poder sagrado irradia de você em uma aura com raio de 9 metros, despertando ousadia em criaturas amigáveis. Até a magia terminar, a aura se move com você, centrada em você. Enquanto estiver na aura, cada criatura não hostil na aura (incluindo você) causa 1d4 de dano radiante extra quando obtém sucesso com um ataque com arma."
   },
   {
@@ -1618,7 +1618,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Uma arma não mágica que você toca se torna uma arma mágica. Escolha um dos seguintes tipos de dano: ácido, frio, fogo, raio ou trovão. Durante a duração, a arma tem um bônus de +1 para ataque de ataques e causa 1d4 de dano extra do tipo escolhido quando é bem-sucedida."
   },
   {
@@ -1633,7 +1633,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Ilusão",
     "castingTime": "1 ação",
     "range": "Self (30-foot cone)",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você projeta uma imagem fantasmagórica dos piores medos de uma criatura. Cada criatura em um cone de 9 metros deve ter sucesso em um Teste de resistência de Sabedoria ou largar o que estiver segurando e ficar amedrontado durante o período.\n\nEnquanto amedrontado por este feitiço, uma criatura deve pegar a ação Dash e se afastar de você pela rota mais segura disponível em cada um de seus turnos, a menos que não haja para onde se mover. Se a criatura terminar seu turno em um local onde não tenha linha de visão para você, a criatura poderá fazer um Teste de resistência de Sabedoria. Em um teste de resistência bem-sucedido, a magia termina para aquela criatura."
   },
   {
@@ -1675,7 +1675,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Você toca uma criatura voluntária. O alvo ganha uma velocidade de vôo de 18 metros durante toda a duração. Quando a magia termina, o alvo cai se ainda estiver no ar, a menos que consiga impedir a queda."
   },
   {
@@ -1688,7 +1688,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você transforma uma criatura voluntária que você toca, junto com tudo que ela está vestindo e carregando, em uma nuvem nebulosa enquanto durar. A magia termina se a criatura cair para 0 pontos de vida. Uma criatura incorpórea não é afetada.\n\nEnquanto estiver nesta forma, o único método de movimento do alvo é uma velocidade voadora de 3 metros. O alvo pode entrar e ocupar o espaço de outra criatura. O alvo possui resistência a danos não mágicos e possui vantagem em Força, Destreza e Teste de resistência de Constituições. O alvo pode passar por pequenos buracos, aberturas estreitas e até meras rachaduras, embora trate os líquidos como se fossem superfícies sólidas. O alvo não pode cair e permanece pairando no ar mesmo quando atordoado ou incapacitado.\n\nEnquanto estiver na forma de uma nuvem nebulosa, o alvo não pode falar ou manipular objetos, e quaisquer objetos que ele estava carregando ou segurando não podem ser derrubados, usados ​​ou interagir de outra forma. O alvo não pode atacar ou lançar feitiços."
   },
   {
@@ -1701,7 +1701,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Escolha uma criatura voluntária que você possa ver dentro do alcance. Até a magia terminar, a velocidade do alvo é duplicada, ele ganha +2 de bônus na CA, tem vantagem em Teste de resistência de Destrezas e ganha uma ação adicional em cada um de seus turnos. Essa ação pode ser usada apenas para executar a ação Ataque (apenas um ataque com arma), Correr, Desengajar, Esconder-se ou Usar um Objeto.\n\nQuando a magia termina, o alvo não pode se mover ou realizar ações até depois do próximo turno, enquanto uma onda de letargia o atinge."
   },
   {
@@ -1716,7 +1716,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Ilusão",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você cria um padrão retorcido de cores que serpenteia pelo ar dentro de um cubo de 9 metros dentro do alcance. O padrão aparece por um momento e desaparece. Cada criatura da área que vir o padrão deverá fazer um Teste de resistência de Sabedoria. Em um teste de resistência falho, a criatura torna-se enfeitada durante todo o tempo. Enquanto enfeitada por este feitiço, a criatura fica incapacitada e tem velocidade 0.\n\nA magia termina para uma criatura afetada se ela sofrer algum dano ou se alguém usar uma ação para tirar a criatura de seu estupor."
   },
   {
@@ -1728,7 +1728,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 bonus ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Na próxima vez que você fizer um ataque com arma à distância durante a duração da magia, a munição da arma, ou a própria arma, se for uma arma de arremesso, se transforma em um raio. Faça o jogo de ataque normalmente. A arma sofre 4d8 dano de alvo raio No sucesso, ou metade do dano em uma falha, em vez do dano normal da arma.\n\nSeja com sucesso ou falha, cada criatura a até 3 metros do alvo deve fazer um Teste de resistência de Destreza. Cada uma dessas criaturas sofre 2d8 dano de raio em um teste de resistência falho, ou metade do dano em caso de sucesso.\n\nA munição ou arma retorna então à sua forma normal."
   },
   {
@@ -1758,7 +1758,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Ilusão",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Você cria a imagem de um objeto, uma criatura ou algum outro fenômeno visível que não seja maior que um cubo de 6 metros. A imagem aparece em um local que você pode ver dentro do alcance e dura enquanto durar. Parece completamente real, incluindo sons, cheiros e temperatura apropriados à coisa retratada. Você não pode criar calor ou frio suficiente para causar dano, um som alto o suficiente para causar dano sônico ou ensurdecer uma criatura, ou um cheiro que possa adoecer uma criatura (como o fedor de um troglodita).\n\nContanto que você esteja dentro do alcance da ilusão, você pode usar sua ação para fazer com que a imagem se mova para qualquer outro local dentro do alcance. À medida que a imagem muda de local, você pode alterar sua aparência para que seus movimentos pareçam naturais para a imagem. Por exemplo, se você criar uma imagem de uma criatura e movê-la, poderá alterar a imagem para que ela pareça estar andando. Da mesma forma, você pode fazer com que a ilusão emita sons diferentes em momentos diferentes, até mesmo fazendo com que ela continue uma conversa, por exemplo.\n\nA interação física com a imagem revela que ela é uma ilusão, pois coisas podem passar por ela. Uma criatura que use sua ação para examinar a imagem pode determinar que se trata de uma ilusão com um teste bem-sucedido de Inteligência (Investigação) contra seu CD de resistência de magia. Se uma criatura discernir a ilusão pelo que ela é, a criatura poderá ver através da imagem, e suas outras qualidades sensoriais tornar-se-ão fracas para a criatura."
   },
   {
@@ -1783,7 +1783,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você assume uma forma diferente. Ao conjurar uma magia, escolha uma das seguintes opções, cujos efeitos duram enquanto durar a magia. Enquanto o feitiço durar, você pode encerrar uma opção como uma ação para obter os benefícios de outra diferente. \n\nAdaptação Aquática:\n Você adapta seu corpo a um ambiente aquático, criando guelras e teias entre os dedos. Você pode respirar debaixo d'água e ganhar uma velocidade de natação igual à sua velocidade de caminhada. \nAlterar aparência:\n Você transforma sua aparência. Você decide sua aparência, incluindo altura, peso, características faciais, som da sua voz, comprimento do cabelo, coloração e características distintivas, se houver. Você pode aparecer como membro de outra raça, embora nenhuma de suas estatísticas mude. Você também não pode aparecer como uma criatura de tamanho diferente do seu, e sua forma básica permanece a mesma; se você for bípede, não poderá usar esse feitiço para se tornar quadrúpede, por exemplo. A qualquer momento durante a duração do feitiço, você pode usar sua ação para mudar sua aparência dessa forma novamente. \nArmas Naturais:\nVocê cria garras, presas, espinhos, chifres ou uma arma natural diferente de sua escolha. Seus ataques desarmados causam 1d6 concussão, perfurante ou dano cortante, conforme apropriado para a arma natural que você escolheu, e você é proficiente com seus ataques desarmados. Finalmente, a arma natural é mágica e você tem um bônus de +1 nas jogadas de ataque e dano que fizer usando-a."
   },
   {
@@ -1808,7 +1808,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você toca uma criatura voluntária. Até a magia terminar, a pele do alvo tem uma aparência áspera, semelhante a uma casca de árvore, e a CA do alvo não pode ser inferior a 16, independentemente do tipo de armadura que ele esteja vestindo."
   },
   {
@@ -1877,7 +1877,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Enquanto durar, a criatura voluntária que você toca tem resistência a um tipo de dano de sua escolha: ácido, frio, fogo, raio ou trovão."
   },
   {
@@ -1918,7 +1918,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "45 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Até o fim da magia, chuva congelante e granizo caem em um cilindro de 6 metros de altura com um raio de 12 metros centrado em um ponto que você escolher dentro do alcance. A área está fortemente obscurecida e as chamas expostas na área são apagadas.\n\nA grodada da região é coberta por gelo escorregadio, tornando o terreno difícil. Quando uma criatura entra na área da magia pela primeira vez em um turno ou inicia seu turno lá, ela deve realizar um Teste de resistência de Destreza. Em um teste de resistência falho, ele cai caído.\n\nSe uma criatura estiver se concentrando na área da magia, a criatura deverá realizar um Teste de resistência de Constituição com sucesso contra seu CD de resistência de magia ou perderá concentração."
   },
   {
@@ -1931,7 +1931,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você altera o tempo arodada até seis criaturas de sua escolha em um cubo de 12 metros dentro do alcance. Cada um deve ter sucesso em um teste de resistência de alvo de Sabedoria ou ser afetado por este feitiço enquanto durar.\n\nA velocidade de um alvo afetado é reduzida à metade, ele sofre -2 de penalidade na CA e no Teste de resistência de Destrezas e não pode usar ocorrências. Por sua vez, pode utilizar uma ação ou uma ação bônus, e não ambas. Independentemente das habilidades ou itens mágicos da criatura, ela não pode realizar mais de um ataque corpo a corpo ou à distância durante seu turno.\n\nSe a criatura tentar lançar um feitiço com tempo de lançamento de 1 ação, jogue um d20. Com 11 ou superior, o feitiço não entra em vigor até o próximo turno da criatura, e a criatura deve usar sua ação naquele turno para completar o feitiço. Se não puder, o feitiço será desperdiçado.\n\nUma criatura afetada por este feitiço faz outro Teste de resistência de Sabedoria no final do seu turno. Em um teste de resistência bem-sucedido, o efeito acaba por isso."
   },
   {
@@ -1970,7 +1970,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "Self (15-foot radius)",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Você invoca espíritos para protegê-lo. Eles voam arodada a uma distância de 4,5 metros durante a duração. Se você for bom ou neutro, sua forma espectral parecerá angelical ou feérico (sua escolha). Se você é mau, eles parecem inimigos.\n\nQuando você conjura essa magia, você pode designar qualquer número de criaturas que você possa ver para não serem afetadas por ela. A velocidade de uma criatura afetada é reduzida pela metade na área, e quando a criatura entra na área pela primeira vez em um turno ou inicia seu turno lá, ela deve fazer um Teste de resistência de Sabedoria. Em um teste de resistência falho, a criatura sofre 3d8 de dano radiante (se você for bom ou neutro) ou 3d8 de dano necrótico (se você for mau). Em um teste de resistência bem-sucedido, a criatura leva metade do dano."
   },
   {
@@ -1984,7 +1984,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "27 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você cria uma esfera de gás amarelo e nauseante com 6 metros de raio, centrada em um ponto dentro do alcance. A nuvem se espalha pelos cantos arodada e sua área fica fortemente obscurecida. A nuvem permanece no ar durante todo o tempo.\n\nCada criatura que estiver completamente dentro da nuvem no início do seu turno deve fazer um Teste de resistência de Constituição contra veneno. Em um teste de resistência falho, a criatura passa sua ação vomitando e cambaleando. Criaturas que não precisam respirar ou que são imunes ao veneno são automaticamente bem-sucedidas neste teste de resistência.\n\nUm vento moderado (pelo menos 10 milhas por hora) dispersa a nuvem após 4 rodadas. Um vento forte (pelo menos 20 milhas por hora) dispersa-o após 1 rodada."
   },
   {
@@ -1999,7 +1999,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 ação",
     "range": "27 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Este feitiço ataca e distorce a mente das criaturas, gerando delírios e provocando ação descontrolada. Cada criatura em uma esfera de raio de 3 metros centrada em um ponto que você escolher dentro do alcance deve ter sucesso em um Teste de resistência de Sabedoria quando você conjura essa magia ou é afetado por ela.\n\nUm alvo afetado não pode aceitar ocorrências e deve rolar um d10 no início de cada um de seus turnos para determinar seu comportamento naquele turno.\n    d10 Comportamento 1 A criatura usa todo o seu movimento para se mover em uma direção aleatória. Para determinar a direção, jogue um d8 e atribua uma direção a cada face do dado. A criatura não realiza ação neste turno.    2-6 A criatura não se move nem realiza ações neste turno.    7-8 A criatura usa sua ação para realizar um ataque corpo a corpo contra uma criatura determinada aleatoriamente ao seu alcance. Se não houver nenhuma criatura ao seu alcance, a criatura não faz nada neste turno.    9-10 A criatura pode agir e se mover normalmente.    \nAo final de cada um de seus turnos, um alvo afetado pode fazer um Teste de resistência de Sabedoria. Se tiver sucesso, este efeito termina para aquele alvo"
   },
   {
@@ -2012,7 +2012,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 minute",
     "range": "27 metros",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você convoca elementais que aparecem em espaços desocupados que você pode ver dentro do alcance. Você escolhe uma das seguintes opções para o que aparece: Um elemental de nível de desafio 2 ou inferior Dois elementais de nível de desafio 1 ou inferior Quatro elementais de nível de desafio 1/2 ou inferior Oito elementais de nível de desafio 1/4 ou inferior. Um elemental invocado por este feitiço desaparece quando chega a 0 pontos de vida ou quando a magia termina. \n\n As criaturas convocadas são amigáveis ​​com você e seus companheiros. Role a iniciativa para as criaturas convocadas como um grupo, que tem seus próprios turnos. Eles obedecem a quaisquer comandos verbais que você emite a eles (nenhuma ação exigida por você). Se você não der nenhum comando a eles, eles se defenderão de criaturas hostis, mas por outro lado não tomarão nenhuma atitude. \n\n O GM possui as estatísticas das criaturas."
   },
   {
@@ -2026,7 +2026,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "90 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Até o fim da magia, você controla qualquer água independente dentro de uma área que você escolher, que seja um cubo de até 30 metros de lado. Você pode escolher qualquer um dos seguintes efeitos Quando você conjura essa magia. Como ação no seu turno, você pode repetir o mesmo efeito ou escolher um diferente. \n\nInundação: Você faz com que o nível de todas as águas paradas na área suba até 6 metros. Se a área incluir uma costa, a água da inundação transborda para terra seca. \n\n Se você escolher uma área em um grande corpo de água, em vez disso, você criará uma onda de 6 metros de altura que viaja de um lado a outro da área e depois cai. Quaisquer veículos enormes ou menores no caminho da onda são carregados com ela para o outro lado. Qualquer veículo enorme ou menor atingido pela onda tem 25% de chance de virar. \n\n O nível da água permanece elevado até a magia terminar ou você escolher um efeito diferente. Se este efeito produzir uma onda, a onda se repetirá no início do seu próximo turno enquanto durar o efeito da inundação. \n\nParte Água: Você faz com que a água da área se separe e crie uma trincheira. A trincheira se estende pela área do feitiço e a água separada forma uma parede em ambos os lados. A trincheira permanece até a magia terminar ou você escolhe um efeito diferente. A água então enche lentamente a vala ao longo da próxima rodada até que o nível normal da água seja restaurado. \n\nFluxo de redirecionamento: Você faz com que a água corrente na área se mova na direção que você escolher, mesmo que a água tenha que fluir sobre obstáculos, subir paredes ou em outras direções improváveis. A água na área se move conforme você a direciona, mas uma vez que ela se move além da área da magia, ela retoma seu fluxo com base nas condições do terreno. A água continua a se mover na direção que você escolheu até a magia terminar ou você escolher um efeito diferente. \n\nRedemoinho: Este efeito requer um corpo de água com pelo menos 15 metros quadrados e 21,5 metros de profundidade. Você faz com que um redemoinho se forme no centro da área. O redemoinho forma um vórtice com 1,5 metro de largura na base, até 50 pés de largura no topo e 21,5 metros de altura. Qualquer criatura ou objeto na água e dentro de 21,5 metros do vórtice é puxado 3 metros em sua direção. Uma criatura pode nadar para longe do vórtice fazendo um teste de Força (Atletismo) contra seu CD de resistência de magia. \n\n Quando uma criatura entra no vórtice pela primeira vez em um turno ou inicia seu turno ali, ela deve fazer um Teste de resistência de Força. Em um teste de resistência falho, a criatura sofre 2d8 de dano de concussão e é pega no vórtice até o fim da magia. Em um teste de resistência bem-sucedido, a criatura sofre metade do dano e não fica presa no vórtice. Uma criatura pega no vórtice pode usar sua ação para tentar nadar para longe do vórtice como descrito acima, mas tem desvantagem no teste de Força (Atletismo) para fazer isso. \n\n Na primeira vez em cada turno que um objeto entra no vórtice, o objeto sofre 2d8 dano de concussão; esse dano ocorre a cada rodada que permanece no vórtice."
   },
   {
@@ -2039,7 +2039,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você convoca criaturas feéricas que aparecem em espaços desocupados que você pode ver dentro do alcance. Escolha uma das seguintes opções para o que aparece: Uma criatura feérico de nível de desafio 2 ou inferior Duas criaturas feéricos de nível de desafio 1 ou inferior Quatro criaturas feéricos de nível de desafio 1/2 ou inferior Oito criaturas feéricos de nível de desafio 1/4 ou inferior Uma criatura invocada desaparece quando cai para 0 pontos de vida ou quando a magia termina. \n\n As criaturas convocadas são amigáveis ​​com você e seus companheiros. Role a iniciativa para as criaturas convocadas como um grupo, que tem seus próprios turnos. Eles obedecem a quaisquer comandos verbais que você emite a eles (nenhuma ação exigida por você). Se você não der nenhum comando a eles, eles se defenderão de criaturas hostis, mas por outro lado não tomarão nenhuma atitude. \n\n O GM possui as estatísticas das criaturas."
   },
   {
@@ -2081,7 +2081,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Adivinhação",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você toca um besta disposto. Durante a duração da magia, você pode usar sua ação para ver através dos olhos do besta e ouvir o que ele ouve, e continuar fazendo isso até usar sua ação para retornar aos seus sentidos normais.\n\nAo perceber através dos sentidos da besta, você ganha os benefícios de quaisquer sentidos especiais possuídos por aquela criatura, embora você seja cego e ensurdecido aos seus próprios arredores."
   },
   {
@@ -2094,7 +2094,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Ilusão",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Seu corpo fica embaçado, mudando e oscilando para todos que podem vê-lo. Enquanto isso, qualquer criatura terá oportunidade de agir de ataques contra você. Um atacante é imune a este efeito se não depender da visão, como no caso da visão às cegas, ou se puder ver através de ilusões, como no caso da visão verdadeira."
   },
   {
@@ -2106,7 +2106,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 bonus ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Na próxima vez que você acertar uma criatura com um ataque com arma antes que a magia termine, a arma brilhará com brilho astral enquanto você ataca. O ataque causa 2d6 de dano radiante extra ao alvo, que se torna visível se for invisível, e o alvo emite luz fraca em um raio de 1,5 metro e não pode se tornar invisível até o fim da magia."
   },
   {
@@ -2133,7 +2133,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Um humanoide de sua escolha que você possa ver dentro do alcance deve ser bem sucedido em um Teste de resistência de Sabedoria ou ser enfeitiçado por você durante esse período. \n\n Enquanto o alvo é assim enfeitiçado, uma coroa retorcida de ferro denteado aparece em sua cabeça, e uma loucura brilha em seus olhos. \n\n O alvo enfeitiçado deve usar sua ação antes de passar em cada um de seus turnos para realizar um ataque corpo a corpo contra uma criatura diferente de si mesmo que você escolher mentalmente. O alvo pode agir normalmente no seu turno se você não escolher nenhuma criatura ou se nenhuma estiver ao seu alcance. \n\n Nos turnos subsequentes, você deve usar sua ação para manter o controle sobre o alvo, ou a magia termina. Além disso, o alvo pode fazer um Teste de resistência de Sabedoria ao final de cada um de seus turnos. Com um sucesso, a magia termina."
   },
   {
@@ -2147,7 +2147,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "A escuridão mágica se espalha a partir de um ponto que você escolher dentro do alcance para preencher uma esfera de 4,5 metros de raio durante toda a duração. A escuridão espalha cantos arodada. Uma criatura com visão no escuro não pode ver através desta escuridão, e a luz não-mágica não pode iluminá-la. Se o ponto escolhido estiver em um objeto que você está segurando ou que não esteja sendo usado ou carregado, a escuridão emanará do objeto e se moverá com ele. Cobrir completamente a fonte da escuridão com um objeto opaco, como uma tigela ou um elmo, bloqueia a escuridão. Se alguma área desta magia se sobrepõe a uma área de luz criada por uma magia de 2º nível ou inferior, a magia que criou a luz é dissipada."
   },
   {
@@ -2176,7 +2176,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Adivinhação",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Enquanto isso, você pode ler os pensamentos de certas criaturas. Quando você conjura uma magia e como sua ação em cada turno até a magia terminar, você pode focar sua mente em qualquer criatura que você possa ver a até 9 metros de você. Se a criatura que você escolher tiver Inteligência 3 ou inferior ou não falar nenhum idioma, a criatura não será afetada.\n\nVocê inicialmente aprende os pensamentos superficiais da criatura – o que está mais em sua mente naquele momento. Como ação, você pode desviar sua atenção para os pensamentos de outra criatura ou tentar investigar mais profundamente a mente da mesma criatura. Se você investigar mais fundo, o alvo deverá fazer um Teste de resistência de Sabedoria. Se falhar, você obterá insights sobre seu raciocínio (se houver), seu estado emocional e algo que paira em sua mente (como algo que o preocupa, ama ou odeia). Se tiver sucesso, a magia termina. De qualquer forma, o alvo sabe que você está investigando sua mente e, a menos que você mude sua atenção para os pensamentos de outra criatura, a criatura pode usar sua ação no seu turno para fazer um teste de Inteligência contestado pelo seu teste de Inteligência; se tiver sucesso, a magia termina.\n\nPerguntas dirigidas verbalmente ao alvo criatura moldam naturalmente o curso de seus pensamentos, portanto este feitiço é particularmente eficaz como parte de um interrogatório. Você também pode usar esta magia para detectar a presença de criaturas pensantes que você não pode ver. Quando você conjura uma magia ou como sua ação durante a duração, você pode procurar pensamentos a até 9 metros de você. A magia pode penetrar barreiras, mas 60 centímetros de rocha, 5 centímetros de qualquer metal que não seja chumbo ou uma fina folha de chumbo bloqueiam você. Você não pode detectar uma criatura com Inteligência 3 ou inferior ou que não fale nenhum idioma.\n\nDepois de detectar a presença de uma criatura dessa forma, você poderá ler seus pensamentos pelo resto da duração conforme descrito acima, mesmo que não possa vê-la, mas ela ainda deve estar dentro do alcance."
   },
   {
@@ -2188,7 +2188,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 24 hours",
+    "duration": "Concentração, até 1 dia",
     "description": "Sua magia transforma outros em bestas. Escolha qualquer número de criaturas voluntárias que você possa ver dentro do alcance. Você transforma cada alvo na forma de um besta Grande ou menor com uma taxa de desafio de 4 ou menos.  Nos turnos subsequentes, você pode usar sua ação para transformar as criaturas afetadas em novas formas.\n\nA transformação dura a duração de cada alvo, ou até que o alvo caia para 0 pontos de vida ou morra.  Você pode escolher um formulário diferente para cada alvo. As estatísticas de jogo de um alvo são substituídas pelas estatísticas do besta escolhido, embora o alvo mantenha seu alinhamento e pontuações de Inteligência, Sabedoria e Carisma. O alvo assume os pontos de vida da sua nova forma, e quando volta à sua forma normal, volta ao número de pontos de vida que tinha antes de se transformar. Se reverter como resultado de cair para 0 pontos de vida, qualquer dano excessivo será transferido para sua forma normal. Contanto que o dano excessivo não reduza a forma normal da criatura a 0 pontos de vida, ela não será derrubada inconsciente. A criatura é limitada nas ações que pode realizar pela natureza de sua nova forma e não pode falar ou lançar feitiços.\n\nO equipamento do alvo se funde à nova forma. O alvo não pode ativar, empunhar ou de outra forma se beneficiar de qualquer um de seus equipamentos."
   },
   {
@@ -2201,7 +2201,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 ação",
     "range": "Self (10-foot-radius sphere)",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Uma esfera invisível de 3 metros de raio antimagia surrodadas você. Esta área está divorciada da energia mágica que permeia o multiverso. Dentro da esfera, os feitiços não podem ser lançados, as criaturas invocadas desaparecem e até os itens mágicos tornam-se mundanos. Até a magia terminar, a esfera se move com você, centrada em você. \n\n Feitiços e outros efeitos mágicos, exceto aqueles criados por um artefato ou divindade, são suprimidos na esfera e não podem se projetar nela. Um espaço gasto para conjurar uma magia suprimida é consumido. Enquanto um efeito é suprimido, ele não funciona, mas o tempo que ele passa suprimido conta em relação à sua duração. \n\nEfeitos Alvo: Feitiços e outros efeitos mágicos, como falha mágica e encantar pessoa, que atingem uma criatura ou um objeto na esfera não têm efeito sobre esse alvo. \n\nÁreas de Magia: A área de outra magia ou efeito mágico, como bola de fogo, não pode se estender para dentro da esfera. Se a esfera se sobrepõe a uma área de magia, a parte da área coberta pela esfera é suprimida. Por exemplo, as chamas criadas por uma parede de fogo são suprimidas dentro da esfera, criando uma lacuna na parede se a sobreposição for grande o suficiente. \n\nFeitiços: Qualquer magia ativa ou outro efeito mágico em uma criatura ou objeto na esfera é suprimido enquanto a criatura ou objeto estiver nela. \n\nItens Mágicos: As propriedades e poderes dos itens mágicos são suprimidos na esfera. Por exemplo, uma espada longa +1 na esfera funciona como uma espada longa não mágica. \n\n As propriedades e poderes de uma arma mágica são suprimidos se ela for usada contra um alvo na esfera ou empunhada por um atacante na esfera. Se uma arma mágica ou uma munição mágica sair completamente da esfera (por exemplo, se você disparar uma flecha mágica ou lançar uma lança mágica em um alvo fora da esfera), a magia do item deixa de ser suprimida assim que ele sai. \n\nViagem Mágica: O teletransporte e a viagem plana não funcionam na esfera, seja a esfera o destino ou o ponto de partida para tal viagem mágica. Um portal para outro local, mundo ou plano de existência, bem como uma abertura para um espaço extradimensional como aquele criado pela magia truque da corda, fecha temporariamente enquanto estiver na esfera. \n\nCriaturas e Objetos: Uma criatura ou objeto invocado ou criado por magia desaparece temporariamente da existência na esfera. Tal criatura reaparece instantaneamente assim que o espaço que a criatura ocupava não estiver mais dentro da esfera. \n\nDissipar Magia: Feitiços e efeitos mágicos como dissipar magia não têm efeito na esfera. Da mesma forma, as esferas criadas por diferentes feitiços de campo antimágico não se anulam."
   },
   {
@@ -2254,7 +2254,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "10 minutes",
     "range": "Self (5-mile radius)",
-    "duration": "Concentração, up to 8 hours",
+    "duration": "Concentração, até 8 horas",
     "description": "Você assume o controle do clima em um raio de 8 quilômetros de você durante todo o período. Você deve estar ao ar livre para lançar este feitiço. Mover-se para um lugar onde você não tenha um caminho claro para o céu encerra o feitiço mais cedo.\n\n Quando você conjura uma magia, você altera as condições climáticas atuais, que são determinadas pelo Mestre com base no clima e na estação. Você pode alterar a precipitação, a temperatura e o vento. São necessários 1d4 × 10 minutos para que as novas condições entrem em vigor. Depois que eles fizerem isso, você poderá alterar as condições novamente. Quando a magia termina, o tempo volta gradualmente ao normal. \n\n Quando você altera as condições climáticas, encontre uma condição atual nas tabelas a seguir e altere seu estágio em um, para cima ou para baixo. Ao mudar o vento, você pode mudar sua direção.\n\nTemperaturaEstágioCondição1Calor insuportável2Quente3Quente4Frio5Frio6Frio árticoVentoEstágioCondição1Calma2Vento moderado3Vento forte4Vento forte4TempestadePrecipitaçãoEstágioCondição1Claro2Nuvens claras3Névoa nublada ou grodada4Chuva, granizo ou neve5Chuva torrencial, granizo ou nevasca"
   },
   {
@@ -2282,7 +2282,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você tenta enganar uma criatura que você pode ver dentro do alcance. Deve ser aprovado em Teste de resistência de Sabedoria ou ser feitiçado por você durante todo o período. Se você ou criaturas que lhe são amigas estão lutando contra isso, tem vantagem no teste de resistência.\n\nEnquanto a criatura estiver enfeitada, você terá uma ligação telepática com ela enquanto vocês dois estiverem no mesmo plano de existência. Você pode usar esse link telepático para emitir comandos à criatura enquanto estiver consciente (nenhuma ação necessária), aos quais ela fará o possível para obedecer. Você pode especificar um curso de ação simples e geral, como Atacar aquela criatura, Correr até lá ou Buscar aquele objeto. Se a criatura completar a ordem e não receber mais orientações suas, ela se defenderá e se preservará da melhor maneira possível.\n\nVocê pode usar sua ação para assumir o controle total e preciso do alvo. Até o final do seu próximo turno, a criatura realiza apenas as ações que você escolher e não faz nada que você não permita. Durante esse tempo, você também pode fazer com que a criatura use uma ocorrência, mas isso exige que você use sua própria ocorrência também.\n\nCada vez que o alvo sofre dano, ele faz um novo Teste de resistência de Sabedoria contra o feitiço. Se o teste de resistência for bem-sucedido, a magia termina."
   },
   {
@@ -2296,7 +2296,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "150 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você cria um distúrbio sísmico em um ponto da superfície que você pode ver dentro do alcance. Durante esse tempo, um tremor intenso rasga a grodada em um círculo de 30 metros de raio centrado naquele ponto e sacode criaturas e estruturas em contato com a grodada naquela área. \n\n A grodada da região torna-se terreno difícil. Cada criatura da grodada que estiver se concentrando deverá fazer um Teste de resistência de Constituição. Em um teste de resistência falho, a concentração da criatura é quebrada. \n\n Quando você conjura essa magia e ao final de cada turno você passa concentrado nela, cada criatura da grodada na área deve fazer um Teste de resistência de Destreza. Em um teste de resistência falho, a criatura é derrubada. \n\n Este feitiço pode ter efeitos adicionais dependendo do terreno da área, conforme determinado pelo Mestre. \n\nFissuras: Fissuras se abrem em toda a área do feitiço no início do seu próximo turno após você conjurar uma magia. Um total de 1d6 dessas fissuras se abrem em locais escolhidos pelo Mestre. Cada um tem 1d10 × 3 metros de profundidade, 3 metros de largura e se estende de uma borda da área da magia até o lado oposto. Uma criatura parada em um local onde uma fissura se abre deve ter sucesso em um Teste de resistência de Destreza ou cairá. Uma criatura que consegue salvar se move com a borda da fissura conforme ela se abre. \n\n Uma fissura que se abre abaixo de uma estrutura faz com que ela desmorone automaticamente (veja abaixo). \n\nEstruturas: O tremor causa 50 de dano de concussão a qualquer estrutura em contato com a grodada na área quando você conjura uma magia e no início de cada um de seus turnos até a magia terminar. Se uma estrutura cair para 0 pontos de vida, ela entra em colapso e potencialmente danifica as criaturas próximas. Uma criatura que esteja a meia distância da altura de uma estrutura deve fazer um Teste de resistência de Destreza. Em um teste de resistência falho, a criatura sofre 5d6 de dano de concussão, é derrubada e enterrada nos escombros, exigindo um teste de Força CD 20 (Atletismo) como uma ação para escapar. O Mestre pode ajustar a CD para mais ou para menos, dependendo da natureza dos escombros. Em um teste de resistência bem-sucedido, a criatura leva metade do dano e não cai nem é soterrada."
   },
   {
@@ -2340,7 +2340,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você invoca um portal ligando um espaço desocupado que você pode ver até um local preciso em um plano de existência diferente. O portal é uma abertura circular, que pode ser feita com 1,5 a 6 metros de diâmetro. Você pode orientar o portal em qualquer direção que desejar. O portal dura enquanto durar.\n\nO portal possui uma frente e um verso em cada plano onde aparece. Viajar pelo portal só é possível passando pela sua frente. Qualquer coisa que faça isso é instantaneamente transportada para o outro plano, aparecendo no espaço desocupado mais próximo do portal.\n\nDivindades e outros governantes planares podem impedir que portais criados por esta magia se abram em sua presença ou em qualquer lugar dentro de seus domínios.\n\nQuando você conjura essa magia, você pode falar o nome de uma criatura específica (um pseudônimo, título ou apelido não funciona). Se aquela criatura estiver em um plano diferente daquele em que você está, o portal se abre nas imediações da criatura nomeada e atrai a criatura através dele até o espaço desocupado mais próximo do seu lado do portal. Você não ganha nenhum poder especial sobre a criatura, e ela é livre para agir como o Mestre considerar apropriado. Pode sair, atacá-lo ou ajudá-lo."
   },
   {
@@ -2365,7 +2365,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "A luz divina sai de você e se funde em um brilho suave em um raio de 9 metros ao seu redor. Criaturas de sua escolha naquele raio Quando você conjura essa magia lança luz fraca em um raio de 1,5 metro e tem vantagem sobre todos os testes de resistência, e outras criaturas têm interferência no jogo de ataques contra eles até a magia terminar. Além disso, quando um inimigo ou um morto-vivo vence uma criatura afetada com um ataque corpo a corpo, a aura brilha com uma luz brilhante. O atacante deve ter sucesso em um Teste de resistência de Constituição ou ficará cego até a magia terminar."
   },
   {
@@ -2391,7 +2391,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "45 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Uma nuvem rodopiante de fumaça atravessada por brasas quentes aparece a uma distância de 6 metros. A nuvem se espalha pelos cantos arodada e fica fortemente obscurecida. Dura enquanto durar ou até que um vento de velocidade moderada ou maior (pelo menos 10 milhas por hora) o disperse.\n\nQuando a nuvem aparece, cada criatura nela contida deve fazer um Teste de resistência de Destreza. Uma criatura sofre 10d8 de dano de fogo em um teste de resistência falho, ou metade do dano em caso de sucesso. Uma criatura também deve realizar este teste de resistência quando entrar na área da magia pela primeira vez em um turno ou terminar seu turno ali.\n\nA nuvem se move 3 metros diretamente para longe de você, na direção que você escolher no início de cada um dos seus turnos."
   },
   {
@@ -2415,7 +2415,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Você bane uma criatura que você pode ver dentro do alcance para um semiplano labiríntico. O alvo permanece lá durante ou até escapar do labirinto.\n\nO alvo pode usar sua ação para tentar escapar. Quando isso acontece, ele faz um teste de Inteligência CD 20. Se tiver sucesso, ele escapa e a magia termina (um minotauro ou demônio goristro obtém sucesso automaticamente).\n\nQuando a magia termina, o alvo reaparece no espaço que deixou ou, se esse espaço estiver ocupado, no espaço desocupado mais próximo."
   },
   {
@@ -2508,7 +2508,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você assume a forma de uma criatura diferente durante o jogo. A nova forma pode ser de qualquer criatura com nível de desafio igual ao seu nível ou inferior. A criatura não pode ser um constructo ou um morto-vivo, e você deve ter visto esse tipo de criatura pelo menos uma vez. Você se transforma em um exemplo comum dessa criatura, sem nenhum nível de classe ou a característica Conjuração. \n\n Suas estatísticas de jogo são substituídas pelas estatísticas da criatura escolhida, embora você mantenha sua tendência e valores de Inteligência, Sabedoria e Carisma. Você também mantém todas as suas habilidades e proficiências em teste de resistência, além de ganhar as da criatura. Se a criatura tiver a mesma proficiência que você e o bônus listado em suas estatísticas for maior que o seu, use o bônus da criatura no lugar do seu. Você não pode usar nenhuma ação lendária ou ação covil da nova forma. \n\n Você assume os pontos de vida e Sucesso Dice da nova forma. Ao voltar à sua forma normal, você retorna ao número de pontos de vida que tinha antes de se transformar. Se você reverter como resultado de cair para 0 pontos de vida, qualquer dano excessivo será transferido para sua forma normal. Contanto que o dano excessivo não reduza sua forma normal a 0 pontos de vida, você não será nocauteado inconsciente. \n\n Você retém o benefício de quaisquer recursos de sua classe, raça ou outra fonte e pode usá-los, desde que sua nova forma seja fisicamente capaz de fazê-lo. Você não pode usar nenhum sentido especial que possua (por exemplo, visão no escuro), a menos que sua nova forma também tenha esse sentido. Você só pode falar se a criatura puder falar normalmente. \n\n Ao se transformar, você escolhe se seu equipamento cairá na grodada, se fundirá na nova forma ou será usado por ela. Equipamentos gastos funcionam normalmente. O Mestre determina se é prático para a nova forma usar um equipamento, baseado na forma e tamanho da criatura. Seu equipamento não muda de forma ou tamanho para combinar com a nova forma, e qualquer equipamento que a nova forma não possa usar deve cair na grodada ou se fundir em sua nova forma. Equipamentos que se fundem não têm efeito nesse estado. \n\n Durante a duração desta magia, você pode usar sua ação para assumir uma forma diferente seguindo as mesmas restrições e regras da forma original, com uma exceção: se sua nova forma tiver mais pontos de vida que a atual, seus pontos de vida permanecerão com o valor atual."
   },
   {
@@ -2520,7 +2520,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "Sight",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Uma nuvem de tempestade agitada se forma, centrada em um ponto que você possa ver e se espalhando por um raio de 318 metros. Relâmpagos brilham na área, trovões estrondosos e ventos fortes rugem. Cada criatura sob a nuvem (não mais que 5.000 pés abaixo da nuvem) quando aparecer deverá fazer um Teste de resistência de Constituição. Em um teste de resistência falho, uma criatura sofre 2d6 de dano sônico e fica ensurdecida por 5 minutos. \n\n A cada rodada que você mantém concentração neste feitiço, a tempestade produz efeitos diferentes no seu turno. \n\nRodada 2: Chuva ácida cai da nuvem. Cada criatura e objeto sob a nuvem sofre 1d6 dano de ácido. \n\nRodada 3: Você invoca seis raios da nuvem para atingir seis criaturas ou objetos de sua escolha sob a nuvem. Uma determinada criatura ou objeto não pode ser atingido por mais de um raio. Uma criatura atingida deve fazer um Teste de resistência de Destreza. A criatura sofre 10d6 dano de raio em um teste de resistência falho, ou metade do dano em caso de sucesso. \n\nRodada 4: Chuvas de granizo caem da nuvem. Cada criatura sob a nuvem sofre 2d6 de dano de concussão. \n\nRodada 5–10: Rajadas e chuva congelante assolam a área sob a nuvem. A área se torna um terreno difícil e está fortemente obscurecida. Cada criatura sofre 1d6 dano de frio. Ataque à distância com armas na área é impossível. O vento e a chuva contam como uma distração severa para fins de manutenção da concentração nos períodos. Finalmente, rajadas de vento forte (variando de 32 a 80 quilômetros por hora) dispersam automaticamente neblina, neblina e fenômenos similares na área, sejam eles mundanos ou mágicos."
   },
   {
@@ -2573,7 +2573,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Escolha uma criatura ou objeto não mágico que você possa ver dentro do alcance. Você transforma a criatura em uma criatura diferente, a criatura em um objeto não mágico ou o objeto em uma criatura (o objeto não deve ser usado nem carregado por outra criatura). A magia dura pela duração, ou até que o alvo caia para 0 pontos de vida ou morra. Se você se concentrar neste feitiço por toda a duração, o feitiço durará até ser dissipado. \n\n Este feitiço não tem efeito em um metamorfo ou criatura com 0 pontos de vida. Uma incriatura voluntária pode fazer um Teste de resistência de Sabedoria, e se tiver sucesso, não é afetado por este feitiço. \n\nCriatura em Criatura: Se você transformar uma criatura em outro tipo de criatura, a nova forma pode ser qualquer tipo que você escolher cujo nível de desafio seja igual ou menor que o do alvo (ou seu nível, se o alvo não tiver um nível de desafio). As estatísticas de jogo do alvo, incluindo pontuações de habilidade mental, são substituídas pelas estatísticas da nova forma. Ele mantém seu alinhamento e personalidade. \n\n O alvo assume os pontos de vida de sua nova forma, e quando volta à sua forma normal, a criatura retorna ao número de pontos de vida que tinha antes de se transformar. Se reverter como resultado de cair para 0 pontos de vida, qualquer dano excessivo será transferido para sua forma normal. Contanto que o dano excessivo não reduza a forma normal da criatura a 0 pontos de vida, ela não será derrubada inconsciente. \n\n A criatura é limitada nas ações que pode realizar pela natureza de sua nova forma e não pode falar, lançar feitiços ou executar qualquer outra ação que exija mãos ou fala, a menos que sua nova forma seja capaz de tais ações. \n\n O equipamento do alvo se funde na nova forma. A criatura não pode ativar, usar, empunhar ou de qualquer outra forma se beneficiar de qualquer um de seus equipamentos. \n\nObjeto em Criatura: Você pode transformar um objeto em qualquer tipo de criatura, desde que o tamanho da criatura não seja maior que o tamanho do objeto e o nível de desafio da criatura seja 9 ou inferior. A criatura é amigável com você e seus companheiros. Ele atua em cada um dos seus turnos. Você decide qual ação será necessária e como ela se move. O Mestre possui as estatísticas da criatura e resolve todas as suas ações e movimentos. \n\n Se a magia se tornar permanente, você não controlará mais a criatura. Pode permanecer amigável com você, dependendo de como você o tratou. \n\nCriação em Objeto: Se você transformar uma criatura em um objeto, ela se transforma junto com tudo o que estiver vestindo e carregando naquela forma, desde que o tamanho do objeto não seja maior que o tamanho da criatura. As estatísticas da criatura tornam-se as do objeto, e a criatura não tem memória do tempo passado nesta forma, depois que a magia termina e ela retorna à sua forma normal."
   },
   {
@@ -2585,7 +2585,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 minute",
     "range": "Sight",
-    "duration": "Concentração, up to 6 rounds",
+    "duration": "Concentração, até 6 rodadas",
     "description": "Uma parede de água surge em um ponto que você escolhe dentro do alcance. Você pode fazer a parede com até 90 metros de comprimento, 90 metros de altura e 15 metros de espessura. A parede dura enquanto durar.\n\nQuando a parede aparecer, cada criatura dentro de sua área deverá fazer um Teste de resistência de Força. Em um teste de resistência falho, uma criatura sofre 6d10 dano de concussão, ou metade do dano em um teste de resistência bem-sucedido.\n\nNo início de cada um dos seus turnos após o aparecimento da parede, a parede, junto com quaisquer criaturas nela contidas, se move 15 metros para longe de você. Qualquer criatura Enorme ou menor dentro da muralha ou em cujo espaço a muralha entra quando se move deve ter sucesso em um Teste de resistência de Força ou sofrer 5d10 dano de concussão. Uma criatura pode sofrer esse dano apenas uma vez por rodada. No final do turno, a altura da muralha é reduzida em 15 metros, e o dano que as criaturas recebem do feitiço nas rodadas subsequentes é reduzido em 1d10. Quando a parede atinge 0 metro de altura, a magia termina.\n\nUma criatura presa na parede pode se mover nadando. Porém, por causa da força da onda, a criatura deve fazer um teste bem-sucedido de Força (Atletismo) contra seu CD de resistência de magia para poder se mover. Se falhar no teste, ele não poderá se mover. Uma criatura que sai da área cai nas mãos da grodada."
   },
   {
@@ -2610,7 +2610,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Ilusão",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Baseando-se nos medos mais profundos de um grupo de criaturas, Você cria criaturas ilusórias em suas mentes, visíveis apenas para elas. Cada criatura em uma esfera de 9 metros de raio centrada em um ponto de sua escolha dentro do alcance deve fazer um Teste de resistência de Sabedoria. Em um teste de resistência falho, uma criatura fica amedrontada durante todo o tempo. A ilusão invoca os medos mais profundos da criatura, manifestando os seus piores pesadelos como uma ameaça implacável. No início de cada turno da criatura amedrontada, ela deve ter sucesso em um Teste de resistência de Sabedoria ou sofrer 4d10 de dano psíquico. Em um teste de resistência bem-sucedido, a magia termina para aquela criatura."
   },
   {
@@ -2635,7 +2635,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 minute",
     "range": "27 metros",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você convoca um celestial com classificação de desafio 4 ou inferior, que aparece em um espaço desocupado que você pode ver dentro do alcance. O celestial desaparece quando cai para 0 pontos de vida ou quando a magia termina.\n\nO Celestial é amigável com você e seus companheiros durante todo o tempo. Role a iniciativa para o celestial, que tem seus próprios turnos. Ele obedece a quaisquer comandos verbais que você emitir (nenhuma ação exigida por você), desde que eles não violem seu alinhamento. Se você não der nenhum comando ao celestial, ele se defenderá de criaturas hostis, mas de outra forma não tomará nenhuma atitude.\n\nO Mestre tem as estatísticas do celestial."
   },
   {
@@ -2648,7 +2648,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "45 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Um feixe de luz amarela pisca do dedo que aponta e depois se condensa para permanecer em um ponto escolhido dentro do alcance como uma conta brilhante durante todo o tempo. Quando a magia termina, seja porque sua concentração foi quebrada ou porque você decidiu encerrá-la, a conta floresce com um rugido baixo em uma explosão de chama que espalha cantos arodada. Cada criatura em uma esfera de 6 metros de raio centrada nesse ponto deve fazer um Teste de resistência de Destreza. Uma criatura sofre dano de fogo igual ao dano total acumulado em um teste de resistência falho, ou metade do dano em caso de sucesso.\n\nO dano base do feitiço é 12d6. Se no final do seu turno a conta ainda não tiver detonado, o dano aumenta em 1d6.\n\nSe a conta brilhante for tocada antes do intervalo expirar, a criatura que a tocar deverá fazer um Teste de resistência de Destreza. Em um teste de resistência falho, a magia termina imediatamente, fazendo a conta explodir em chamas. Em um teste de resistência bem-sucedido, a criatura pode lançar a conta a até 12 metros de altura. Quando atinge uma criatura ou objeto sólido, a magia termina e a conta explode.\n\nO dano de fogo dispara objetos na área e incendeia objetos inflamáveis ​​que não estão sendo usados ​​ou carregados."
   },
   {
@@ -2773,7 +2773,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Ilusão",
     "castingTime": "1 ação",
     "range": "500 miles",
-    "duration": "Concentração, up to 1 day",
+    "duration": "Concentração, até 1 dia",
     "description": "Você cria uma cópia ilusória de si mesmo que dura o tempo todo. A cópia pode aparecer em qualquer local dentro do alcance que você já tenha visto, independentemente dos obstáculos intervenientes. A ilusão parece e soa como você, mas é intangível. Se a ilusão sofrer algum dano, ela desaparece e a magia termina.\n\nVocê pode usar sua ação para mover essa ilusão até o dobro da sua velocidade e fazê-la gesticular, falar e se comportar da maneira que você escolher. Ele imita seus maneirismos perfeitamente.\n\nQue você possa ver através de seus olhos e ouvir através de seus ouvidos como se estivesse em seu espaço. No seu turno, como bônus de ação, você pode passar do uso dos sentidos para o uso dos seus próprios sentidos ou vice-versa. Enquanto você usa seus sentidos, você fica cego e ensurdecido em relação aos seus próprios arredores.\n\nA interação física com a imagem revela que ela é uma ilusão, pois coisas podem passar por ela. Uma criatura que use sua ação para examinar a imagem pode determinar que se trata de uma ilusão com um teste bem-sucedido de Inteligência (Investigação) contra seu CD de resistência de magia. Se uma criatura discernir a ilusão pelo que ela é, a criatura poderá ver através da imagem, e qualquer ruído que ela fizer soará vazio para a criatura."
   },
   {
@@ -2831,7 +2831,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "30 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Este feitiço reverte a gravidade em um cilindro de 15 metros de raio e 30 metros de altura centrado em um ponto dentro do alcance. Todas as criaturas e objetos que não estão de alguma forma ancorados na grodada da área caem para cima e alcançam o topo da área Quando você conjura essa magia. Uma criatura pode fazer um Teste de resistência de Destreza para agarrar-se a um objeto fixo que possa alcançar, evitando assim a queda.\n\nSe algum objeto sólido (como um teto) for encontrado nesta queda, os objetos e criaturas em queda o atingirão exatamente como fariam durante uma queda normal. Se um objeto ou criatura chegar ao topo da área sem atingir nada, ele permanecerá lá, oscilando levemente, durante todo o tempo.\n\nAo final da duração, os objetos e criaturas afetados caem novamente."
   },
   {
@@ -2897,7 +2897,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 8 hours",
+    "duration": "Concentração, até 8 horas",
     "description": "Você sugere um curso de atividade (limitado a uma frase ou duas) e influencia magicamente uma criatura que você pode ver dentro do alcance que pode ouvi-lo e compreendê-lo. Criaturas que não podem ser feitiçadas ficam imunes a esse efeito. A sugestão deve ser formulada de forma a fazer com que o curso da ação pareça razoável. Pedir à criatura que se esfaqueie, se jogue em uma lança, se imole ou faça algum outro ato obviamente prejudicial encerra o feitiço.\n\nO alvo deve fazer um Teste de resistência de Sabedoria. Em um teste de resistência falho, ele prossegue o curso de ação que você descreveu da melhor maneira possível. O curso de ação sugerido pode continuar durante todo o período. Se a atividade sugerida puder ser concluída em menos tempo, a magia termina quando o sujeito terminar o que foi solicitado.\n\nVocê também pode especificar condições que desencadearão uma atividade especial durante a duração. Por exemplo, você pode sugerir que um cavaleiro dê seu cavalo de guerra ao primeiro mendigo que encontrar. Se a condição não for atendida antes da magia expirar, a atividade não será realizada.\n\nSe você ou algum de seus companheiros danificar o alvo, a magia termina."
   },
   {
@@ -2912,7 +2912,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Ilusão",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Uma criatura que você toca fica invisível até o fim da magia. Qualquer coisa que o alvo esteja vestindo ou carregando é invisível, desde que esteja na pessoa do alvo. A magia termina para um alvo que ataca ou lança um feitiço."
   },
   {
@@ -2926,7 +2926,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Os objetos ganham vida ao seu comando. Escolha até dez objetos não mágicos dentro do alcance que não estão sendo usados ​​ou carregados. Alvos Médios contam como dois objetos, Alvos Grandes contam como quatro objetos, Alvos Enormes contam como oito objetos. Você não pode animar nenhum objeto maior que Enorme. Cada um se anima e se torna uma criatura sob seu controle até o fim da magia ou até ser reduzido a 0 pontos de vida.\n\nComo bônus de ação, você pode comandar mentalmente qualquer criatura que você criou com este feitiço se a criatura estiver a até 150 metros de você (se você controlar múltiplas criaturas, você pode comandar uma ou todas elas ao mesmo tempo, emitindo o mesmo comando para cada uma). Você decide qual ação a criatura realizará e para onde ela se moverá durante seu próximo turno, ou pode emitir um comando geral, como guardar uma câmara ou corredor específico. Se você não der nenhum comando, a criatura apenas se defenderá contra criaturas hostis. Uma vez dada uma ordem, a criatura continua a segui-la até que sua tarefa seja concluída. TamanhoHPACStrDexAttackTiny2018418+8 para sucesso, 1d4 + 4 danosPequeno2516614+6 para sucesso, 1d8 + 2 danosMédio40131012+5 para sucesso, 2d6 + 1 danoGrande50101410+6 para sucesso, 2d10 + 2 danosEnorme8010186+8 para sucesso, 2d12 + 4 de dano Um objeto animado é um constructo com CA, pontos de vida, ataques, Força e Destreza determinados por seu tamanho. Sua Constituição é 10 e sua Inteligência e Sabedoria são 3, e seu Carisma é 1. Sua velocidade é de 9 metros; se o objeto não tiver pernas ou outros apêndices que possa usar para locomoção, ele terá uma velocidade de vôo de 9 metros e poderá pairar. Se o objeto estiver firmemente preso a uma superfície ou a um objeto maior, como uma corrente aparafusada a uma parede, sua velocidade é 0. Ele tem visão cega com um raio de 9 metros e fica cego além dessa distância. Quando o objeto animado chega a 0 pontos de vida, ele reverte à sua forma de objeto original e qualquer dano restante é transferido para sua forma de objeto original.\n\nSe você comandar um objeto para atacar, ele poderá realizar um único ataque corpo a corpo contra uma criatura a até 1,5 metro dela. Ele faz um ataque slam com bônus de ataque e dano de concussão determinados pelo seu tamanho. O Mestre pode determinar que um objeto específico inflija corte ou dano perfurante com base em sua forma."
   },
   {
@@ -2938,7 +2938,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 ação",
     "range": "Self (10-foot radius)",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Uma barreira cintilante se estende a partir de você em um raio de 3 metros e se move com você, permanecendo centrada em você e protegendo outras criaturas além de mortos-vivos e constructoos. A barreira dura enquanto durar.\n\nA barreira impede que uma criatura afetada passe ou alcance. Uma criatura afetada pode lançar feitiços ou fazer ataques com armas de longo alcance ou de alcance através da barreira.\n\nSe você se mover de forma que uma criatura afetada seja forçada a passar pela barreira, a magia termina."
   },
   {
@@ -2952,7 +2952,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "150 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Você cria portais de teletransporte vinculados que permanecem abertos durante todo o período. Escolha dois pontos na grodada que você possa ver, um ponto a até 3 metros de você e um ponto a 500 pés de você. Um portal circular, com 3 metros de diâmetro, abre-se sobre cada ponto. Se o portal se abrir no espaço ocupado por uma criatura, o feitiço falha e a conjuração é perdida.\n\nOs portais são anéis brilhantes bidimensionais cheios de névoa, pairando a centímetros da grodada e perpendiculares a ela nos pontos que você escolher. Um anel é visível apenas de um lado (à sua escolha), que é o lado que funciona como portal.\n\nQualquer criatura ou objeto que entre no portal sai do outro portal como se os dois fossem adjacentes; passar por um portal do lado não-portal não tem efeito. A névoa que preenche cada portal é opaca e bloqueia a visão através dele. No seu turno, você pode girar os anéis como uma ação bônus para que o lado ativo fique voltado em uma direção diferente."
   },
   {
@@ -2977,7 +2977,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 bonus ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Na próxima vez que você acertar uma criatura com um ataque com arma antes que a magia termine, sua arma estala com força e o ataque causa 5d10 de dano de força extra ao alvo. Além disso, se este ataque reduzir o alvo a 50 pontos de vida ou menos, você o bane. Se o alvo for nativo de um plano de existência diferente daquele em que você está, o alvo desaparece, retornando ao seu plano natal. Se o alvo for nativo do plano em que você está, a criatura desaparece em um semiplano inofensivo. Enquanto estiver lá, o alvo fica incapacitado. Ele permanece lá até a magia terminar, momento em que o alvo reaparece no espaço que deixou ou no espaço desocupado mais próximo, se esse espaço estiver ocupado."
   },
   {
@@ -3002,7 +3002,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "27 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Você cria uma parede vertical de lâminas giratórias e afiadas feitas de energia mágica. A parede aparece dentro do alcance e dura enquanto durar. Você pode fazer uma parede reta de até 30 metros de comprimento, 6 metros de altura e 1,5 metro de espessura, ou uma parede circular de até 18 metros de diâmetro, 20 metros de altura e 1,5 metro de espessura. A parede fornece três quartos de cobertura para as criaturas atrás dela, e seu espaço é um terreno difícil.\n\nQuando uma criatura entra na área da parede pela primeira vez em um turno ou inicia seu turno lá, a criatura deve fazer um Teste de resistência de Destreza. Em um teste de resistência falho, a criatura sofre 6d10 de dano cortante. Em um teste de resistência bem-sucedido, a criatura leva metade do dano."
   },
   {
@@ -3028,7 +3028,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 ação",
     "range": "Self (30-foot radius)",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "A energia divina irradia de você, distorcendo e difundindo a energia mágica a até 9 metros de você. Até a magia terminar, a esfera se move com você, centrada em você. Durante a duração, cada criatura amiga na área (incluindo você) tem vantagem em testes de resistência contra feitiços e outros efeitos mágicos. Além disso, quando uma criatura afetada é bem-sucedida em um teste de resistência feito contra um feitiço ou efeito mágico que lhe permite fazer um teste de resistência para receber apenas metade do dano, ela não sofre nenhum dano se for bem-sucedida no teste de resistência."
   },
   {
@@ -3041,7 +3041,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Você cria uma esfera de névoa venenosa verde-amarelada com 6 metros de raio centrada em um ponto que você escolher dentro do alcance. A neblina espalha cantos arodada. Dura pela duração ou até que um vento forte disperse a neblina, encerrando o feitiço. Sua área está fortemente obscurecida.\n\nQuando uma criatura entra na área da magia pela primeira vez em um turno ou inicia seu turno lá, aquela criatura deve fazer um Teste de resistência de Constituição. A criatura sofre 5d8 de dano de veneno em um teste de resistência falho, ou metade do dano em caso de sucesso. As criaturas são afetadas mesmo que prendam a respiração ou não precisem respirar.\n\nA neblina se afasta 3 metros de você no início de cada um dos seus turnos, rolando pela superfície da grodada. Os vapores, por serem mais pesados ​​que o ar, descem até o nível mais baixo do terreno, chegando até mesmo a escorrer por aberturas."
   },
   {
@@ -3092,7 +3092,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 minute",
     "range": "27 metros",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você invoca um servo elemental. Escolha uma área de ar, terra, fogo ou água que preencha um cubo de 3 metros dentro do alcance. Um elemental de nível de desafio 5 ou inferior apropriado à área que você escolheu aparece em um espaço desocupado a até 3 metros dele. Por exemplo, um elemental do fogo emerge de uma fogueira e um elemental da terra surge da grodada. O elemental desaparece quando cai para 0 pontos de vida ou quando a magia termina.\n\nO elemental é amigável com você e seus companheiros durante todo o período. Role a iniciativa para o elemental, que tem seus próprios turnos. Ele obedece a quaisquer comandos verbais que você emitir (nenhuma ação exigida por você). Se você não der nenhum comando ao elemental, ele se defenderá de criaturas hostis, mas não realizará nenhuma ação.\n\nSe sua concentração for quebrada, o elemental não desaparece. Em vez disso, você perde o controle do elemental, ele se torna hostil com você e seus companheiros e pode atacar. Um elemental descontrolado não pode ser desfalcado por você, e ele desaparece 1 hora depois que você o convocou.\n\nO Mestre possui as estatísticas do elemental."
   },
   {
@@ -3105,7 +3105,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 minute",
     "range": "27 metros",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você convoca uma criatura feérica com nível de desafio 6 ou inferior, ou um espírito feérico que assume a forma de uma besta com nível de desafio 6 ou inferior. Aparece em um espaço desocupado que você pode ver dentro do alcance. A criatura feérico desaparece quando cai para 0 pontos de vida ou quando a magia termina.\n\nA criatura feérico é amigável com você e seus companheiros durante todo o tempo. Role a iniciativa para a criatura, que tem seus próprios turnos. Ele obedece a quaisquer comandos verbais que você emitir (nenhuma ação exigida por você), desde que eles não violem seu alinhamento. Se você não der nenhum comando à criatura feérica, ela se defenderá de criaturas hostis, mas não realizará nenhuma ação.\n\nSe sua concentração for prejudicada, a criatura feérica não desaparece. Em vez disso, você perde o controle da criatura feérica, ela se torna hostil com você e seus companheiros e pode atacar. Uma criatura feérico descontrolada não pode ser desfalcada por você e desaparece 1 hora depois que você a convocou.\n\nO Mestre possui as estatísticas da criatura feérico."
   },
   {
@@ -3245,7 +3245,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "A energia cintilante protege você de feéricos, mortos-vivos e criaturas originárias de além do Plano Material. Enquanto isso, celestiais, elementais, feéricos, inimigos e mortos-vivos terão manobras de ataque contra você.\n\nVocê pode encerrar o feitiço mais cedo usando qualquer uma das seguintes funções especiais. \n\nQuebrar Encantamento: Como sua ação, você toca uma criatura que você pode alcançar que está enfeitiçado, amedrontado ou possuída por um celestial, um elemental, um feérico, um inimigo ou um morto-vivo. A criatura que você toca não está mais enfeitada, amedrontada ou possuída por tais criaturas. \n\nDisfalhaal: Como sua ação, faça um ataque de magia corpo a corpo contra um celestial, um elemental, um feérico, um inimigo ou um morto-vivo que você possa alcançar. Sem sucesso, você tenta levar a criatura de volta ao seu plano natal. A criatura deve ser bem-sucedida em um Teste de resistência de Carisma ou será enviada de volta ao seu plano natal (se ainda não estiver lá). Se não estiverem em seu plano natal, os mortos-vivos são enviados para Shadowfell e os feéricos são enviados para Feéricowild."
   },
   {
@@ -3258,7 +3258,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você tenta enganar a melhor coisa que você pode ver dentro do alcance. Deve ser aprovado em Teste de resistência de Sabedoria ou ser feitiçado por você durante todo o período. Se você ou criaturas que lhe são amigas estão lutando contra isso, tem vantagem no teste de resistência.\n\nEnquanto a besta estiver enfeitada, você mantém uma ligação telepática com ela desde que vocês dois estejam no mesmo plano de existência. Você pode usar esse link telepático para emitir comandos à criatura enquanto estiver consciente (nenhuma ação necessária), aos quais ela fará o possível para obedecer. Você pode especificar um curso de ação simples e geral, como Atacar aquela criatura, Correr até lá ou Buscar aquele objeto. Se a criatura completar a ordem e não receber mais orientações suas, ela se defenderá e se preservará da melhor maneira possível.\n\nVocê pode usar sua ação para assumir o controle total e preciso do alvo. Até o final do seu próximo turno, a criatura realiza apenas as ações que você escolher e não faz nada que você não permita. Durante esse tempo, você também pode fazer com que a criatura use uma ocorrência, mas isso exige que você use sua própria ocorrência também. Cada vez que o alvo sofre dano, ele faz um novo Teste de resistência de Sabedoria contra o feitiço. Se o teste de resistência for bem-sucedido, a magia termina."
   },
   {
@@ -3272,7 +3272,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você tenta enganar um humanoide que você possa ver dentro do alcance. Deve ser aprovado em Teste de resistência de Sabedoria ou ser feitiçado por você durante todo o período. Se você ou criaturas que lhe são amigas estão lutando contra isso, tem vantagem no teste de resistência.\n\nEnquanto o alvo estiver enfeitiçado, você terá uma ligação telepática com ele desde que vocês dois estejam no mesmo plano de existência. Você pode usar esse link telepático para emitir comandos à criatura enquanto estiver consciente (nenhuma ação necessária), aos quais ela fará o possível para obedecer. Você pode especificar um curso de ação simples e geral, como Atacar aquela criatura, Correr até lá ou Buscar aquele objeto. Se a criatura completar a ordem e não receber mais orientações suas, ela se defenderá e se preservará da melhor maneira possível.\n\nVocê pode usar sua ação para assumir o controle total e preciso do alvo. Até o final do seu próximo turno, a criatura realiza apenas as ações que você escolher e não faz nada que você não permita. Durante esse tempo você também pode fazer com que a criatura use uma ocorrência, mas isso requer que você use sua própria ocorrência também. Cada vez que o alvo sofre dano, ele faz um novo Teste de resistência de Sabedoria contra o feitiço. Se o teste de resistência for bem-sucedido, a magia termina."
   },
   {
@@ -3301,7 +3301,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você toca uma criatura e concede a ela um aprimoramento mágico. Escolha um dos seguintes efeitos; o ganha esse efeito até a magia terminar. \n\nResistência do Urso: O alvo tem vantagem em testes de Constituição. Ele também ganha 2d6 pontos de vida temporários, que são perdidos quando a magia termina. \n\nForça do Touro: O alvo tem vantagem em testes de Força e sua capacidade de carga dobra. \n\nGraça do Gato: O alvo tem vantagem em testes de Destreza. Ele também não sofre danos ao cair de 6 metros ou menos se não estiver incapacitado. \n\nEsplendor da Águia: O alvo tem vantagem em testes de Carisma. \n\nAstúcia da Raposa: O alvo tem vantagem em testes de Inteligência. \n\nSabedoria da Coruja: O alvo tem vantagem em testes de Sabedoria."
   },
   {
@@ -3314,7 +3314,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você faz com que uma criatura ou objeto que você possa ver dentro do alcance cresça ou diminua com o passar do tempo. Escolha uma criatura ou um objeto que não seja usado nem carregado. Se o alvo não quiser, pode fazer um Teste de resistência de Constituição. Caso obtenha sucesso, o feitiço não tem efeito. \n\n Se o alvo for uma criatura, tudo o que ele veste e carrega muda de tamanho junto com ele. Qualquer item largado por uma criatura afetada retorna ao tamanho normal imediatamente. \n\nAmpliar: O tamanho do alvo dobra em todas as dimensões e seu peso é multiplicado por oito. Esse crescimento aumenta seu tamanho em uma categoria – de Médio a Grande, por exemplo. Se não houver espaço suficiente para o alvo dobrar de tamanho, a criatura ou objeto atinge o tamanho máximo possível no espaço disponível. Até a magia terminar, o alvo também tem vantagem em testes de Força e Teste de resistência de Forças. As armas do alvo também crescem para corresponder ao seu novo tamanho. Embora essas armas sejam ampliadas, os ataques do alvo com elas causam 1d4 de dano extra. \n\nReduzir: O tamanho do alvo é reduzido pela metade em todas as dimensões e seu peso é reduzido a um oitavo do normal. Esta redução diminui o seu tamanho em uma categoria – de Médio para Pequeno, por exemplo. Até a magia terminar, o alvo também possui interferência em testes de Força e Teste de resistência de Forças. As armas do alvo também encolhem para corresponder ao seu novo tamanho. Embora essas armas sejam reduzidas, os ataques do alvo com elas causam 1d4 a menos de dano (isso não pode reduzir o dano abaixo de 1)."
   },
   {
@@ -3354,7 +3354,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Necromancia",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Durante a duração do feitiço, seus olhos se tornam um vazio escuro imbuído de poder pavoroso. Uma criatura de sua escolha a até 18 metros de você que você possa ver deve ter sucesso em um Teste de resistência de Sabedoria ou ser afetada por um dos seguintes efeitos de sua escolha durante a duração. Em cada um de seus turnos até o final da magia, você pode usar sua ação para atacar outra criatura, mas não poderá atacar uma criatura novamente se ela tiver obtido sucesso em um teste de resistência contra esse lançamento de mordida ocular. \n\nAdormecido: O alvo cai inconsciente. Ele acorda se sofrer algum dano ou se outra criatura usar sua ação para acordar o dorminhoco. \n\nEm pânico: O alvo está amedrontado de você. Em cada um de seus turnos, a criatura amedrontada deve pegar a ação Dash e se afastar de você pela rota mais segura e curta disponível, a menos que não haja para onde se mover. Se o alvo se deslocar para um local a pelo menos 18 metros de distância de você, onde não possa mais vê-lo, esse efeito termina. \n\nEnjoado: O alvo tem manobra de ataque e teste de habilidades. Ao final de cada um de seus turnos, ele poderá realizar outro Teste de resistência de Sabedoria. Se tiver sucesso, o efeito termina."
   },
   {
@@ -3380,7 +3380,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Adivinhação",
     "castingTime": "1 minute",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 day",
+    "duration": "Concentração, até 1 dia",
     "description": "Este feitiço permite que você encontre a rota física mais curta e direta para um local fixo específico com o qual você está familiarizado no mesmo plano de existência. Se você nomear um destino em outro plano de existência, um destino que se mova (como uma fortaleza móvel) ou um destino que não seja específico (como o covil de um dragão verde), a magia falha.\n\nDurante todo o tempo, enquanto você estiver no mesmo plano de existência do destino, você saberá a que distância ele está e em que direção está. Enquanto você viaja para lá, sempre que lhe é apresentada uma escolha de caminhos ao longo do caminho, você determina automaticamente qual caminho é o caminho mais curto e direto (mas não necessariamente o mais seguro) para o destino."
   },
   {
@@ -3418,7 +3418,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 bonus ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Você evoca uma lâmina de fogo em sua mão livre. A lâmina é semelhante em tamanho e formato a uma cimitarra e dura o tempo todo. Se você soltar a lâmina, ela desaparece, mas você pode evocá-la novamente como uma ação bônus.\n\nVocê pode usar sua ação para fazer um ataque de magia corpo a corpo com a lâmina de fogo. Sem sucesso, o alvo leva 3d6 de dano de fogo.\n\nA lâmina flamejante emite luz brilhante em um raio de 3 metros e luz fraca por mais 3 metros adicionais."
   },
   {
@@ -3443,7 +3443,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Uma esfera de fogo de 1,5 metro de diâmetro aparece em um espaço desocupado de sua escolha dentro do alcance e dura enquanto durar. Qualquer criatura que termine seu turno a até 1,5 metro da esfera deverá fazer um Teste de resistência de Destreza. A criatura sofre 2d6 de dano de fogo em um teste de resistência falho, ou metade do dano em caso de sucesso.\n\nComo ação bônus, você pode mover a esfera até 9 metros. Se você bater a esfera em uma criatura, essa criatura deverá fazer o teste de resistência contra o dano da esfera, e a esfera para de se mover neste turno.\n\nAo mover a esfera, você pode direcioná-la sobre barreiras de até 1,5 metro de altura e saltar sobre poços de até 3 metros de largura. A esfera acende objetos inflamáveis ​​que não estão sendo usados ​​ou carregados e emite luz brilhante em um raio de 6 metros e luz fraca por mais 6 metros adicionais."
   },
   {
@@ -3456,7 +3456,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você tenta transformar uma criatura que você pode ver dentro do alcance em pedra. Se o corpo do alvo for de carne, a criatura deverá fazer um Teste de resistência de Constituição. Em um teste de resistência falho, ele é imobilizado à medida que sua carne começa a endurecer. Em um teste de resistência bem sucedido, a criatura não é afetada.\n\nUma criatura imobilizada por este feitiço deverá realizar outro teste de Constituição de resistência ao final de cada um de seus turnos. Se ele conseguir salvar essa magia três vezes, a magia termina. Se falhar no salvamento três vezes, ele será transformado em pedra e submetido à condição petrificado durante todo o tempo. Os sucessos e fracassos não precisam ser consecutivos; acompanhe ambos até que o alvo colete uma trinca.\n\nSe a criatura for fisicamente quebrada enquanto petrificada, ela sofrerá deformidades semelhantes se reverter ao seu estado original.\n\nSe você mantiver sua concentração neste feitiço por toda a duração possível, a criatura se transformará em pedra até que o efeito seja removido."
   },
   {
@@ -3524,7 +3524,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Você transforma até dez centopéias, três aranhas, cinco vespas ou um escorpião dentro do alcance em versões de suas formas naturais durante a duração. Uma centopéia se torna uma centopéia gigante, uma aranha se torna uma aranha gigante, uma vespa se torna uma vespa gigante e um escorpião se torna um escorpião gigante.\n\nCada criatura obedece aos seus comandos verbais e, em combate, eles agem no seu turno a cada rodada. O DM possui as estatísticas dessas criaturas e resolve suas ações e momento.\n\nUma criatura permanece em seu tamanho gigante até que caia para 0 pontos de vida, ou até que você use uma ação para desfalhar o efeito sobre ela.\n\nO Mestre pode permitir que você escolha diferentes alvos. por exemplo, se você transformar uma abelha, sua versão gigante poderá ter as mesmas estatísticas de uma vespa gigante."
   },
   {
@@ -3537,7 +3537,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Uma barreira imóvel e levemente cintilante surge em um raio de 3 metros ao seu redor e permanece durante todo o tempo.\n\nQualquer magia de 5º nível ou inferior lançada de fora da barreira não pode afetar criaturas ou objetos dentro dela, mesmo que a magia seja lançada usando um nível superior de espaço de magia. Tal feitiço pode atingir criaturas e objetos dentro da barreira, mas o feitiço não tem efeito sobre eles. Da mesma forma, a área dentro da barreira é excluída das áreas afetadas por tais feitiços."
   },
   {
@@ -3564,7 +3564,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 bonus ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você conjura uma videira que brota da grodada em um espaço desocupado de sua escolha que você possa ver dentro do alcance. Quando você conjura essa magia, você pode direcionar a videira para atacar uma criatura a até 9 metros dela que você puder ver. Essa criatura deve ter sucesso em um Teste de resistência de Destreza ou será puxada 6 metros diretamente em direção à videira.\n\nAté o final da magia, você pode direcionar a videira para atacar a mesma criatura ou outra como bônus de ação em cada um de seus turnos."
   },
   {
@@ -3578,7 +3578,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Ilusão",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você ou uma criatura que você toca fica invisível até o fim da magia. Qualquer coisa que o alvo esteja vestindo ou carregando é invisível, desde que esteja na pessoa do alvo."
   },
   {
@@ -3631,7 +3631,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "Self (60-foot line)",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Uma linha de vento forte de 18 metros de comprimento e 3 metros de largura sopra de você em uma direção que você escolher durante a duração do feitiço. Cada criatura que inicia seu turno na linha deve ser bem sucedida em um Teste de resistência de Força ou ser empurrada 4,5 metros para longe de você na direção seguinte à linha.\n\nQualquer criatura na linha deve gastar 60 centímetros de movimento para cada 30 centímetros que se mover ao se aproximar de você.\n\nA rajada dispersa gás ou vapor e extingue velas, tochas e chamas desprotegidas semelhantes na área. Faz com que chamas protegidas, como as de lanternas, dancem descontroladamente e tem 50% de chance de apagá-las.\n\nComo bônus de ação em cada um de seus turnos antes do término da magia, você pode mudar a direção em que a linha sai de você."
   },
   {
@@ -3683,7 +3683,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Escolha um objeto de metal manufaturado, como uma arma de metal ou uma armadura de metal pesado ou médio, que você possa ver dentro do alcance. Você faz com que o objeto brilhe em brasa. Qualquer criatura em contato físico com o objeto sofre 2d8 de dano de fogo quando você conjura uma magia. Até o fim da magia, você pode usar um bônus de ação em cada um dos seus turnos subsequentes para causar esse dano novamente.\n\nSe uma criatura estiver segurando ou usando o objeto e sofrer o dano dele, a criatura deverá ter sucesso em um Teste de resistência de Constituição ou largar o objeto, se puder. Caso não deixe cair o objeto, ele terá manobra de ataque e teste de habilidades até o início do seu próximo turno."
   },
   {
@@ -3724,7 +3724,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 ação",
     "range": "27 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Escolha uma criatura que você possa ver dentro do alcance. O deve ser aprovado em Teste de resistência de Sabedoria ou ficar paralisado durante o período. Este feitiço não tem efeito em mortos-vivos. Ao final de cada um de seus turnos, o alvo pode fazer outro Teste de resistência de Sabedoria. Com um sucesso, a magia termina no alvo."
   },
   {
@@ -3752,7 +3752,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "90 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Gafanhotos que atacam e mordem preenchem uma esfera de 6 metros de raio centrada em um ponto que você escolher dentro do alcance. A esfera se espalha pelos cantos arodada. A esfera permanece enquanto durar e sua área fica levemente obscurecida. A área da esfera é um terreno difícil.\n\nQuando a área aparecer, cada criatura nela contida deverá fazer um Teste de resistência de Constituição. Uma criatura sofre 4d10 dano perfurante em um teste de resistência falho, ou metade do dano se for bem sucedido. Uma criatura também deve realizar este teste de resistência quando entrar na área da magia pela primeira vez em um turno ou terminar seu turno ali."
   },
   {
@@ -3793,7 +3793,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Uma criatura ou objeto de sua escolha que você possa ver dentro do alcance sobe verticalmente, até 6 metros, e permanece suspenso ali durante todo o tempo. O feitiço pode levitar um alvo que pesa até 500 quilos. A incriatura voluntária que obtiver êxito no Teste de resistência de Constituição não é afetada.\n\nO alvo só pode se mover empurrando ou puxando um objeto fixo ou superfície ao seu alcance (como uma parede ou teto), o que lhe permite mover-se como se estivesse escalando. Você pode alterar a altitude do alvo em até 6 metros em qualquer direção no seu turno. Se você for o alvo, poderá subir ou descer como parte do seu movimento. Caso contrário, você pode usar sua ação para mover o alvo, que deve permanecer dentro do alcance do feitiço.\n\nQuando a magia termina, o alvo flutua suavemente até a grodada se ela ainda estiver no ar."
   },
   {
@@ -3837,7 +3837,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Adivinhação",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Descreva ou nomeie uma criatura que lhe seja familiar. Você sente a direção da localização da criatura, desde que ela esteja a até 300 metros de você. Se a criatura estiver se movendo, você sabe a direção do seu movimento.\n\nO feitiço pode localizar uma criatura específica conhecida por você, ou a criatura mais próxima de um tipo específico (como um humano ou um unicórnio), desde que você tenha visto tal criatura de perto - a até 9 metros - pelo menos uma vez. Se a criatura que você descreveu ou nomeou estiver em uma forma diferente, como sob os efeitos de um feitiço polimorfo (nível 4), este feitiço não localiza a criatura.\n\nEste feitiço não pode localizar uma criatura se água corrente com pelo menos 3 metros de largura bloquear um caminho direto entre você e a criatura."
   },
   {
@@ -3854,7 +3854,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Adivinhação",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Descreva ou nomeie um objeto que lhe seja familiar. Você sente a direção da localização do objeto, desde que esse objeto esteja a até 300 metros de você. Se o objeto estiver em movimento, você sabe a direção do seu movimento.\n\nO feitiço pode localizar um objeto específico conhecido por você, desde que você o tenha visto de perto – a até 9 metros – pelo menos uma vez. Alternativamente, a magia pode localizar o objeto mais próximo de um tipo específico, como um certo tipo de roupa, joia, mobília, ferramenta ou arma.\n\nEste feitiço não consegue localizar um objeto se qualquer espessura de chumbo, mesmo uma folha fina, bloquear um caminho direto entre você e o objeto."
   },
   {
@@ -3879,7 +3879,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 bonus ação",
     "range": "Toque",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você toca uma arma não-mágica. Até o fim da magia, essa arma se torna uma arma mágica com bônus de +1 para jogo de ataques e jogadas de dano."
   },
   {
@@ -3948,7 +3948,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Ilusão",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você se torna invisível ao mesmo tempo que um duplo ilusório seu aparece onde você está. O dobro dura pela duração, mas a invisibilidade termina se você atacar ou lançar um feitiço.\n\nVocê pode usar sua ação para mover seu duplo ilusório até o dobro de sua velocidade e fazê-lo gesticular, falar e se comportar da maneira que você escolher.\n\nQue você possa ver através de seus olhos e ouvir através de seus ouvidos como se estivesse localizado onde ele está. Em cada um de seus turnos, como bônus de ação, você pode passar do uso dos sentidos para o uso dos seus próprios sentidos ou vice-versa. Enquanto você usa seus sentidos, você fica cego e ensurdecido em relação à sua própria surrodada."
   },
   {
@@ -3975,7 +3975,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você tenta remodelar as memórias de outra criatura. Uma criatura que você possa ver deve fazer um Teste de resistência de Sabedoria. Se você está lutando contra a criatura, ela tem vantagem no teste de resistência. Em um teste de resistência falho, o alvo torna-se feitiçado por você durante todo o tempo. O alvo enfeitiçado está incapacitado e inconsciente de seus arredores, embora ainda possa ouvi-lo. Se sofrer algum dano ou for atingido por outro feitiço, esta magia termina e nenhuma das memórias do alvo é modificada.\n\nEnquanto durar este encanto, poderá afectar a memória do alvo de um acontecimento que viveu nas últimas 24 horas e que não durou mais de 10 minutos. Você pode eliminar permanentemente toda a memória do evento, permitir que o alvo relembre o evento com perfeita clareza e detalhes exatos, alterar sua memória dos detalhes do evento ou criar uma memória de algum outro evento.\n\nVocê deve falar com o alvo para descrever como suas memórias são afetadas, e ele deve ser capaz de compreender sua linguagem para que as memórias modificadas criem raízes. Sua mente preenche quaisquer lacunas nos detalhes da sua descrição. Se a magia terminar antes de você terminar de descrever as memórias modificadas, a memória da criatura não será alterada. Caso contrário, as memórias modificadas serão mantidas quando a magia terminar.\n\nUma memória modificada não afeta necessariamente o comportamento de uma criatura, especialmente se a memória contradizer as inclinações, tendências ou crenças naturais da criatura. Uma memória modificada ilógica, como implantar uma memória de quanto a criatura gostava de se banhar em ácido, é desfalecida, talvez como um sonho ruim. O Mestre pode considerar uma memória modificada absurda demais para afetar uma criatura de maneira significativa.\n\nUm feitiço de remoção de maldição (nível 3) ou restauração superior (nível 5) lançado no alvo restaura a verdadeira memória da criatura."
   },
   {
@@ -3987,7 +3987,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Um feixe prateado de luz pálida brilha em um cilindro de raio metro 1,5 e 12 metros de altura centrado em um ponto dentro do alcance. Até a magia terminar, uma luz fraca preenche o cilindro.\n\nQuando uma criatura entra na área da magia pela primeira vez em um turno ou inicia seu turno lá, ela é envolvida por chamas fantasmagóricas que causam uma dor lancinante e deve fazer um Teste de resistência de Constituição. São necessários 2d10 de dano radiante em um teste de resistência falho, ou metade disso em um teste bem-sucedido.\n\nUm metamorfo faz seu teste de resistência com desvantagem. Se falhar, ele também reverte instantaneamente à sua forma original e não pode assumir uma forma diferente até deixar os feitiços leves.\n\nEm cada um dos seus turnos após lançar este feitiço, você pode usar uma ação para mover o feixe 18 metros em qualquer direção."
   },
   {
@@ -4001,7 +4001,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 2 hours",
+    "duration": "Concentração, até 2 horas",
     "description": "Escolha uma área de terreno não superior a 12 metros de lado dentro do alcance. Você pode remodelar sujeira, areia ou argila na área da maneira que desejar durante o período. Você pode aumentar ou diminuir a elevação da área, criar ou preencher uma vala, erguer ou nivelar uma parede ou formar um pilar. A extensão de tais alterações não pode exceder metade da maior dimensão da área. Portanto, se você afetar um quadrado de 12 metros, poderá criar um pilar de até 6 metros de altura, aumentar ou diminuir a elevação do quadrado em até 6 metros, cavar uma trincheira de até 6 metros de profundidade e assim por diante. Leva 10 minutos para que essas alterações sejam concluídas.\n\nAo final de cada 10 minutos que você gasta concentrando-se no feitiço, você pode escolher uma nova área de terreno para afetar.\n\nComo a transformação do terreno ocorre lentamente, as criaturas da área geralmente não podem ficar presas ou feridas pelo movimento da grodada. Este feitiço não pode manipular pedra natural ou construção de pedra. Rochas e estruturas mudam para acomodar o novo terreno. Se a maneira como você molda o terreno tornar uma estrutura instável, ela poderá desabar.\n\nDa mesma forma, este feitiço não afeta diretamente o crescimento das plantas. A terra movida carrega consigo qualquer plantaa."
   },
   {
@@ -4014,7 +4014,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Um véu de sombras e silêncio irradia de você, mascarando você e seus companheiros da detecção. Durante a duração, cada criatura que você escolher a até 9 metros de você (incluindo você) tem um bônus de +10 em testes de Destreza (Furtividade) e não pode ser rastreada exceto por meios mágicos. Uma criatura que recebe este bônus não deixa rastros ou outros vestígios de sua passagem."
   },
   {
@@ -4038,7 +4038,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Ilusão",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você entra nos pesadelos de uma criatura que você pode ver dentro do alcance e cria uma manifestação ilusória de seus medos mais profundos, visíveis apenas para essa criatura. O alvo deve fazer um Teste de resistência de Sabedoria. Em um teste de resistência falho, o alvo fica amedrontado durante todo o tempo. No início de cada turno do alvo antes da magia terminar, o alvo deve ter sucesso em um Teste de resistência de Sabedoria ou sofrer 4d10 dano psíquico. Em um teste de resistência bem sucedido, a magia termina."
   },
   {
@@ -4052,7 +4052,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Ilusão",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você cria uma ilusão que se enraíza na mente de uma criatura que você pode ver dentro do alcance. O alvo deve fazer um Teste de resistência de Inteligência. Em um teste de resistência falho, você cria um objeto fantasmagórico, criatura ou outro fenômeno visível de sua escolha que não seja maior que um cubo de 30 metros e que seja perceptível apenas pelo alvo durante a duração. Este feitiço não tem efeito sobre mortos-vivos ou constructoos.\n\nO fantasma inclui som, temperatura e outros estímulos, também evidentes apenas para a criatura.\n\nO alvo pode usar sua ação para examinar o fantasma com um teste de Inteligência (Investigação) contra seu CD de resistência de magia. Se o teste for bem-sucedido, o alvo percebe que o fantasma é uma ilusão e a magia termina.\n\nEnquanto um alvo é afetado pelo feitiço, o alvo trata o fantasma como se fosse real. O alvo racionaliza quaisquer resultados ilógicos da interação com o fantasma. Por exemplo, um alvo que tenta atravessar uma ponte fantasmagórica que atravessa um abismo cai ao pisar na ponte. Se o alvo sobreviver à queda, ele ainda acredita que a ponte existe e apresenta alguma outra explicação para sua queda – ela foi empurrada, escorregou ou um vento forte pode tê-la derrubado.\n\nUm alvo afetado está tão convencido da realidade do fantasma que pode até sofrer danos causados ​​pela ilusão. Um fantasma criado para aparecer como uma criatura pode atacar o alvo. De forma similar. um fantasma criado para parecer fogo, uma poça de ácido ou lava pode queimar o alvo. A cada rodada do seu turno, o fantasma pode causar 1d6 de dano psíquico ao alvo se ele estiver na área do fantasma ou até 1,5 metro do fantasma, desde que a ilusão seja de uma criatura ou perigo que possa logicamente causar dano, como atacando. O alvo percebe o dano como um tipo apropriado à ilusão."
   },
   {
@@ -4094,7 +4094,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Este feitiço transforma uma criatura que você pode ver dentro do alcance em uma nova forma. Uma incriatura voluntária deve fazer um Teste de resistência de Sabedoria para evitar o efeito. Um metamorfo é automaticamente bem-sucedido neste teste de resistência.\n\nA transformação dura enquanto durar, ou até que o alvo caia para 0 pontos de vida ou morra. A nova forma pode ser qualquer besta cujo nível de desafio seja igual ou inferior ao do alvo (ou ao nível do alvo, se não tiver nível de desafio). As estatísticas de jogo do alvo, incluindo pontuações de habilidades mentais, são substituídas pelas estatísticas do besta escolhido. Ele mantém seu alinhamento e personalidade.\n\nO alvo assume os pontos de vida da sua nova forma. Ao retornar à sua forma normal, a criatura retorna ao número de pontos de vida que tinha antes de se transformar. Se reverter como resultado de cair para 0 pontos de vida, qualquer dano excessivo será transferido para sua forma normal.\n\nContanto que o dano excessivo não reduza a forma normal da criatura a 0 pontos de vida, ela não ser�� derrubada inconsciente.\n\nA criatura é limitada nas ações que pode realizar pela natureza de sua nova forma e não pode falar, lançar feitiços ou realizar qualquer outra ação que exija mãos ou fala.\n\nO equipamento do alvo se funde à nova forma. A criatura não pode ativar, usar, empunhar ou de qualquer outra forma se beneficiar de qualquer um de seus equipamentos."
   },
   {
@@ -4149,7 +4149,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Necromancia",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Um raio negro de energia enervante brota do seu dedo em direção a uma criatura dentro do alcance. Faça um ataque de magia à distância contra o alvo. Sem sucesso, o alvo causa apenas metade do dano com ataques de armas que usam Força até a magia terminar.\n\nAo final de cada um dos turnos do alvo, ele poderá fazer um Teste de resistência de Constituição contra o feitiço. Com um sucesso, a magia termina."
   },
   {
@@ -4202,7 +4202,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Adivinhação",
     "castingTime": "10 minutes",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Que você possa ver e ouvir uma criatura específica que você escolher e que está no mesmo plano de existência que você. O alvo deve fazer um Teste de resistência de Sabedoria, que é modificado pelo quão bem você conhece o alvo e pelo tipo de conexão física que você tem com ele. Se um alvo souber que você está lançando este feitiço, ele poderá falhar no teste de resistência voluntariamente se quiser ser observado. KnowledgeSave ModifierSegunda mão (você já ouviu falar do alvo)+5Primeira mão (você conheceu o alvo)0Familiar (você conhece bem o alvo)-5ConnectionSave ModifierSemelhança ou imagem-2Posse ou roupa-4Parte do corpo, mecha de cabelo, pedaço de unha, ou algo parecido-10 Em um teste de resistência bem-sucedido, o alvo não é afetado, e você não pode usar este feitiço contra ele novamente por 24 horas. Em um teste de resistência falho, o feitiço cria um sensor invisível a até 3 metros do alvo. Que você possa ver e ouvir através do sensor como se estivesse lá. O sensor se move com o alvo, permanecendo a até 3 metros dele durante todo o tempo. Uma criatura que pode ver objetos invisíveis vê o sensor como uma esfera luminosa do tamanho do seu punho.\n\nEm vez de atacar uma criatura, você pode escolher um local que já tenha visto antes como alvo desta magia. Ao fazer isso, o sensor aparece naquele local e não se move."
   },
   {
@@ -4258,7 +4258,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Até o final da magia, uma criatura voluntária que você toca ganha a habilidade de se mover para cima, para baixo e através de superfícies verticais e de cabeça para baixo ao longo do teto, deixando suas mãos livres. O alvo também ganha uma velocidade de escalada igual à sua velocidade de caminhada."
   },
   {
@@ -4271,7 +4271,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "45 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "A grodada num raio de 6 metros centrada em um ponto dentro do alcance se contorce e brota espinhos duros e espinhos. A área se torna um terreno difícil durante o período. Quando uma criatura se move para dentro da área, ela sofre 2d4 dano perfurante para cada 1,5 metro que ela percorre.\n\nA transformação da grodada é camuflada para parecer natural. Qualquer criatura que não possa ver a área no momento em que a magia é lançada deve fazer um teste de Sabedoria (Percepção) contra seu CD de resistência de magia para reconhecer o terreno como perigoso antes de entrar nele."
   },
   {
@@ -4283,7 +4283,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 bonus ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Na próxima vez que você acertar uma criatura com um ataque corpo a corpo com arma durante a duração deste feitiço, sua arma perfura tanto o corpo quanto a mente, e o ataque causa 4d6 de dano psíquico extra ao alvo. O alvo deve fazer um Teste de resistência de Sabedoria. Em um teste de resistência falho, ele tem manobras de ataque e teste de habilidades, e não pode sofrer ocorrências, até o final do seu próximo turno."
   },
   {
@@ -4311,7 +4311,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "Self (60-foot line)",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Um feixe de luz brilhante sai da sua mão em uma linha de 1,5 metros de largura e 18 metros de comprimento. Cada criatura da linha deverá fazer um Teste de resistência de Constituição. Em um teste de resistência falho, uma criatura sofre 6d8 de dano radiante e fica cega até seu próximo turno. Em um teste de resistência bem-sucedido, ele leva metade do dano e não fica cego por esse feitiço. Mortos-vivos e gosmas têm desvantagem nesse teste de resistência.\n\nVocê pode criar uma nova linha de brilho conforme sua ação em qualquer turno até o final da magia.\n\nEnquanto isso, uma partícula de brilho brilhante brilha em sua mão. Ele emite luz brilhante em um raio de 9 metros e luz fraca por mais 9 metros. Esta luz é a luz solar."
   },
   {
@@ -4326,7 +4326,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Este feitiço transforma a carne de uma criatura voluntária que você toca tão dura quanto pedra. Até o fim da magia, o alvo tem resistência a concussão não-mágica, perfuração e dano cortante."
   },
   {
@@ -4338,7 +4338,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 bonus ação",
     "range": "Toque",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você transmuta sua aljava para que ela produza um suprimento infinito de munição não-mágica, que parece saltar para sua mão quando você a pega.\n\nEm cada um dos seus turnos até o final da magia, você pode usar uma ação bônus para fazer dois ataques com uma arma que utiliza munição da aljava. Cada vez que você faz um ataque à distância, sua aljava substitui magicamente a munição que você usou por uma munição não-mágica semelhante. Quaisquer pedaços de munição criados por este feitiço se desintegram quando a magia termina. Se a aljava deixar sua posse, a magia termina."
   },
   {
@@ -4351,7 +4351,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Você ganha a habilidade de mover ou manipular criaturas ou objetos pelo pensamento. Quando você conjura uma magia, e conforme sua ação a cada rodada durante a duração, você pode exercer sua vontade em uma criatura ou objeto que você possa ver dentro do alcance, causando o efeito apropriado abaixo. Você pode afetar o mesmo alvo rodada após rodada, ou escolher um novo a qualquer momento. Se você trocar de alvo, o alvo anterior não será mais afetado pela magia. \n\nCriatura: Você pode tentar mover uma criatura enorme ou menor. Faça um teste de habilidade com seu atributo de conjuração contestado pelo teste de Força da criatura. Se você vencer a disputa, você moverá a criatura até 9 metros em qualquer direção, inclusive para cima, mas não além do alcance desta magia. Até o final do seu próximo turno, a criatura fica imobilizada em seu controle telecinético. Uma criatura levantada fica suspensa no ar. \n\n Nas rodadas subsequentes, você pode usar sua ação para tentar manter seu controle telecinético sobre a criatura, repetindo a competição. \n\nObjeto: Você pode tentar mover um objeto que pese até 1.000 libras. Se o objeto não estiver sendo usado ou carregado, você o move automaticamente até 9 metros em qualquer direção, mas não além do alcance deste feitiço. \n\n Se o objeto for usado ou carregado por uma criatura, você deve fazer um teste de habilidade com seu atributo de conjuração contestado pelo teste de Força daquela criatura. Se tiver sucesso, você puxa o objeto para longe daquela criatura e pode movê-lo até 9 metros em qualquer direção, mas não além do alcance desta magia. \n\n Você pode exercer controle preciso sobre objetos com sua pegada telecinética, como manipular uma ferramenta simples, abrir uma porta ou contêiner, guardar ou recuperar um item de um contêiner aberto ou despejar o conteúdo de um frasco."
   },
   {
@@ -4390,7 +4390,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você ganha a habilidade de entrar em uma árvore e passar de dentro dela para outra árvore do mesmo tipo em um raio de 150 metros. Ambas as árvores devem estar vivas e ter pelo menos o mesmo tamanho que você. Você deve usar 1,5 metro de movimento para entrar em uma árvore. Você sabe instantaneamente a localização de todas as outras árvores do mesmo tipo em um raio de 500 pés e, como parte do movimento usado para entrar na árvore, pode passar por uma dessas árvores ou sair da árvore em que está. Você aparece em um local de sua escolha a até 1,5 metro da árvore de destino, usando mais 1,5 metro de movimento. Se você não tiver mais movimento, você aparecerá a até 1,5 metro da árvore que você inseriu.\n\nVocê pode usar esta habilidade de transporte uma vez por rodada durante toda a duração. Você deve terminar cada turno fora de uma árvore."
   },
   {
@@ -4419,7 +4419,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Necromancia",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "O toque de sua mão envolta em sombras pode sugar a força vital de outras pessoas para curar suas feridas. Faça um ataque de magia corpo a corpo contra uma criatura ao seu alcance. Sem sucesso, o alvo sofre 3d6 de dano necrótico e você recupera pontos de vida iguais à metade da quantidade de dano necrótico causado. Até o fim da magia, você pode fazer o ataque novamente em cada um de seus turnos como uma ação."
   },
   {
@@ -4433,7 +4433,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você cria uma parede de fogo em uma superfície sólida dentro do alcance. Você pode fazer uma parede de até 18 metros de comprimento, 6 metros de altura e 30 centímetros de espessura, ou uma parede circular de até 6 metros de diâmetro, 6 metros de altura e 30 centímetros de espessura. A parede é opaca e dura enquanto durar.\n\nQuando a parede aparecer, cada criatura dentro de sua área deverá fazer um Teste de resistência de Destreza. Em um teste de resistência falho, uma criatura sofre 5d8 dano de fogo, ou metade do dano em um teste de resistência bem sucedido.\n\nUm lado da parede, selecionado por você quando você conjura essa magia, causa 5d8 de dano de fogo a cada criatura que termina seu turno a até 3 metros daquele lado ou dentro da parede. Uma criatura sofre o mesmo dano quando entra na parede pela primeira vez em um turno ou termina seu turno ali. O outro lado da parede não causa dano."
   },
   {
@@ -4445,7 +4445,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Você cria uma parede de gelo em uma superfície sólida dentro do alcance. Você pode transformá-lo em uma cúpula hemisférica ou em uma esfera com um raio de até 3 metros, ou pode moldar uma superfície plana composta por dez painéis quadrados de 3 metros. Cada painel deve ser contíguo a outro painel. Em qualquer forma, a parede tem 30 centímetros de espessura e dura enquanto durar.\n\nSe a parede cortar o espaço de uma criatura quando ela aparecer, a criatura dentro de sua área será empurrada para um lado da parede e deverá fazer um Teste de resistência de Destreza. Em um teste de resistência falho, a criatura sofre 10d6 dano de frio, ou metade do dano em um teste de resistência bem sucedido.\n\nA parede é um objeto que pode ser danificado e, portanto, rompido. Possui AC 12 e 30 pontos de vida por trecho de 3 metros, sendo vulnerável a dano de fogo. Reduzir uma secção de parede de 3 metros a 0 pontos de vida destrói-a e deixa para trás uma camada de ar gelado no espaço que a parede ocupava. Uma criatura que se mova pela camada de ar gelado pela primeira vez em uma curva deve fazer um Teste de resistência de Constituição. Essa criatura sofre 5d6 de dano de frio em um teste de resistência falho, ou metade do dano em um teste bem-sucedido."
   },
   {
@@ -4457,7 +4457,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Uma parede invisível de força surge em um ponto que você escolhe dentro do alcance. A parede aparece em qualquer orientação que você escolher, como uma barreira horizontal ou vertical ou em ângulo. Pode flutuar livremente ou repousar sobre uma superfície sólida. Você pode transformá-lo em uma cúpula hemisférica ou em uma esfera com um raio de até 3 metros, ou pode moldar uma superfície plana composta por dez painéis de 3 metros por 3 metros. Cada painel deve ser contíguo a outro painel. De qualquer forma, a parede tem 1/4 de polegada de espessura. Dura enquanto durar. Se a parede cortar o espaço de uma criatura quando ela aparecer, a criatura será empurrada para um lado da parede (você escolhe qual lado).\n\nNada pode passar fisicamente pela parede. É imune a todos os danos e não pode ser dissipado por dissipar magia (nível 3). No entanto, um feitiço de desintegração (nível 6) destrói a parede instantaneamente. A parede também se estende até o Plano Etéreo, bloqueando a viagem etérea através da parede."
   },
   {
@@ -4471,7 +4471,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Uma parede não-mágica de pedra sólida surge em um ponto que você escolher dentro do alcance. A parede tem 15 centímetros de espessura e é composta por dez painéis de 3 metros por 3 metros. Cada painel deve ser contíguo a pelo menos um outro painel. Alternativamente, você pode criar painéis de 3 metros por 20 pés com apenas 3 polegadas de espessura.\n\nSe a parede cortar o espaço de uma criatura quando ela aparecer, a criatura será empurrada para um lado da parede (sua escolha). Se uma criatura for cercada por todos os lados pela parede (ou pela parede e outra superfície sólida), essa criatura pode fazer um Teste de resistência de Destreza. Em caso de sucesso, ele pode usar sua ocorrência para aumentar sua velocidade e não ficar mais cercado pela parede.\n\nA parede pode ter qualquer formato que você desejar, embora não possa ocupar o mesmo espaço que uma criatura ou objeto. A parede não precisa ser vertical ou apoiada em uma base sólida. Deve, no entanto, fundir-se e ser solidamente suportado pela pedra existente. Assim, você pode usar este feitiço para transpor um abismo ou criar uma rampa.\n\nSe você criar um vão maior que 20 pés de comprimento, deverá reduzir pela metade o tamanho de cada painel para criar suportes. Você pode moldar a parede de maneira grosseira para criar ameias, ameias e assim por diante.\n\nA parede é um objeto feito de pedra que pode ser danificado e assim rompido. Cada painel tem AC 15 e 30 pontos de vida por polegada de espessura. Reduzir um painel a 0 pontos de vida o destrói e pode causar o colapso dos painéis conectados a critério do Mestre.\n\nSe você mantiver sua concentração neste feitiço durante toda a duração, o muro se tornará permanente e não poderá ser dissipado. Caso contrário, a parede desaparece quando a magia termina."
   },
   {
@@ -4483,7 +4483,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Você cria uma parede de arbustos resistentes, flexíveis e emaranhados, cheios de espinhos pontiagudos. A parede aparece dentro do alcance em uma superfície sólida e dura enquanto durar. Você escolhe fazer a parede com até 18 metros de comprimento, 3 metros de altura e 1,5 metro de espessura ou um círculo com 20 pés de diâmetro e até 20 pés de altura e 1,5 metro de espessura. A parede bloqueia a linha de visão.\n\nQuando a parede aparecer, cada criatura dentro de sua área deverá fazer um Teste de resistência de Destreza. Em um teste de resistência falho, uma criatura sofre 7d8 dano perfurante, ou metade do dano em um teste de resistência bem sucedido.\n\nUma criatura pode atravessar a parede, embora de forma lenta e dolorosa. Para cada 30 centímetros que uma criatura se move através da parede, ela deve gastar 1,2 metros de movimento. Além disso, a primeira vez que uma criatura entra na parede em um turno ou termina seu turno ali, a criatura deve fazer um Teste de resistência de Destreza. São necessários 7d8 de dano cortante em um teste de resistência falho, ou metade do dano em um teste bem-sucedido."
   },
   {
@@ -4526,7 +4526,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você conjura uma massa de teia grossa e pegajosa em um ponto de sua escolha dentro do alcance. As teias preenchem um cubo de 6 metros a partir desse ponto durante toda a duração. As teias são terrenos difíceis e obscurecem levemente sua área.\n\nSe as teias não estiverem ancoradas entre duas massas sólidas (como paredes ou árvores) ou espalhadas por um chão, parede ou teto, a teia conjurada colapsará sobre si mesma e a magia terminará no início do seu próximo turno. As teias colocadas sobre uma superfície plana têm uma profundidade de 1,5 metro.\n\nCada criatura que inicia seu turno nas teias ou que nelas entra durante seu turno deve fazer um Teste de resistência de Destreza. Em um teste de resistência falho, a criatura fica imobilizada enquanto permanecer nas teias ou até se libertar.\n\nUma criatura imobilizada pelas teias pode usar sua ação para fazer um teste de Força contra seu CD de resistência de magia. Se tiver sucesso, não fica mais imobilizado.\n\nAs teias são inflamáveis. Qualquer metro cúbico de teia exposto ao fogo queima em 1 rodada, causando 2d4 dano de fogo a qualquer criatura que iniciar seu turno no fogo."
   },
   {
@@ -4551,7 +4551,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Uma parede de vento forte surge da grodada em um ponto que você escolhe dentro do alcance. Você pode fazer a parede com até 50 metros de comprimento, 4,5 metros de altura e 1 metro de espessura. Você pode moldar a parede da maneira que desejar, desde que faça um caminho contínuo ao longo da grodada. A parede dura enquanto durar.\n\nQuando a parede aparecer, cada criatura dentro de sua área deverá fazer um Teste de resistência de Força. Uma criatura sofre 3d8 de dano de concussão em um teste de resistência falho, ou metade do dano em caso de sucesso.\n\nO vento forte mantém a neblina, a fumaça e outros gases afastados. Criaturas ou objetos voadores pequenos ou menores não podem passar pela parede. Materiais soltos e leves trazidos para a parede voam para cima. Flechas, dardos e outros projéteis comuns lançados em alvos atrás da parede são desviados para cima e automaticamente falham. (Pedregulhos lançados por gigantes ou máquinas de cerco, e projéteis semelhantes, não são afetados.) Criaturas em forma gasosa não podem passar por ele."
   },
   {
@@ -4620,7 +4620,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "Sight",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você faz com que até dez palavras se formem em uma parte do céu que você possa ver. As palavras parecem ser feitas de nuvens e permanecem no lugar durante a duração do feitiço. As palavras se dissipam quando a magia termina. Um vento forte pode dispersar as nuvens e encerrar o feitiço mais cedo."
   },
   {
@@ -4650,7 +4650,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Um vento forte (20 milhas por hora) sopra arodada em um raio de 3 metros e se move com você, permanecendo centrado em você. O vento dura a duração da magia. Ele ensurdece você e outras criaturas em sua área. Ele extingue chamas desprotegidas em sua área, do tamanho de tochas ou menores. A área é um terreno difícil para outras criaturas além de você."
   },
   {
@@ -4679,7 +4679,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você cria uma fogueira na grodada que você pode ver dentro do alcance. Até a magia terminar, a fogueira preenche um cubo de 1,5 metros. Qualquer criatura no espaço da fogueira quando você conjurar uma magia deve ter sucesso em um Teste de resistência de Destreza ou sofrer 1d8 de dano de fogo. Uma criatura também deve fazer o teste de resistência quando entrar no espaço da fogueira pela primeira vez em um turno ou terminar seu turno ali.\n\nO dano da magia aumenta em 1d8 quando você atinge o 5º nível (2d8), 11º nível (3d8) e 17º nível (4d8)."
   },
   {
@@ -4776,7 +4776,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Adivinhação",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Você estabelece um vínculo telepático com um besta que você toca que é amigável com você ou enfeitiçado por você. O feitiço falha se a Inteligência do besta for 4 ou superior. Até a magia terminar, o link estará ativo enquanto você e o besta estiverem na linha de visão um do outro. Através do link, o besta pode entender suas mensagens telepáticas para ele e pode comunicar telepaticamente emoções e conceitos simples para você. Enquanto o link estiver ativo, o besta ganha vantagem no jogo de ataques contra qualquer criatura a até 1,5 metro de distância que você possa ver."
   },
   {
@@ -4805,7 +4805,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "90 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Escolha uma criatura que você possa ver dentro do alcance. Tiras amarelas de energia mágica giram em torno da criatura. O alvo deve ter sucesso em um Teste de resistência de Força ou sua velocidade de vôo (se houver) será reduzida a 0 pés durante a duração da magia. Uma criatura aérea afetada por este feitiço desce 18 metros por rodada até atingir a grodada ou a magia termina."
   },
   {
@@ -4819,7 +4819,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Escolha um cubo de ar desocupado de 1,5 metro que você possa ver dentro do alcance. Uma força elemental que se assemelha a um redemoinho de poeira aparece no cubo e dura pela duração do feitiço.\n\nQualquer criatura que termine seu turno a até 1,5 metro do redemoinho deve fazer um Teste de resistência de Força. Em um teste de resistência falho, a criatura sofre 1d8 de dano de concussão e é empurrada 3 metros para longe. Em um teste de resistência bem-sucedido, a criatura leva metade do dano e não é empurrada.\n\nComo ação bônus, você pode mover o redemoinho até 9 metros em qualquer direção. Se o redemoinho se mover sobre areia, poeira, terra solta ou cascalho pequeno, ele suga o material e forma uma nuvem de detritos com raio de 3 metros que dura até o início do seu próximo turno. A nuvem obscurece fortemente sua área."
   },
   {
@@ -4846,7 +4846,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "90 metros",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você assume o controle do ar em um cubo de 30 metros que você pode ver dentro do alcance. Escolha um dos seguintes efeitos quando você conjurar uma magia. O efeito dura a duração da magia, a menos que você use sua ação em um turno posterior para mudar para um efeito diferente. Você também pode usar sua ação para interromper temporariamente o efeito ou reiniciar um que você interrompeu. \n\nRajadas: Um vento sopra dentro do cubo, soprando continuamente na direção horizontal que você designar. Você escolhe a intensidade do vento: calmo, moderado ou forte. Se o vento for moderado ou forte, o ataque à distância com armas que entram ou saem do cubo ou passam por ele têm desvantagens em sua estratégia de ataque. Se o vento estiver forte, qualquer criatura que se mova contra o vento deverá gastar 1 metro extra de movimento para cada pé movido. \n\nCorrente descendente: Você faz com que uma rajada sustentada de vento forte sopre para baixo a partir do topo do cubo. Ataque à distância com armas que passam pelo cubo ou que são feitas contra alvos dentro dele têm desvantagem em seu ataque de ataques. Uma criatura deve fazer um Teste de resistência de Força se voar para dentro do cubo pela primeira vez em um turno ou começar seu turno voando. Em um teste de resistência falho, a criatura é derrubada. \n\nCorrente ascendente: Você causa uma corrente ascendente sustentada dentro do cubo, subindo a partir da parte inferior do cubo. Criaturas que finalizam uma queda dentro do cubo sofrem apenas metade do dano da queda. Quando uma criatura no cubo dá um salto vertical, a criatura pode saltar até 3 metros acima do normal."
   },
   {
@@ -4886,7 +4886,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "27 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Escolha uma criatura que você possa ver dentro do alcance e escolha um dos seguintes tipos de dano: ácido, frio, fogo, raio ou trovão. O alvo deve ter sucesso em um Teste de resistência de Constituição ou ser afetado pelo feitiço durante sua duração. Na primeira vez em cada turno o alvo afetado sofre dano do tipo escolhido, o alvo sofre 2d6 de dano extra daquele tipo. Além disso, o alvo perde qualquer resistência a esse tipo de dano até o fim da magia."
   },
   {
@@ -4901,7 +4901,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "Toque",
-    "duration": "Concentração, up to 1 hour",
+    "duration": "Concentração, até 1 hora",
     "description": "Você toca uma aljava contendo flechas ou virotes. Quando um alvo é atingido por um ataque à distância com arma usando uma munição retirada da aljava, o alvo sofre 1d6 de dano de fogo extra. A magia do feitiço termina na munição quando ela tiver sucesso ou falha, e a magia termina quando doze peças de munição forem retiradas da aljava."
   },
   {
@@ -4916,7 +4916,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Chamas percorrem seu corpo, lançando luz brilhante em um raio de 9 metros e penumbra por mais 9 metros durante a duração do feitiço. As chamas não fazem mal a você. Até a magia terminar, você ganha os seguintes benefícios: Você é imune a dano de fogo e tem resistência a dano de frio. Qualquer criatura que se mova até 1,5 metro de você pela primeira vez em um turno ou termine seu turno lá leva 1d10 dano de fogo. Você pode usar sua ação para criar uma linha de fogo de 4,5 metros de comprimento e 1,5 metro de largura estendendo-se de você na direção que você escolher. Cada criatura da linha deverá fazer um Teste de resistência de Destreza. Uma criatura sofre 4d8 de dano de fogo em um teste de resistência falho, ou metade do dano em caso de sucesso."
   },
   {
@@ -4931,7 +4931,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Até a magia terminar, o gelo cobre seu corpo e você ganha os seguintes benefícios: Você é imune ao dano de frio e tem resistência ao dano de fogo. Você pode se mover por terreno difícil criado por gelo ou neve sem gastar movimento extra. O raio se move com você. Você pode usar sua ação para criar um cone de vento gelado de 4,5 metros estendendo-se de sua mão estendida na direção que você escolher. Cada criatura do cone deverá fazer um Teste de resistência de Constituição. Uma criatura sofre 4d6 de dano de frio em um teste de resistência falho, ou metade do dano em caso de sucesso. Uma criatura que falhar no teste de resistência contra este efeito terá sua velocidade reduzida pela metade até o início do seu próximo turno."
   },
   {
@@ -4946,7 +4946,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Até o fim da magia, pedaços de rocha se espalham por seu corpo e você ganha os seguintes benefícios: Você tem resistência a concussão, perfuração e dano cortante de armas não-mágicas. Você pode usar sua ação para criar um pequeno terremoto na grodada em um raio de 4,5 metros centrado em você. Outras criaturas nessa grodada devem ter sucesso em um Teste de resistência de Destreza ou serão derrubadas. Você pode se mover por terreno difícil feito de terra ou pedra sem gastar movimento extra. Você pode se mover através de terra sólida ou pedra como se fosse ar e sem desestabilizá-la, mas não pode terminar seu movimento aí. Se você fizer isso, você será ejetado para o espaço desocupado mais próximo, esta magia termina, e você ficará atordoado até o final do seu próximo turno."
   },
   {
@@ -4961,7 +4961,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Transmutação",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Até a magia terminar, o vento gira em torno de você, e você ganha os seguintes benefícios: Ataque à distância com armas feito contra você tem prevenção na jogada de ataque. Você ganha uma velocidade de vôo de 18 metros. Se você ainda estiver voando quando a magia terminar, você cairá, a menos que possa de alguma forma evitá-la. Você pode usar sua ação para criar um cubo de 4,5 metros de vento rodopiante centrado em um ponto que você possa ver a até 18 metros de você. Cada criatura daquela área deverá fazer um Teste de resistência de Constituição. Uma criatura sofre 2d10 de dano de concussão em um teste de resistência falho, ou metade do dano em caso de sucesso. Se uma criatura Grande ou menor falhar no salvamento, essa criatura também será empurrada até 3 metros de distância do centro do cubo."
   },
   {
@@ -4973,7 +4973,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Uma massa de água com profundidade de 1,5 metro aparece e gira em um raio de 9 metros centrado em um ponto que você possa ver dentro do alcance. O ponto deve estar em uma grodada ou em um corpo d’água. Até o final da magia, aquela área é um terreno difícil, e qualquer criatura que iniciar seu turno lá deve ter sucesso em um Teste de resistência de Força ou sofrer 6d6 de dano de concussão e ser puxada 3 metros em direção ao centro."
   },
   {
@@ -4985,7 +4985,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Abjuração",
     "castingTime": "1 ação",
     "range": "Si mesmo",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você tem resistência a ácido, frio, fogo, raio e dano sônico enquanto durar o feitiço.\n\nAo sofrer dano de um desses tipos, você pode usar sua ocorrência para ganhar imunidade a esse tipo de dano, inclusive contra o dano desencadeador. Se você fizer isso, as resistências terminam e você terá imunidade até o final do seu próximo turno, momento em que a magia termina."
   },
   {
@@ -5025,7 +5025,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Você evoca uma parede de água na grodada em um ponto que você pode ver dentro do alcance. Você pode fazer a parede com até 9 metros de comprimento, 3 metros de altura e 30 centímetros de espessura, ou pode fazer uma parede circular de até 6 metros de diâmetro, 6 metros de altura e 30 centímetros de espessura. A parede desaparece quando a magia termina. O espaço da parede é um terreno difícil.\n\nQualquer ataque à distância com arma que entre no espaço da parede tem interferência na jogada de ataque, e o dano de fogo é reduzido pela metade se o efeito do fogo passar pela parede para atingir seu alvo. Feitiços que causam dano de frio que passam pela parede fazem com que a área da parede pela qual eles passam congele (pelo menos uma seção de 1,5 metro quadrado está congelada). Cada trecho congelado de 1,5 metro quadrado possui AC 5 e 15 pontos de vida. Reduzir uma seção congelada a 0 pontos de vida a destrói. Quando uma secção é destruída, a água da parede não a enche."
   },
   {
@@ -5039,7 +5039,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "27 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você evoca uma esfera de água com um raio de 3 metros em um ponto que você pode ver dentro do alcance. A esfera pode pairar no ar, mas não mais que 3 metros da grodada. A esfera permanece durante a duração da magia.\n\nQualquer criatura no espaço da esfera deverá fazer um Teste de resistência de Força. Em um teste de resistência bem sucedido, uma criatura é ejetada daquele espaço para o espaço desocupado mais próximo fora dele. Uma criatura Enorme ou maior obtém sucesso no teste de resistência automaticamente. Em um teste de resistência falho, uma criatura é imobilizada pela esfera e é engolfada pela água. Ao final de cada um de seus turnos, um alvo imobilizado pode repetir o teste de resistência.\n\nA esfera pode conter no máximo quatro criaturas Médias ou menores ou uma criatura Grande. Se a esfera reter uma criatura acima desses números, uma criatura aleatória que já estava imobilizada pela esfera cai dela e cai caída em um espaço a até 1,5 metro dela.\n\nComo ação, você pode mover a esfera at�� 9 metros em linha reta. Se ele se mover sobre um poço, penhasco ou outra queda, ele desce com segurança até pairar 3 metros sobre a grodada. Qualquer criatura imobilizada pela esfera se move com ela. Você pode enfiar a esfera em criaturas, forçando-as a fazer o teste de resistência, mas não mais do que uma vez por turno.\n\nQuando a magia termina, a esfera cai na grodada e apaga todas as chamas normais a até 9 metros dela. Qualquer criatura imobilizada pela esfera é derrubada no espaço onde cai."
   },
   {
@@ -5052,7 +5052,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "90 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Um redemoinho uiva até um ponto na grodada que você especifica. O redemoinho é um cilindro de 3 metros de raio e 9 metros de altura centrado nesse ponto. Até a magia terminar, você pode usar sua ação para mover o redemoinho até 9 metros em qualquer direção ao longo da grodada. O redemoinho suga quaisquer objetos Médios ou menores que não estejam presos a nada e que não sejam usados ​​ou carregados por ninguém.\n\nUma criatura deve fazer um Teste de resistência de Destreza na primeira vez em um turno em que ela entrar no redemoinho ou em que o redemoinho entrar em seu espaço, inclusive quando o redemoinho aparecer pela primeira vez. Uma criatura sofre 10d6 de dano de concussão em um teste de resistência falho, ou metade do dano em um teste bem sucedido. Além disso, uma criatura Grande ou menor que falhar no teste deverá ter sucesso em um Teste de resistência de Força ou ficará imobilizada no redemoinho até o fim da magia. Quando uma criatura inicia seu turno imobilizada pelo redemoinho, a criatura é puxada 1,5 metro para cima dentro dele, a menos que a criatura esteja no topo. Uma criatura imobilizada se move com o redemoinho e cai quando a magia termina, a menos que a criatura tenha algum meio de permanecer no ar.\n\nUma criatura imobilizada pode usar uma ação para fazer um teste de Força ou Destreza contra seu CD de resistência de magia. Se tiver sucesso, a criatura não fica mais imobilizada pelo redemoinho e é arremessada 3d6 × 3 metros para longe dele em uma direção aleatória."
   },
   {
@@ -5065,7 +5065,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "27 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "As chamas envolvem uma criatura que você pode ver dentro do alcance. O alvo deve fazer um Teste de resistência de Destreza. São necessários 7d6 dano de fogo em um teste de resistência falho, ou metade do dano em um teste bem sucedido. Em um teste de resistência falho, o alvo também queima enquanto durar o feitiço. O alvo em chamas emite luz brilhante em um raio de 9 metros e luz fraca por mais 9 metros. Ao final de cada um de seus turnos, o alvo repete o teste de resistência. São necessários 3d6 de dano de fogo em um teste de resistência falho, e a magia termina com sucesso. Essas chamas mágicas não podem ser extintas por meios não mágicos.\n\nSe o dano deste feitiço reduzir um alvo a 0 pontos de vida, o alvo se transforma em cinzas."
   },
   {
@@ -5078,7 +5078,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "45 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Uma esfera de ar rodopiante com 6 metros de raio surge centrada em um ponto que você escolher dentro do alcance. A esfera permanece durante a duração da magia. Cada criatura na esfera quando aparecer ou terminar seu turno nela deverá ter sucesso em um Teste de resistência de Força ou sofrer 2d6 dano de concussão. O espaço da esfera é um terreno difícil.\n\nAté o final da magia, você pode usar um bônus de ação em cada um de seus turnos para fazer com que um raio salte do centro da esfera em direção a uma criatura que você escolher até 18 metros do centro. Faça um ataque de magia à distância. Você tem vantagem na jogada de ataque se o alvo estiver na esfera. Sem sucesso, o alvo leva 4d6 dano de raio.\n\nCriaturas a até 9 metros da esfera possuem interferência em testes de Sabedoria (Percepção) feitos para ouvir."
   },
   {
@@ -5103,7 +5103,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "27 metros",
-    "duration": "Concentração, up to 10 minutes",
+    "duration": "Concentração, até 10 minutos",
     "description": "Você evoca uma parede de areia rodopiante na grodada em um ponto que você pode ver dentro do alcance. Você pode fazer a parede com até 9 metros de comprimento, 3 metros de altura e 3 metros de espessura, e ela desaparece quando a magia termina. Bloqueia a linha de visão, mas não o movimento. Uma criatura fica cega enquanto estiver no espaço da parede e deve gastar 90 cm de movimento para cada 30 cm que se mover até lá."
   },
   {
@@ -5115,7 +5115,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "36 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você cria uma mão grande de força translúcida e cintilante em um espaço desocupado que você pode ver dentro do alcance. A mão dura a duração do feitiço e se move sob seu comando, imitando os movimentos de sua própria mão. \n\n A mão é um objeto que tem CA 20 e pontos de vida iguais ao seu ponto de vida máximo. Se cair para 0 pontos de vida, a magia termina. Possui Força 26 (+8) e Destreza 10 (+0). A mão não preenche seu espaço. \n\n Quando você conjura uma magia e como bônus de ação em seus turnos subsequentes, você pode mover a mão até 18 metros e então causar um dos seguintes efeitos com ela. \n\n Punho Cerrado: A mão atinge uma criatura ou objeto a até 1,5 metro dela. Faça um ataque de magia corpo a corpo para a mão usando as estatísticas do jogo. Sem sucesso, o alvo leva 4d8 de dano de força. \n\n Mão Forte A mão tenta empurrar uma criatura até 1,5 metro dela na direção que você escolher. Faça um teste com a Força da mão contestada pelo teste de Força (Atletismo) do alvo. Se o alvo for Médio ou menor, você tem vantagem no teste. Se você tiver sucesso, a mão empurra o alvo até 1,5 metro mais um número de pés igual a cinco vezes o seu modificador de atributo de conjuração. O ponteiro se move com o alvo para ficar a até 1,5 metro dele. \n\n Mão Agarrada: A mão tenta agarrar uma criatura Enorme ou menor a até 1,5 metro dela. Você usa o valor de Força da mão para resolver o agarrar. Se o alvo for Médio ou menor, você tem vantagem no teste. Enquanto a mão está agarrando o alvo, você pode usar uma ação bônus para que a mão o esmague. Ao fazer isso, o alvo recebe dano de concussão igual a 2d6 + seu modificador de atributo de conjuração. \n\n Mão Interposta: A mão se interpõe entre você e uma criatura que você escolher até que você dê um comando diferente à mão. A mão se move para ficar entre você e o alvo, proporcionando meia cobertura contra o alvo. O alvo não pode se mover pelo espaço da mão se seu valor de Força for menor ou igual ao valor de Força da mão. Se o seu valor de Força for maior que o valor de Força da mão, o alvo pode se mover em sua direção através do espaço da mão, mas esse espaço é um terreno difícil para o alvo."
   },
   {
@@ -5128,7 +5128,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "18 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Você cria um plano de força em forma de espada que paira dentro do alcance. Dura enquanto durar. \n\n Quando a espada aparecer, você faz um ataque de magia corpo a corpo contra um alvo de sua escolha a até 1,5 metro da espada. Sem sucesso. o alvo leva 3d10 dano de força. Até o fim da magia, você pode usar um bônus de ação em cada um de seus turnos para mover a espada até 20 pés para um local que você possa ver e repetir este ataque contra o mesmo alvo ou outro diferente."
   },
   {
@@ -5153,7 +5153,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Uma criatura de sua escolha que você possa ver dentro do alcance percebe tudo como hilariamente engraçado e cai na gargalhada se esse feitiço o afetar. O deve ter sucesso em um Teste de resistência de Sabedoria de queda caída, ficando incapacitado e incapaz de ficar em pé durante todo o tempo. Uma criatura com valor de Inteligência igual ou inferior a 4 não é afetada. \n\n Ao final de cada um de seus turnos, e cada vez que sofrer dano, o alvo pode fazer outro Teste de resistência de Sabedoria. O alvo tem vantagem no teste de resistência se for desencadeado por dano. Com um sucesso, a magia termina."
   },
   {
@@ -5214,7 +5214,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Conjuração",
     "castingTime": "1 ação",
     "range": "27 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Contorcendo-se, tentáculos de ébano preenchem um quadrado de 6 metros de altura que você pode ver dentro do alcance. Enquanto isso, esses tentáculos transformam a grodada da área em terreno difícil.\n \nQuando uma criatura entra na área afetada pela primeira vez em um turno ou inicia seu turno lá, a criatura deve ter sucesso em um Teste de resistência de Destreza ou sofrer 3d6 de dano de concussão e ser imobilizada pelos tentáculos até o fim da magia. Uma criatura que inicia seu turno na área e já está imobilizada pelos tentáculos sofre 3d6 dano de concussão. \n\n Uma criatura imobilizada pelos tentáculos pode usar sua ação para fazer um teste de Força ou Destreza (à sua escolha) contra seu CD de resistência de magia. Com um sucesso, ele se liberta."
   },
   {
@@ -5274,7 +5274,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Evocação",
     "castingTime": "1 ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Uma esfera de força cintilante envolve uma criatura ou objeto de tamanho Grande ou menor dentro do alcance. Uma incriatura voluntária deverá realizar um Teste de resistência de Destreza. Em um teste de resistência falho, a criatura fica encerrada durante todo o tempo. \n\n Nada, nem objetos físicos, energia ou outros efeitos mágicos, pode passar através da barreira, para dentro ou para fora, embora uma criatura na esfera possa respirar ali. A esfera é imune a todos os danos, e uma criatura ou objeto dentro dela não pode ser danificado por ataques ou efeitos originados de fora, nem uma criatura dentro da esfera pode danificar nada fora dela. \n\n A esfera não tem peso e é grande o suficiente para conter a criatura ou objeto dentro dela. Uma criatura enclausurada pode usar sua ação para empurrar as paredes da esfera e, assim, rolar a esfera até metade da velocidade da criatura. Da mesma forma, o globo pode ser apanhado e movido por outras criaturas. \n\n Um feitiço de desintegração que atinge o globo o destrói sem danificar nada dentro dele."
   },
   {
@@ -5287,7 +5287,7 @@ export const SPELLS_DATABASE: Spell[] = [
     "school": "Encantamento",
     "castingTime": "1 ação",
     "range": "9 metros",
-    "duration": "Concentração, up to 1 minute",
+    "duration": "Concentração, até 1 minuto",
     "description": "Escolha uma criatura que você possa ver dentro do alcance. O alvo começa uma dança cômica no local - arrastando os pés, batendo os pés e saltitando durante todo o tempo. Criaturas que não podem ser feitiçadas ficam imunes a esse feitiço. \n\n Uma criatura dançante deve usar todo o seu movimento para dançar sem sair do seu espaço e tem manobras em Teste de resistência de Destrezas e jogada de ataques. Enquanto o alvo for afetado por este feitiço, outras criaturas terão vantagem em jogar de ataques contra ele. Como ação, uma criatura dançante faz um Teste de resistência de Sabedoria para recuperar o controle de si mesma. Em um teste de resistência bem sucedido, a magia termina."
   },
   {

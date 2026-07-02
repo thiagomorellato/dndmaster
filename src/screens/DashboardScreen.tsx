@@ -78,6 +78,12 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('tatico');
+  const [journalText, setJournalText] = useState('');
+    useEffect(() => {
+    if (character) {
+      setJournalText(character.journal || '');
+    }
+  }, [character]);
   const [restModalVisible, setRestModalVisible] = useState(false);
   const [xpDetailsModalVisible, setXpDetailsModalVisible] = useState(false);
   const promptCastSpell = (spellName: string) => {
@@ -216,6 +222,29 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       }, Math.abs(change), change > 0);
     }
     setHpModalVisible(false);
+  };
+  const handleUpdateJournal = async (newText: string) => {
+    if (!character) {
+      console.log("Personagem não encontrado!");
+      return;
+    }
+
+    // 1. Criamos a versão nova do personagem
+    const updatedChar = {
+      ...character,
+      journal: newText
+    };
+
+    try {
+      // 2. Aguardamos o salvamento no Storage
+      await StorageService.saveCharacter(updatedChar);
+      
+      // 3. Só depois de salvar, atualizamos o estado do componente
+      setCharacter(updatedChar); 
+    } catch (error: any) {
+      console.error("Erro ao salvar no Storage:", error);
+      Alert.alert('Erro ao salvar diário', error.message);
+    }
   };
   const cycleMultiplier = () => {
     setMultiplier(prev => {
@@ -797,7 +826,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       case 'HP_HEAL':
         return { name: 'heart-half', color: colors.accentEmerald };
       case 'SHIELD_OF_FAITH':
-        return { name: 'shield', color: colors.accentSky };
+        return { name: 'shield', color: colors.accentAmber };
       case 'SMITE_USE':
         return { name: 'flame', color: colors.accentAmber };
       case 'EQUIP_ITEM':
@@ -813,14 +842,14 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       case 'XP_GAIN':
         return { name: 'star', color: '#F59E0B' };
       case 'DICE_ROLL':
-        return { name: 'dice', color: colors.accentSky };
+        return { name: 'dice', color: colors.accentAmber };
       default:
         return { name: 'flash', color: colors.accentViolet };
     }
   };
   if (loading) {
     return <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color={colors.accentSky} />
+        <ActivityIndicator size="large" color={colors.accentAmber} />
         <Text style={styles.loadingText}>Carregando Dashboard...</Text>
       </View>;
   }
@@ -852,7 +881,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           <TouchableOpacity style={styles.backBtnCompact} onPress={onBack} activeOpacity={0.7}>
-            <Ionicons name="chevron-back" size={24} color={colors.accentSky} />
+            <Ionicons name="chevron-back" size={24} color={colors.accentAmber} />
           </TouchableOpacity>
           {character.imageUrl && <Image source={{
             uri: character.imageUrl
@@ -872,9 +901,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
           </View>
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          {isSaving && <ActivityIndicator size="small" color={colors.accentSky} style={{marginRight: 8}} />}
+          {isSaving && <ActivityIndicator size="small" color={colors.accentAmber} style={{marginRight: 8}} />}
           <TouchableOpacity onPress={toggleTheme} style={{marginRight: 12}}>
-            <Ionicons name={theme === 'dark' ? "sunny" : "moon"} size={20} color={colors.accentSky} />
+            <Ionicons name={theme === 'dark' ? "sunny" : "moon"} size={20} color={colors.accentAmber} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => { setXpInputValue(''); setXpDetailsModalVisible(true); }} style={styles.levelBadgeContainer}>
             <Svg width="44" height="44" style={{ position: 'absolute' }}>
@@ -954,6 +983,36 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
         {activeTab === 'equipamentos' && <EquipmentTracker equipment={character.equipment} onToggleEquip={handleToggleEquip} onAddItem={handleAddItem} onDeleteItem={handleDeleteItem} characterClass={character.characterClass} />}
 
         {activeTab === 'logs' && <View style={styles.logCard}>
+          {/* Bloco do Diário Persistente */}
+          <View style={{ marginBottom: 16, padding: 12 }}>
+              <Text style={{ color: colors.textMain, fontWeight: '800', marginBottom: 8, fontSize: 12 }}>DIÁRIO DE AVENTURA</Text>
+              
+              <TextInput
+                key={character?.journal}
+                style={{ 
+                  backgroundColor: colors.background, 
+                  color: colors.textMain, 
+                  borderRadius: 8, 
+                  padding: 10, 
+                  minHeight: 400, 
+                  textAlignVertical: 'top',
+                  borderWidth: 1,
+                  borderColor: colors.border
+                }}
+                multiline
+                placeholder="Escreva suas memórias da campanha aqui..."
+                placeholderTextColor={colors.textMuted}
+                value={journalText} // Agora aponta para o estado local
+                onChangeText={setJournalText} // Atualiza o estado local enquanto digita
+              />
+
+              <TouchableOpacity 
+                style={{ marginTop: 8, backgroundColor: colors.accentAmber, padding: 10, borderRadius: 6, alignItems: 'center' }}
+                onPress={() => handleUpdateJournal(journalText)} // Salva o texto do estado local
+              >
+                <Text style={{ color: colors.background, fontWeight: '800', fontSize: 12 }}>SALVAR DIÁRIO</Text>
+              </TouchableOpacity>
+            </View>
             <View style={styles.logHeader}>
               <View>
                 <Text style={styles.logTitle}>HISTÓRICO DE COMBATE (EVENT SOURCING)</Text>
@@ -962,7 +1021,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
               
               <View style={styles.logsActionRow}>
                 <TouchableOpacity style={styles.logActionBtn} onPress={handleExportCSV}>
-                  <Ionicons name="share-social-outline" size={16} color={colors.accentSky} />
+                  <Ionicons name="share-social-outline" size={16} color={colors.accentAmber} />
                   <Text style={styles.logActionLabel}>CSV</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.logActionBtn, styles.logClearBtn]} onPress={handleClearLogs}>
@@ -1025,7 +1084,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
               activeOpacity={0.8}
             >
               <View style={styles.coinBadgeCompact}>
-                <View style={[styles.coinDot, { backgroundColor: colors.accentSky }]} />
+                <View style={[styles.coinDot, { backgroundColor: colors.accentAmber }]} />
                 <Text style={styles.coinTextCompact}>{character.coins?.gp || 0} gp</Text>
               </View>
               
@@ -1162,14 +1221,14 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
         <TouchableOpacity style={[styles.tabItem, activeTab === 'equipamentos' && styles.tabItemActive]} onPress={() => setActiveTab('equipamentos')} activeOpacity={0.8}>
           <Ionicons name="briefcase" size={20} color={activeTab === 'equipamentos' ? colors.accentAmber : colors.textMuted} />
           <Text style={[styles.tabLabel, activeTab === 'equipamentos' && styles.tabLabelActive]}>
-            EQUIPOS
+            INVENTÁRIO
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={[styles.tabItem, activeTab === 'logs' && styles.tabItemActive]} onPress={() => setActiveTab('logs')} activeOpacity={0.8}>
-          <Ionicons name="list-circle" size={20} color={activeTab === 'logs' ? colors.accentAmber : colors.textMuted} />
+          <Ionicons name="book" size={20} color={activeTab === 'logs' ? colors.accentAmber : colors.textMuted} />
           <Text style={[styles.tabLabel, activeTab === 'logs' && styles.tabLabelActive]}>
-            LOGS
+            DIÁRIO
           </Text>
         </TouchableOpacity>
       </View>
@@ -1280,7 +1339,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
               <View style={styles.coinInputsContainer}>
               <View style={styles.coinInputRow}>
                 <View style={[styles.coinDot, {
-                  backgroundColor: colors.accentSky
+                  backgroundColor: colors.accentAmber
                 }]} />
                 <Text style={styles.coinInputLabel}>Ouro (PO):</Text>
                 <TextInput style={styles.coinTextInput} keyboardType="numeric" value={editGP} onChangeText={setEditGP} />
@@ -1738,6 +1797,9 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
   },
   hitDiceCubesRow: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: 120,
+    justifyContent: 'flex-end',
     marginBottom: 2
   },
   hitDiceTextCompact: {
@@ -1828,7 +1890,7 @@ const createStyles = (colors: ThemeColors) => StyleSheet.create({
     fontWeight: '700'
   },
   saveBtn: {
-    backgroundColor: colors.accentSky,
+    backgroundColor: colors.accentAmber,
     paddingVertical: 10,
     paddingHorizontal: 18,
     borderRadius: 8
