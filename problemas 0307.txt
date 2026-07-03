@@ -1,0 +1,60 @@
+Web Bundling failed 1138ms index.ts (1 module)
+ ERROR  SyntaxError: C:\Users\thimo\Desktop\anhanguera\ded\src\components\EquipmentTracker.tsx: Unexpected token, expected "}" (603:23)
+
+  601 |                      <TextInput
+  602 |                        style={styles.textInput
+> 603 |                        placeholder="ex: 14"
+      |                        ^
+  604 |                        placeholderTextColor="#475569"
+  605 |                        keyboardType="numeric"
+  606 |                        value={acBonus}
+    at constructor (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:365:19)
+    at TypeScriptParserMixin.raise (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:6616:19)
+    at TypeScriptParserMixin.unexpected (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:6636:16)
+    at TypeScriptParserMixin.expect (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:6916:12)
+    at TypeScriptParserMixin.jsxParseExpressionContainer (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:4649:10)
+    at TypeScriptParserMixin.jsxParseAttributeValue (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:4616:21)
+    at TypeScriptParserMixin.jsxParseAttribute (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:4665:38)
+    at TypeScriptParserMixin.jsxParseOpeningElementAfterName (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:4679:28)
+    at TypeScriptParserMixin.jsxParseOpeningElementAfterName (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:10060:18)
+    at TypeScriptParserMixin.jsxParseOpeningElementAt (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:4674:17)
+    at TypeScriptParserMixin.jsxParseElementAt (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:4698:33)
+    at TypeScriptParserMixin.jsxParseElementAt (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:4710:32)
+    at TypeScriptParserMixin.jsxParseElement (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:4761:17)
+    at TypeScriptParserMixin.parseExprAtom (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:4771:19)
+    at TypeScriptParserMixin.parseExprSubscripts (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:11098:23)
+    at TypeScriptParserMixin.parseUpdate (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:11083:21)
+    at TypeScriptParserMixin.parseMaybeUnary (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:11063:23)
+    at TypeScriptParserMixin.parseMaybeUnary (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:9854:18)
+    at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:10916:61)
+    at TypeScriptParserMixin.parseExprOps (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:10921:23)
+    at TypeScriptParserMixin.parseMaybeConditional (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:10898:23)
+    at TypeScriptParserMixin.parseMaybeAssign (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:10848:21)
+    at C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:9792:39
+    at TypeScriptParserMixin.tryParse (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:6924:20)
+    at TypeScriptParserMixin.parseMaybeAssign (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:9792:18)
+    at C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:10817:39
+    at TypeScriptParserMixin.allowInAnd (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:12443:12)
+    at TypeScriptParserMixin.parseMaybeAssignAllowIn (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:10817:17)
+    at TypeScriptParserMixin.parseMaybeAssignAllowInOrVoidPattern (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:12510:17)
+    at TypeScriptParserMixin.parseParenAndDistinguishExpression (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:11692:28)
+    at TypeScriptParserMixin.parseExprAtom (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:11348:23)
+    at TypeScriptParserMixin.parseExprAtom (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:4776:20)
+    at TypeScriptParserMixin.parseExprSubscripts (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:11098:23)
+    at TypeScriptParserMixin.parseUpdate (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:11083:21)
+    at TypeScriptParserMixin.parseMaybeUnary (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:11063:23)
+    at TypeScriptParserMixin.parseMaybeUnary (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:9854:18)
+    at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:10916:61)
+    at TypeScriptParserMixin.parseExprOps (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:10921:23)
+    at TypeScriptParserMixin.parseMaybeConditional (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:10898:23)
+    at TypeScriptParserMixin.parseMaybeAssign (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:10848:21)
+    at TypeScriptParserMixin.parseMaybeAssign (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:9803:20)
+    at C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:10817:39
+    at TypeScriptParserMixin.allowInAnd (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:12443:12)
+    at TypeScriptParserMixin.parseMaybeAssignAllowIn (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:10817:17)
+    at TypeScriptParserMixin.parseConditional (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:10908:30)
+    at TypeScriptParserMixin.parseConditional (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:9620:18)
+    at TypeScriptParserMixin.parseMaybeConditional (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:10902:17)
+    at TypeScriptParserMixin.parseMaybeAssign (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:10848:21)
+    at TypeScriptParserMixin.parseMaybeAssign (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:9803:20)
+    at TypeScriptParserMixin.parseConditional (C:\Users\thimo\Desktop\anhanguera\ded\node_modules\@babel\parser\lib\index.js:10910:29)

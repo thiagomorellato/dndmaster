@@ -47,8 +47,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
         { id: 'channel_divinity', name: 'Channel Divinity', current: 1, max: 1 },
       ],
     },
-    proficiencies: ['Athletics', 'Insight', 'Perception', 'Religion', 'Intimidation'],
-    preparedSpells: ['Escudo da Fé', 'Curar Ferimentos', 'Abençoar', 'Auxílio'],
+     proficiencies: ['Athletics', 'Insight', 'Perception', 'Religion', 'Intimidation'],
+     skills: {},
+     savingThrows: {},
+     spellcastingAbility: 'wis',
+     preparedSpells: ['Escudo da Fé', 'Curar Ferimentos', 'Abençoar', 'Auxílio'],
+
     equipment: [
       { id: 'eq-sword-1', name: 'Longsword +1', type: 'weapon', equipped: true, dmgDice: '1d8+4' },
       { id: 'eq-plate-1', name: 'Plate Armor', type: 'armor', equipped: true, acBonus: 18 },

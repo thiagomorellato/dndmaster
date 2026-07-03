@@ -1,4 +1,75 @@
-import { BaseStats } from '../types/character';
+import { BaseStats, CustomResource } from '../types/character';
+
+export interface ClassProficiencies {
+  savingThrows: string[];
+  armors: string;
+  weapons: string;
+  tools: string[];
+}
+
+export const getClassProficienciesSummary = (characterClass: string): ClassProficiencies => {
+  const normalizedClass = characterClass.trim().toLowerCase();
+  
+  const profs: ClassProficiencies = {
+    savingThrows: [],
+    armors: 'Nenhum',
+    weapons: 'Nenhum',
+    tools: []
+  };
+
+  if (normalizedClass.includes('bárbaro') || normalizedClass.includes('barbarian')) {
+    profs.savingThrows = ['Força', 'Constituição'];
+    profs.armors = 'Leve, Média, Pesada, Escudos';
+    profs.weapons = 'Simples, Marciais';
+  } else if (normalizedClass.includes('bardo') || normalizedClass.includes('bard')) {
+    profs.savingThrows = ['Destreza', 'Carisma'];
+    profs.armors = 'Leve';
+    profs.weapons = 'Simples, Marciais';
+  } else if (normalizedClass.includes('bruxo') || normalizedClass.includes('warlock')) {
+    profs.savingThrows = ['Sabedoria', 'Carisma'];
+    profs.armors = 'Leve';
+    profs.weapons = 'Simples, Marciais';
+  } else if (normalizedClass.includes('clérigo') || normalizedClass.includes('cleric')) {
+    profs.savingThrows = ['Sabedoria', 'Carisma'];
+    profs.armors = 'Leve, Média, Pesada, Escudos';
+    profs.weapons = 'Simples, Marciais';
+  } else if (normalizedClass.includes('feiticeiro') || normalizedClass.includes('sorcerer')) {
+    profs.savingThrows = ['Constituição', 'Carisma'];
+    profs.armors = 'Leve';
+    profs.weapons = 'Simples, Marciais';
+  } else if (normalizedClass.includes('guerreiro') || normalizedClass.includes('fighter')) {
+    profs.savingThrows = ['Força', 'Constituição'];
+    profs.armors = 'Leve, Média, Pesada, Escudos';
+    profs.weapons = 'Simples, Marciais';
+  } else if (normalizedClass.includes('ladino') || normalizedClass.includes('rogue')) {
+    profs.savingThrows = ['Destreza', 'Inteligência'];
+    profs.armors = 'Leve';
+    profs.weapons = 'Simples, Marciais';
+  } else if (normalizedClass.includes('mago') || normalizedClass.includes('wizard')) {
+    profs.savingThrows = ['Inteligência', 'Sabedoria'];
+    profs.armors = 'Nenhum';
+    profs.weapons = 'Simples';
+  } else if (normalizedClass.includes('monge') || normalizedClass.includes('monk')) {
+    profs.savingThrows = ['Força', 'Destreza'];
+    profs.armors = 'Nenhum';
+    profs.weapons = 'Simples, Marciais';
+  } else if (normalizedClass.includes('paladino') || normalizedClass.includes('paladin')) {
+    profs.savingThrows = ['Sabedoria', 'Carisma'];
+    profs.armors = 'Leve, Média, Pesada, Escudos';
+    profs.weapons = 'Simples, Marciais';
+  } else if (normalizedClass.includes('patrulheiro') || normalizedClass.includes('ranger')) {
+    profs.savingThrows = ['Força', 'Destreza'];
+    profs.armors = 'Leve, Média, Escudos';
+    profs.weapons = 'Simples, Marciais';
+  } else if (normalizedClass.includes('artífice') || normalizedClass.includes('artificer')) {
+    profs.savingThrows = ['Inteligência', 'Constituição'];
+    profs.armors = 'Leve, Média, Pesada, Escudos';
+    profs.weapons = 'Simples, Marciais';
+  }
+
+  return profs;
+};
+
 
 export interface ClassData {
   name: string;
@@ -28,7 +99,62 @@ export interface ArmorTemplate {
   weight?: number;
 }
 
-export const CLASSES_LIST: ClassData[] = [
+export const SKILL_MAPPING: Record<keyof BaseStats, string[]> = {
+  str: ['Athletics'],
+  dex: ['Acrobatics', 'Sleight', 'Stealth'],
+  con: [],
+  int: ['Arcana', 'History', 'Investig.', 'Nature', 'Religião'],
+  wis: ['Animal H.', 'Insight', 'Medicine', 'Perception', 'Survival'],
+  cha: ['Deception', 'Intimid.', 'Perform.', 'Persuasion'],
+};
+
+export const SKILL_FULL_NAMES: Record<string, string> = {
+  'Sleight': 'Prestidigitação',
+  'Investig.': 'Investigação',
+  'Animal H.': 'Adestrar Animais',
+  'Intimid.': 'Intimidação',
+  'Perform.': 'Atuação',
+  'Religiãon': 'Religião',
+  'Acrobatics': 'Acrobacia',
+  'Athletics': 'Atletismo',
+  'Stealth': 'Furtividade',
+  'Arcana': 'Arcanismo',
+  'History': 'História',
+  'Nature': 'Natureza',
+  'Insight': 'Intuição',
+  'Medicine': 'Medicina',
+  'Perception': 'Percepção',
+  'Survival': 'Sobrevivência',
+  'Deception': 'Enganação',
+  'Persuasion': 'Persuasão'
+};
+
+export const STANDARD_SKILLS_SET = new Set([
+  'Athletics', 'Acrobatics', 'Sleight of Hand', 'Stealth',
+   'Arcana', 'History', 'Investigation', 'Nature', 'Religião',
+
+  'Animal Handling', 'Insight', 'Medicine', 'Perception', 'Survival',
+  'Deception', 'Intimidation', 'Performance', 'Persuasion',
+  'Atletismo', 'Acrobacia', 'Furtividade', 'Prestidigitação',
+  'Arcanismo', 'História', 'Investigação', 'Natureza', 'Religião',
+  'Adestrar Animais', 'Intuição', 'Medicina', 'Percepção', 'Sobrevivência',
+  'Enganação', 'Intimidação', 'Atuação', 'Persuasão',
+   'Acrobatics', 'Sleight', 'Arcana', 'History', 'Investig.', 'Nature', 'Religião',
+
+  'Animal H.', 'Insight', 'Medicine', 'Perception', 'Survival',
+  'Deception', 'Intimid.', 'Perform.', 'Persuasion'
+]);
+
+export const SAVING_THROWS_LIST = [
+  { id: 'str', label: 'Força' },
+  { id: 'dex', label: 'Destreza' },
+  { id: 'con', label: 'Constituição' },
+  { id: 'int', label: 'Inteligência' },
+  { id: 'wis', label: 'Sabedoria' },
+  { id: 'cha', label: 'Carisma' },
+];
+
+export const CLASSES_LIST = [
   {
     name: 'Bárbaro',
     hd: 'd12',
@@ -328,6 +454,88 @@ export const getSpellLimit = (className: string, level: number, stats: BaseStats
   return 0; // Non-casters
 };
 
+export const getMaxSpellLevel = (className: string, lvl: number): number => {
+  if (className === 'Paladino' || className === 'Patrulheiro') {
+    if (lvl >= 5) return 2;
+    if (lvl >= 2) return 1;
+    return 0;
+  }
+  if (['Clérigo', 'Mago', 'Bardo', 'Druida', 'Feiticeiro', 'Bruxo'].includes(className)) {
+    if (lvl >= 5) return 3;
+    if (lvl >= 3) return 2;
+    return 1;
+  }
+  if (className === 'Artífice') {
+    if (lvl >= 5) return 2;
+    return 1;
+  }
+  return 0;
+};
+
+export const getClassSkillRules = (className: string): {
+  limit: number;
+  list: string[];
+} => {
+  const cls = className.toLowerCase();
+  if (cls === 'bárbaro') return {
+    limit: 2,
+    list: ['Adestrar Animais', 'Atletismo', 'Intimidação', 'Natureza', 'Percepção', 'Sobrevivência']
+  };
+  if (cls === 'bardo') return {
+    limit: 3,
+    list: SKILLS_LIST
+  }; // Bards can choose any 3 skills
+  if (cls === 'bruxo') return {
+    limit: 2,
+    list: ['Arcanismo', 'Enganação', 'História', 'Intimidação', 'Investigação', 'Natureza', 'Religião']
+  };
+  if (cls === 'clérigo') return {
+    limit: 2,
+    list: ['História', 'Intuição', 'Medicina', 'Persuasão', 'Religião']
+  };
+  if (cls === 'druida') return {
+    limit: 2,
+    list: ['Arcanismo', 'Adestrar Animais', 'Intuição', 'Medicina', 'Natureza', 'Percepção', 'Religião', 'Sobrevivência']
+  };
+  if (cls === 'feiticeiro') return {
+    limit: 2,
+    list: ['Arcanismo', 'Enganação', 'Intuição', 'Intimidação', 'Persuasão', 'Religião']
+  };
+  if (cls === 'guerreiro') return {
+    limit: 2,
+    list: ['Acrobacia', 'Adestrar Animais', 'Atletismo', 'História', 'Intuição', 'Intimidação', 'Percepção', 'Sobrevivência']
+  };
+  if (cls === 'ladino') return {
+    limit: 4,
+    list: ['Acrobacia', 'Atletismo', 'Enganação', 'Intuição', 'Intimidação', 'Investigação', 'Percepção', 'Atuação', 'Persuasão', 'Prestidigitação', 'Furtividade']
+  };
+  if (cls === 'mago') return {
+    limit: 2,
+    list: ['Arcanismo', 'História', 'Intuição', 'Investigação', 'Medicina', 'Religião']
+  };
+  if (cls === 'monge') return {
+    limit: 2,
+    list: ['Acrobacia', 'Atletismo', 'História', 'Intuição', 'Religião', 'Furtividade']
+  };
+  if (cls === 'paladino') return {
+    limit: 2,
+    list: ['Atletismo', 'Intuição', 'Intimidação', 'Medicina', 'Persuasão', 'Religião']
+  };
+  if (cls === 'patrulheiro') return {
+    limit: 3,
+    list: ['Adestrar Animais', 'Atletismo', 'Intuição', 'Investigação', 'Natureza', 'Percepção', 'Furtividade', 'Sobrevivência']
+  };
+  if (cls === 'artífice') return {
+    limit: 2,
+    list: ['Arcanismo', 'História', 'Investigação', 'Medicina', 'Natureza', 'Prestidigitação']
+  };
+  return {
+    limit: 2,
+    list: []
+  };
+};
+
+
 export const getArmorCategory = (armorName: string): 'light' | 'medium' | 'heavy' => {
   const name = armorName.toLowerCase();
   if (
@@ -413,7 +621,6 @@ export const SKILLS_LIST = [
   'Enganação', 'Intimidação', 'Atuação', 'Persuasão'
 ];
 
-// Pontos de XP necessários para cada nível (D&D 5e oficial)
 export const XP_THRESHOLDS: Record<number, number> = {
   1: 0,       2: 300,     3: 900,     4: 2700,
   5: 6500,    6: 14000,   7: 23000,   8: 34000,
@@ -443,6 +650,49 @@ export const SUBCLASS_LEVEL_MAP: Record<string, number> = {
 export const getSubclassMinLevel = (characterClass: string): number => {
   const baseClass = characterClass.split(' (')[0].trim();
   return SUBCLASS_LEVEL_MAP[baseClass] ?? 3;
+};
+
+/**
+ * Returns the starting custom resources for a given class and level.
+ */
+export const getStartingCustomResources = (className: string, level: number, stats: BaseStats): CustomResource[] => {
+  const resources: CustomResource[] = [];
+
+  if (className === 'Paladino') {
+    resources.push(
+      { id: 'lay_on_hands', name: 'Mãos Milagrosas (HP)', current: level * 5, max: level * 5 },
+      { id: 'channel_divinity', name: 'Canalizar Divindade', current: 1, max: 1 }
+    );
+  } else if (className === 'Guerreiro') {
+    resources.push({ id: 'second_wind', name: 'Retomar o Fôlego', current: 1, max: 1 });
+    if (level >= 2) {
+      resources.push({ id: 'action_surge', name: 'Surto de Ação', current: 1, max: 1 });
+    }
+    // Battle Master Superiority Dice
+    if (className.includes('Mestre de Batalha') && level >= 3) {
+      resources.push({ id: 'superiority_dice', name: 'Dados de Superioridade (d8)', current: 4, max: 4 });
+    }
+  } else if (className === 'Clérigo') {
+    resources.push({ id: 'channel_divinity', name: 'Canalizar Divindade', current: 1, max: 1 });
+  } else if (className === 'Bárbaro') {
+    const rageCounts = level >= 6 ? 4 : level >= 3 ? 3 : 2;
+    resources.push({ id: 'rage', name: 'Fúrias (Rages)', current: rageCounts, max: rageCounts });
+  } else if (className === 'Bardo') {
+    const chaMod = Math.max(1, Math.floor((stats.cha - 10) / 2));
+    resources.push({
+      id: 'bardic_inspiration',
+      name: 'Inspiração Bárdica',
+      current: chaMod,
+      max: chaMod
+    });
+  } else if (className === 'Druida') {
+    resources.push({ id: 'wild_shape', name: 'Força Selvagem (Wild Shape)', current: 2, max: 2 });
+  } else if (className === 'Monge') {
+    resources.push({ id: 'ki_points', name: 'Pontos de Chi', current: level, max: level });
+  } else if (className === 'Feiticeiro' && level >= 2) {
+    resources.push({ id: 'sorcery_points', name: 'Pontos de Feitiçaria', current: level, max: level });
+  }
+  return resources;
 };
 
 export interface AmmunitionTemplate {

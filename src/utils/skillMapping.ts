@@ -13,29 +13,28 @@ export const SKILL_MAPPING: Record<keyof BaseStats, string[]> = {
 // Nomes abreviados → nome completo PT-BR
 export const SKILL_FULL_NAMES: Record<string, string> = {
   'Sleight': 'Prestidigitação',
+  'Sleight of Hand': 'Prestidigitação',
   'Investig.': 'Investigação',
+  'Investigation': 'Investigação',
   'Animal H.': 'Adestrar Animais',
+  'Animal Handling': 'Adestrar Animais',
   'Intimid.': 'Intimidação',
+  'Intimidation': 'Intimidação',
   'Perform.': 'Atuação',
-  'Religiãon': 'Religião',
-  'Religion': 'Religião',
-  'Acrobatics': 'Acrobacia',
+   'Performance': 'Atuação',
+   'Religion': 'Religião',
+   'Acrobatics': 'Acrobacia',
   'Athletics': 'Atletismo',
   'Stealth': 'Furtividade',
   'Arcana': 'Arcanismo',
   'History': 'História',
-  'Investigation': 'Investigação',
   'Nature': 'Natureza',
-  'Animal Handling': 'Adestrar Animais',
   'Insight': 'Intuição',
   'Medicine': 'Medicina',
   'Perception': 'Percepção',
   'Survival': 'Sobrevivência',
   'Deception': 'Enganação',
-  'Intimidation': 'Intimidação',
-  'Performance': 'Atuação',
   'Persuasion': 'Persuasão',
-  'Sleight of Hand': 'Prestidigitação',
 };
 
 // Todos os nomes válidos de perícias (inglês e PT-BR)
@@ -51,8 +50,18 @@ export const STANDARD_SKILLS_SET = new Set([
   'Animal Handling', 'Insight', 'Medicine', 'Perception', 'Survival',
   'Deception', 'Intimidation', 'Performance', 'Persuasion',
   // Abreviados legados
-  'Sleight', 'Investig.', 'Animal H.', 'Intimid.', 'Perform.', 'Religiãon',
+   'Sleight', 'Investig.', 'Animal H.', 'Intimid.', 'Perform.', 'Religion',
+
 ]);
+
+// Lista de perícias para uso em UI (PT-BR)
+export const SKILLS_LIST = [
+  'Atletismo',
+  'Acrobacia', 'Prestidigitação', 'Furtividade',
+  'Arcanismo', 'História', 'Investigação', 'Natureza', 'Religião',
+  'Adestrar Animais', 'Intuição', 'Medicina', 'Percepção', 'Sobrevivência',
+  'Enganação', 'Intimidação', 'Atuação', 'Persuasão'
+];
 
 // Cores por escola de magia
 export const SCHOOL_COLORS: Record<string, string> = {

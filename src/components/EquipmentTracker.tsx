@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, ScrollView 
 import { Alert } from '../utils/alert';
 import { EquipmentItem } from '../types/character';
 import { Ionicons } from '@expo/vector-icons';
-import { MAGIC_ITEMS_LIST, MagicItemTemplate, isProficientInItem, WEAPON_TEMPLATES, AMMUNITION_TEMPLATES } from '../utils/dndRules';
+import { MAGIC_ITEMS_LIST, MagicItemTemplate, isProficientInItem, WEAPON_TEMPLATES, ARMOR_TEMPLATES, AMMUNITION_TEMPLATES } from '../utils/dndRules';
 import Svg, { Path } from 'react-native-svg';
 import SwordIcon from '../../assets/icons/ffffff/transparent/1x1/delapouite/sword-brandish.svg';
 import AxeIcon from '../../assets/icons/ffffff/transparent/1x1/delapouite/sharp-axe.svg';
@@ -553,14 +553,14 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
                 ) : type === 'ammunition' ? (
                   <View>
                     <Text style={styles.inputLabel}>Quantidade</Text>
-                    <TextInput
-                      style={styles.textInput}
-                      placeholder="ex: 20"
-                      keyboardType="numeric"
-                      placeholderTextColor="#475569"
-                      value={dmgDice}
-                      onChangeText={setDmgDice}
-                    />
+                      <TextInput
+                        style={styles.textInput}
+                        placeholder="ex: 20"
+                        keyboardType="numeric"
+                        placeholderTextColor="#475569"
+                        value={dmgDice}
+                        onChangeText={setDmgDice}
+                      />
 
                     <Text style={[styles.inputLabel, { marginTop: 16 }]}>Ou selecione um Tipo Padrão:</Text>
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 16 }}>
@@ -578,7 +578,64 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
                       ))}
                     </View>
                   </View>
-                ) : (
+
+                 ) : type === 'armor' ? (
+                   <View>
+                     <Text style={styles.inputLabel}>Selecione uma Armadura:</Text>
+                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 16 }}>
+                       {ARMOR_TEMPLATES.filter(at => at.type === 'armor').map(at => (
+                         <TouchableOpacity
+                           key={at.name}
+                           style={styles.templateBtn}
+                           onPress={() => {
+                             setName(at.name);
+                             setAcBonus(String(at.acBonus));
+                             setDescription(at.stealthDisadvantage ? 'Desvantagem em Furtividade' : '');
+                           }}
+                         >
+                           <Text style={styles.templateBtnText}>{at.name}</Text>
+                         </TouchableOpacity>
+                       ))}
+                     </View>
+                     <Text style={styles.inputLabel}>Bônus de AC</Text>
+                      <TextInput
+                        style={styles.textInput}
+                        placeholderTextColor="#475569"
+                        keyboardType="numeric"
+                        value={acBonus}
+                        onChangeText={setAcBonus}
+                      />
+                    </View>
+                  ) : type === 'shield' ? (
+                   <View>
+                     <Text style={styles.inputLabel}>Selecione um Escudo:</Text>
+                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 16 }}>
+                       {ARMOR_TEMPLATES.filter(at => at.type === 'shield').map(at => (
+                         <TouchableOpacity
+                           key={at.name}
+                           style={styles.templateBtn}
+                           onPress={() => {
+                             setName(at.name);
+                             setAcBonus(String(at.acBonus));
+                           }}
+                         >
+                           <Text style={styles.templateBtnText}>{at.name}</Text>
+                         </TouchableOpacity>
+                       ))}
+                     </View>
+                     <Text style={styles.inputLabel}>Bônus de AC</Text>
+                      <TextInput
+                        style={styles.textInput}
+                        placeholder="ex: 2"
+                        placeholderTextColor="#475569"
+                        keyboardType="numeric"
+                        value={acBonus}
+                        onChangeText={setAcBonus}
+                      />
+                    </View>
+                   ) : (
+
+
                   <View>
                     <Text style={styles.inputLabel}>Bônus de Classe de Armadura (AC)</Text>
                     <TextInput

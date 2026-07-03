@@ -1,14 +1,7 @@
 import { useTheme, ThemeColors } from '../context/ThemeContext';
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
-import { BaseStats, Character } from '../types/character';
-import { Ionicons } from '@expo/vector-icons';
-import {
-  SKILL_MAPPING,
-  SKILL_FULL_NAMES,
-  STANDARD_SKILLS_SET,
-  getClassProficienciesSummary
-} from './VitalsWidget';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { Character } from '../types/character';
 import { getSubclassMinLevel } from '../utils/dndRules';
 
 interface CharacterTabProps {
@@ -20,30 +13,8 @@ export const CharacterTab: React.FC<CharacterTabProps> = ({
   character,
   onUpdateProficiencies,
 }) => {
-  const [newProfText, setNewProfText] = useState('');
   const { colors } = useTheme();
   const styles = useStyles(colors);
-
-  const classDefaults = getClassProficienciesSummary(character.characterClass);
-  const customProficiencies = (character.proficiencies || []).filter(p => !STANDARD_SKILLS_SET.has(p));
-  const allTools = [...classDefaults.tools, ...customProficiencies];
-
-  const handleAddProficiency = () => {
-    const trimmed = newProfText.trim();
-    if (!trimmed) return;
-    if ((character.proficiencies || []).includes(trimmed)) {
-      Alert.alert('Aviso', 'Esta proficiência já existe!');
-      return;
-    }
-    const nextProfs = [...(character.proficiencies || []), trimmed];
-    onUpdateProficiencies(nextProfs);
-    setNewProfText('');
-  };
-
-  const handleRemoveCustomProficiency = (prof: string) => {
-    const nextProfs = (character.proficiencies || []).filter(p => p !== prof);
-    onUpdateProficiencies(nextProfs);
-  };
 
   const parts = character.characterClass.split(' (');
   const className = parts[0];
@@ -80,81 +51,6 @@ export const CharacterTab: React.FC<CharacterTabProps> = ({
         <View style={styles.infoRow}>
           <Text style={styles.infoLabel}>Tendência:</Text>
           <Text style={styles.infoValue}>{character.alignment || 'Neutro'}</Text>
-        </View>
-      </View>
-
-      {/* Proficiencies */}
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>TREINAMENTOS & PROFICIÊNCIAS</Text>
-        
-        <View style={styles.otherProfRow}>
-          <View style={styles.otherProfRowLeft}>
-            <Ionicons name="shield-half-outline" size={14} color="#60A5FA" style={{ marginRight: 6 }} />
-            <Text style={styles.otherProfLabel}>Armaduras & Escudos:</Text>
-          </View>
-          <Text style={styles.otherProfValue}>{classDefaults.armors}</Text>
-        </View>
-        
-        <View style={styles.otherProfRow}>
-          <View style={styles.otherProfRowLeft}>
-            <Ionicons name="cut-outline" size={14} color={colors.accentSky} style={{ marginRight: 6 }} />
-            <Text style={styles.otherProfLabel}>Armas:</Text>
-          </View>
-          <Text style={styles.otherProfValue}>{classDefaults.weapons}</Text>
-        </View>
-
-        <View style={styles.otherProfRow}>
-          <View style={styles.otherProfRowLeft}>
-            <Ionicons name="body-outline" size={14} color={colors.accentRed} style={{ marginRight: 6 }} />
-            <Text style={styles.otherProfLabel}>Salvaguardas:</Text>
-          </View>
-          <Text style={styles.otherProfValue}>{classDefaults.savingThrows}</Text>
-        </View>
-
-
-        <View style={styles.otherProfRowCol}>
-          <View style={styles.otherProfRowLeft}>
-            <Ionicons name="hammer-outline" size={14} color={colors.accentEmerald} style={{ marginRight: 6 }} />
-            <Text style={styles.otherProfLabel}>Ferramentas, Instrumentos e Idiomas:</Text>
-          </View>
-          <View style={styles.toolsBadgesContainer}>
-            {allTools.length === 0 ? (
-              <Text style={styles.otherProfValueEmpty}>Nenhum listado</Text>
-            ) : (
-              allTools.map((prof, index) => {
-                const isCustom = customProficiencies.includes(prof);
-                return (
-                  <View key={prof + '-' + index} style={[styles.toolBadge, isCustom && styles.toolBadgeCustom]}>
-                    <Text style={[styles.toolBadgeText, isCustom && styles.toolBadgeTextCustom]}>{prof}</Text>
-                    {isCustom && (
-                      <TouchableOpacity 
-                        onPress={() => handleRemoveCustomProficiency(prof)}
-                        style={styles.toolBadgeDelete}
-                        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                      >
-                        <Ionicons name="close-circle" size={14} color={colors.accentRed} style={{ marginLeft: 4 }} />
-                      </TouchableOpacity>
-                    )}
-                  </View>
-                );
-              })
-            )}
-          </View>
-        </View>
-        
-        <View style={styles.addProfInputRow}>
-          <TextInput
-            style={styles.addProfInput}
-            placeholder="Adicionar novo idioma, ferramenta, etc..."
-            placeholderTextColor="#64748B"
-            value={newProfText}
-            onChangeText={setNewProfText}
-            onSubmitEditing={handleAddProficiency}
-          />
-          <TouchableOpacity style={styles.addProfBtn} onPress={handleAddProficiency} activeOpacity={0.7}>
-            <Ionicons name="add" size={16} color={colors.textMain} />
-            <Text style={{ color: colors.textMain, fontSize: 11, fontWeight: '800', marginLeft: 4 }}>Add</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -200,99 +96,5 @@ const useStyles = (colors: ThemeColors) => StyleSheet.create({
     color: colors.textMain,
     fontSize: 12,
     fontWeight: '700',
-  },
-  otherProfRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.surfaceHighlight,
-  },
-  otherProfRowCol: {
-    flexDirection: 'column',
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.surfaceHighlight,
-  },
-  otherProfRowLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  otherProfLabel: {
-    color: colors.textMuted,
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  otherProfValue: {
-    color: '#E2E8F0',
-    fontSize: 11,
-    fontWeight: '600',
-    flex: 1,
-    textAlign: 'right',
-    marginLeft: 10,
-  },
-  otherProfValueEmpty: {
-    color: colors.textMuted,
-    fontSize: 11,
-    fontStyle: 'italic',
-  },
-  toolsBadgesContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: 4,
-  },
-  toolBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.surfaceSecondary,
-    borderColor: colors.surfaceHighlight,
-    borderWidth: 1,
-    borderRadius: 6,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    marginRight: 6,
-    marginBottom: 6,
-  },
-  toolBadgeCustom: {
-    backgroundColor: 'rgba(59, 130, 246, 0.15)',
-    borderColor: 'rgba(59, 130, 246, 0.4)',
-  },
-  toolBadgeText: {
-    color: '#E2E8F0',
-    fontSize: 11,
-    fontWeight: '600',
-  },
-  toolBadgeTextCustom: {
-    color: '#93C5FD',
-  },
-  toolBadgeDelete: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  addProfInputRow: {
-    flexDirection: 'row',
-    marginTop: 12,
-  },
-  addProfInput: {
-    flex: 1,
-    backgroundColor: colors.surfaceSecondary,
-    borderColor: colors.surfaceHighlight,
-    borderWidth: 1,
-    borderRadius: 6,
-    color: colors.textMain,
-    paddingHorizontal: 10,
-    fontSize: 12,
-    height: 36,
-  },
-  addProfBtn: {
-    backgroundColor: colors.accentAmber,
-    borderRadius: 6,
-    paddingHorizontal: 12,
-    height: 36,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 8,
   },
 });

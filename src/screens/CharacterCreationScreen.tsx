@@ -5,7 +5,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { Alert } from '../utils/alert';
 import { Character, BaseStats, HP, Resources, EquipmentItem } from '../types/character';
 import { StorageService } from '../services/storage';
-import { CLASSES_LIST, RACES_LIST, SKILLS_LIST, WEAPON_TEMPLATES, ARMOR_TEMPLATES, getSpellSlotsForClass, BACKGROUNDS_LIST, getHitDieType, getSpellLimit, getArmorCategory, isProficientInItem, getRaceStatBonuses, getSubclassMinLevel } from '../utils/dndRules';
+import { CharacterService } from '../services/characterService';
+import { CLASSES_LIST, RACES_LIST, SKILLS_LIST, WEAPON_TEMPLATES, ARMOR_TEMPLATES, getSpellSlotsForClass, BACKGROUNDS_LIST, getHitDieType, getSpellLimit, getArmorCategory, isProficientInItem, getRaceStatBonuses, getSubclassMinLevel, getMaxSpellLevel, getClassSkillRules, getStartingCustomResources } from '../utils/dndRules';
 import { SPELLS_DATABASE, Spell } from '../utils/dndSpells';
 import { Ionicons } from '@expo/vector-icons';
 interface CharacterCreationScreenProps {
@@ -32,6 +33,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
   const [selectedBackground, setSelectedBackground] = useState('Acólito');
   const [level, setLevel] = useState(1);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images'],
@@ -61,6 +63,8 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
     wis: 10,
     cha: 8
   });
+  const currentStats = CharacterService.calculateFinalStats(stats, selectedRace);
+
   const handleSelectStatMethod = (method: StatMethod) => {
     setStatMethod(method);
     if (method === 'standard') {
@@ -178,25 +182,9 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
   const selectedClassObj = CLASSES_LIST.find(c => c.name === selectedClass);
 
   // Helpers to check spell slots limit
-  const getMaxSpellLevel = (className: string, lvl: number): number => {
-    if (className === 'Paladino' || className === 'Patrulheiro') {
-      if (lvl >= 5) return 2;
-      if (lvl >= 2) return 1;
-      return 0;
-    }
-    if (['Clérigo', 'Mago', 'Bardo', 'Druida', 'Feiticeiro', 'Bruxo'].includes(className)) {
-      if (lvl >= 5) return 3;
-      if (lvl >= 3) return 2;
-      return 1;
-    }
-    if (className === 'Artífice') {
-      if (lvl >= 5) return 2;
-      return 1;
-    }
-    return 0;
-  };
+
   const maxSpellLevel = getMaxSpellLevel(selectedClass, level);
-  const prepLimit = getSpellLimit(selectedClass, level, stats);
+  const prepLimit = getSpellLimit(selectedClass, level, currentStats);
   const availableSpells = SPELLS_DATABASE.filter(s => s.classes.includes(selectedClass) && s.level <= maxSpellLevel);
   const isSpellcaster = ['Paladino', 'Clérigo', 'Mago', 'Bardo', 'Druida', 'Feiticeiro', 'Bruxo', 'Patrulheiro', 'Artífice'].includes(selectedClass);
   const selectedPreparedCount = selectedSpells.filter(name => {
@@ -220,68 +208,7 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
   };
 
   // Get skills allowed by class and maximum choices allowed
-  const getClassSkillRules = (className: string): {
-    limit: number;
-    list: string[];
-  } => {
-    const cls = className.toLowerCase();
-    if (cls === 'bárbaro') return {
-      limit: 2,
-      list: ['Adestrar Animais', 'Atletismo', 'Intimidação', 'Natureza', 'Percepção', 'Sobrevivência']
-    };
-    if (cls === 'bardo') return {
-      limit: 3,
-      list: SKILLS_LIST
-    }; // Bards can choose any 3 skills
-    if (cls === 'bruxo') return {
-      limit: 2,
-      list: ['Arcanismo', 'Enganação', 'História', 'Intimidação', 'Investigação', 'Natureza', 'Religião']
-    };
-    if (cls === 'clérigo') return {
-      limit: 2,
-      list: ['História', 'Intuição', 'Medicina', 'Persuasão', 'Religião']
-    };
-    if (cls === 'druida') return {
-      limit: 2,
-      list: ['Arcanismo', 'Adestrar Animais', 'Intuição', 'Medicina', 'Natureza', 'Percepção', 'Religião', 'Sobrevivência']
-    };
-    if (cls === 'feiticeiro') return {
-      limit: 2,
-      list: ['Arcanismo', 'Enganação', 'Intuição', 'Intimidação', 'Persuasão', 'Religião']
-    };
-    if (cls === 'guerreiro') return {
-      limit: 2,
-      list: ['Acrobacia', 'Adestrar Animais', 'Atletismo', 'História', 'Intuição', 'Intimidação', 'Percepção', 'Sobrevivência']
-    };
-    if (cls === 'ladino') return {
-      limit: 4,
-      list: ['Acrobacia', 'Atletismo', 'Enganação', 'Intuição', 'Intimidação', 'Investigação', 'Percepção', 'Atuação', 'Persuasão', 'Prestidigitação', 'Furtividade']
-    };
-    if (cls === 'mago') return {
-      limit: 2,
-      list: ['Arcanismo', 'História', 'Intuição', 'Investigação', 'Medicina', 'Religião']
-    };
-    if (cls === 'monge') return {
-      limit: 2,
-      list: ['Acrobacia', 'Atletismo', 'História', 'Intuição', 'Religião', 'Furtividade']
-    };
-    if (cls === 'paladino') return {
-      limit: 2,
-      list: ['Atletismo', 'Intuição', 'Intimidação', 'Medicina', 'Persuasão', 'Religião']
-    };
-    if (cls === 'patrulheiro') return {
-      limit: 3,
-      list: ['Adestrar Animais', 'Atletismo', 'Intuição', 'Investigação', 'Natureza', 'Percepção', 'Furtividade', 'Sobrevivência']
-    };
-    if (cls === 'artífice') return {
-      limit: 2,
-      list: ['Arcanismo', 'História', 'Investigação', 'Medicina', 'Natureza', 'Prestidigitação']
-    };
-    return {
-      limit: 2,
-      list: []
-    };
-  };
+
   const toggleSkill = (skill: string) => {
     const bg = BACKGROUNDS_LIST.find(b => b.name === selectedBackground);
     const rLower = selectedRace.toLowerCase();
@@ -385,41 +312,51 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
 
   // Helper to calculate HP based on D&D 5e class rules and Constitution
   const calculateHP = (conValue: number): HP => {
-    const conMod = Math.floor((conValue - 10) / 2);
+    const conMod = CharacterService.getAbilityModifier(conValue);
     const cls = CLASSES_LIST.find(c => c.name === selectedClass);
     let hitDie = 10;
     if (cls?.hd === 'd12') hitDie = 12;
     if (cls?.hd === 'd8') hitDie = 8;
     if (cls?.hd === 'd6') hitDie = 6;
-    const lvl1Hp = hitDie + conMod;
-    const avgHpPerLevel = Math.floor(hitDie / 2) + 1 + conMod;
-    const totalMax = lvl1Hp + avgHpPerLevel * (level - 1);
-    return {
-      current: totalMax,
-      max: totalMax,
-      temp: 0
-    };
+    return CharacterService.calculateHP(hitDie, conMod, level);
   };
 
   // Calculate starting Armor Class from starting gear according to rules
   const calculateStartingAC = (): number => {
-    const dexMod = Math.floor((stats.dex - 10) / 2);
-    const armor = ARMOR_TEMPLATES.filter(a => a.type === 'armor')[selectedArmorIdx];
-    let ac = 10 + dexMod;
-    if (armor) {
-      const category = getArmorCategory(armor.name);
-      if (category === 'heavy') {
-        ac = armor.acBonus;
-      } else if (category === 'medium') {
-        ac = armor.acBonus + Math.min(2, dexMod);
-      } else {
-        ac = armor.acBonus + dexMod;
-      }
+    const armorTemplate = ARMOR_TEMPLATES.filter(a => a.type === 'armor')[selectedArmorIdx];
+    const equipment: EquipmentItem[] = [];
+    
+    if (armorTemplate) {
+      equipment.push({
+        id: 'starting_armor',
+        name: armorTemplate.name,
+        type: 'armor',
+        equipped: true,
+        acBonus: armorTemplate.acBonus,
+        dmgDice: '',
+        isMagic: false,
+        rarity: 'Comum',
+        description: '',
+        weight: 0
+      });
     }
+
     if (hasShield && (!WEAPON_TEMPLATES[selectedWeaponIdx] || WEAPON_TEMPLATES[selectedWeaponIdx].handedness !== '2 Mãos')) {
-      ac += 2;
+      equipment.push({
+        id: 'starting_shield',
+        name: 'Shield',
+        type: 'shield',
+        equipped: true,
+        acBonus: 2,
+        dmgDice: '',
+        isMagic: false,
+        rarity: 'Comum',
+        description: '',
+        weight: 0
+      });
     }
-    return ac;
+
+    return CharacterService.calculateBaseAC(currentStats, equipment);
   };
   const handleSaveCharacter = async () => {
     if (!name.trim()) {
@@ -428,107 +365,20 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
     }
 
     // Apply racial stat bonuses to base stats
-    const racialBonuses = getRaceStatBonuses(selectedRace);
-    const finalStats = {
-      ...stats
-    };
-    (Object.keys(racialBonuses) as Array<keyof BaseStats>).forEach(stat => {
-      if (racialBonuses[stat]) {
-        finalStats[stat] = (finalStats[stat] || 0) + (racialBonuses[stat] || 0);
-      }
-    });
+    const finalStats = currentStats;
     const calculatedHp = calculateHP(finalStats.con);
     const startingBaseAC = calculateStartingAC();
-    const customResources: any[] = [];
-    if (selectedClass === 'Paladino') {
-      customResources.push({
-        id: 'lay_on_hands',
-        name: 'Mãos Milagrosas (HP)',
-        current: level * 5,
-        max: level * 5
-      }, {
-        id: 'channel_divinity',
-        name: 'Canalizar Divindade',
-        current: 1,
-        max: 1
-      });
-    } else if (selectedClass === 'Guerreiro') {
-      customResources.push({
-        id: 'second_wind',
-        name: 'Retomar o Fôlego',
-        current: 1,
-        max: 1
-      });
-      if (level >= 2) {
-        customResources.push({
-          id: 'action_surge',
-          name: 'Surto de Ação',
-          current: 1,
-          max: 1
-        });
-      }
-      // Battle Master Superiority Dice
-      if (selectedSubclass.includes('Mestre de Batalha') && level >= 3) {
-        customResources.push({
-          id: 'superiority_dice',
-          name: 'Dados de Superioridade (d8)',
-          current: 4,
-          max: 4
-        });
-      }
-    } else if (selectedClass === 'Clérigo') {
-      customResources.push({
-        id: 'channel_divinity',
-        name: 'Canalizar Divindade',
-        current: 1,
-        max: 1
-      });
-    } else if (selectedClass === 'Bárbaro') {
-      const rageCounts = level >= 6 ? 4 : level >= 3 ? 3 : 2;
-      customResources.push({
-        id: 'rage',
-        name: 'Fúrias (Rages)',
-        current: rageCounts,
-        max: rageCounts
-      });
-    } else if (selectedClass === 'Bardo') {
-      const chaMod = Math.max(1, Math.floor((finalStats.cha - 10) / 2));
-      customResources.push({
-        id: 'bardic_inspiration',
-        name: 'Inspiração Bárdica',
-        current: chaMod,
-        max: chaMod
-      });
-    } else if (selectedClass === 'Druida') {
-      customResources.push({
-        id: 'wild_shape',
-        name: 'Força Selvagem (Wild Shape)',
-        current: 2,
-        max: 2
-      });
-    } else if (selectedClass === 'Monge') {
-      customResources.push({
-        id: 'ki_points',
-        name: 'Pontos de Chi',
-        current: level,
-        max: level
-      });
-    } else if (selectedClass === 'Feiticeiro' && level >= 2) {
-      customResources.push({
-        id: 'sorcery_points',
-        name: 'Pontos de Feitiçaria',
-        current: level,
-        max: level
-      });
-    }
+    const customResources = getStartingCustomResources(selectedClass, level, finalStats);
+    
     const generatedId = crypto.randomUUID();
     const equipment: EquipmentItem[] = [];
+
 
     // Weapon assignment using rules stats
     const weaponTemplate = WEAPON_TEMPLATES[selectedWeaponIdx];
     if (weaponTemplate) {
-      const strMod = Math.floor((stats.str - 10) / 2);
-      const dexMod = Math.floor((stats.dex - 10) / 2);
+      const strMod = CharacterService.getAbilityModifier(currentStats.str);
+      const dexMod = CharacterService.getAbilityModifier(currentStats.dex);
       const isFinesse = weaponTemplate.properties.some(p => p.toLowerCase().includes('acuidade') || p.toLowerCase().includes('finesse'));
 
       // Dex modifier used for finesse if higher, or for ranged weapons
@@ -592,6 +442,9 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
         customResources
       },
       proficiencies: selectedSkills,
+      skills: {},
+      savingThrows: {},
+      spellcastingAbility: 'wis',
       preparedSpells: selectedSpells,
       equipment,
       background: selectedBackground,

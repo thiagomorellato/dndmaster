@@ -5,6 +5,7 @@ import { Alert } from '../utils/alert';
 import { Character, HP, Resources, CombatLogEntry, ActionType, CombatConfig, EquipmentItem, BaseStats, Coins } from '../types/character';
 import { StorageService } from '../services/storage';
 import { LoggerService } from '../services/logger';
+import { CharacterService } from '../services/characterService';
 import { VitalsWidget } from '../components/VitalsWidget';
 import { ResourceTracker } from '../components/ResourceTracker';
 import { EquipmentTracker } from '../components/EquipmentTracker';
@@ -131,12 +132,12 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       await StorageService.saveCharacter(updatedChar);
       setCharacter(updatedChar);
 
-      const totalAC = character.combat.baseArmorClass + (character.combat.shieldOfFaithActive ? 2 : 0);
+      const totalAC = CharacterService.calculateTotalAC(updatedChar);
       await LoggerService.logEvent(
         character.id,
         'RESOURCE_USE',
         `✨ Lançou magia: ${spellName} (Usou slot Nível ${slotLevel.replace('level', '')})`,
-        getHpSummary(character.hp, totalAC)
+        CharacterService.getHpSummary(character.hp, totalAC)
       );
       
       const logList = await LoggerService.getLogs(character.id);
@@ -223,6 +224,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
     }
     setHpModalVisible(false);
   };
+
   const handleUpdateJournal = async (newText: string) => {
     if (!character) {
       console.log("Personagem não encontrado!");
@@ -293,44 +295,15 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
     }, Math.abs(change), change > 0);
   };
 
-  // Calculates base D&D 5e Armor Class based on equipped gear (armor, shields, rings, etc.)
-  const calculateBaseAC = (baseStats: BaseStats, equipment: EquipmentItem[]): number => {
-    const dexMod = Math.floor((baseStats.dex - 10) / 2);
 
-    // Find equipped armor
-    const equippedArmor = equipment.find(item => item.type === 'armor' && item.equipped);
-    let ac = 10 + dexMod;
-    if (equippedArmor) {
-      const category = getArmorCategory(equippedArmor.name);
-      const baseAC = equippedArmor.acBonus || 10;
-      if (category === 'heavy') {
-        ac = baseAC;
-      } else if (category === 'medium') {
-        ac = baseAC + Math.min(2, dexMod);
-      } else {
-        ac = baseAC + dexMod;
-      }
-    }
-
-    // Add bonuses from other equipped items (shields, rings, etc.)
-    equipment.forEach(item => {
-      if (item.equipped && item.type !== 'armor' && item.acBonus) {
-        ac += item.acBonus;
-      }
-    });
-    return ac;
-  };
-  const getHpSummary = (hpState: HP, acVal: number) => {
-    return `HP: ${hpState.current}/${hpState.max}, AC: ${acVal}`;
-  };
   const handleUpdateHP = async (updatedHp: HP, changeAmount: number, isHeal: boolean) => {
     if (!character) return;
     const updatedChar = {
       ...character,
       hp: updatedHp
     };
-    const currentAC = character.combat.baseArmorClass + (character.combat.shieldOfFaithActive ? 2 : 0);
-    const hpSummary = getHpSummary(updatedHp, currentAC);
+    const currentAC = CharacterService.calculateTotalAC(updatedChar);
+    const hpSummary = CharacterService.getHpSummary(updatedHp, currentAC);
     try {
       await StorageService.saveCharacter(updatedChar);
       setCharacter(updatedChar);
@@ -351,16 +324,21 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       ...character,
       combat: updatedCombat
     };
-    const currentAC = character.combat.baseArmorClass + (isActive ? 2 : 0);
-    const hpSummary = getHpSummary(character.hp, currentAC);
+    const currentAC = CharacterService.calculateTotalAC(updatedChar);
+    const hpSummary = CharacterService.getHpSummary(character.hp, currentAC);
     try {
       await StorageService.saveCharacter(updatedChar);
       setCharacter(updatedChar);
-      await LoggerService.logEvent(character.id, 'SHIELD_OF_FAITH', isActive ? 'Shield Active (+2 AC)' : 'Shield Inactive', hpSummary);
+      await LoggerService.logEvent(
+        character.id,
+        'SHIELD_OF_FAITH',
+        isActive ? '✨ Escudo da Fé ativado' : '🛡️ Escudo da Fé desativado',
+        hpSummary
+      );
       const logList = await LoggerService.getLogs(character.id);
       setLogs(logList);
     } catch (error: any) {
-      Alert.alert('Error', error.message);
+      Alert.alert('Erro ao atualizar Escudo da Fé', error.message);
     }
   };
   const handleUpdateCombat = async (updatedCombat: CombatConfig) => {
@@ -406,8 +384,6 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
   };
   const handleUpdateHitDice = async (newHitDiceCount: number) => {
     if (!character) return;
-
-    // Determine the hit die type based on the character's class
     const dieType = character.hitDice?.dieType || getHitDieType(character.characterClass);
     const updatedHitDice = {
       current: newHitDiceCount,
@@ -420,8 +396,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
     try {
       await StorageService.saveCharacter(updatedChar);
       setCharacter(updatedChar);
-      const totalAC = character.combat.baseArmorClass + (character.combat.shieldOfFaithActive ? 2 : 0);
-      await LoggerService.logEvent(character.id, 'RESOURCE_USE', `Dados de Vida alterados para: ${newHitDiceCount}/${character.level} (D${dieType})`, getHpSummary(character.hp, totalAC));
+      const totalAC = CharacterService.calculateTotalAC(updatedChar);
+      await LoggerService.logEvent(character.id, 'RESOURCE_USE', `Dados de Vida alterados para: ${newHitDiceCount}/${character.level} (D${dieType})`, CharacterService.getHpSummary(character.hp, totalAC));
       const logList = await LoggerService.getLogs(character.id);
       setLogs(logList);
     } catch (error: any) {
@@ -467,7 +443,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
     if (!toggledItem) return;
 
     // Dynamically calculate new base AC
-    const newBaseAC = calculateBaseAC(character.baseStats, updatedEquipment);
+    const newBaseAC = CharacterService.calculateBaseAC(character.baseStats, updatedEquipment);
     const updatedCombat = {
       ...character.combat,
       baseArmorClass: newBaseAC
@@ -515,8 +491,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       },
       preparedSpells: updatedPreparedSpells
     };
-    const totalAC = newBaseAC + (character.combat.shieldOfFaithActive ? 2 : 0);
-    const hpSummary = getHpSummary(character.hp, totalAC);
+    const totalAC = CharacterService.calculateTotalAC(updatedChar);
+    const hpSummary = CharacterService.getHpSummary(character.hp, totalAC);
     const actionLabel = isNowEquipped ? 'Equipado' : 'Guardado na mochila';
     const detail = `${actionLabel}: ${toggledItem.name}`;
     try {
@@ -598,8 +574,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
     try {
       await StorageService.saveCharacter(updatedChar);
       setCharacter(updatedChar);
-      const totalAC = character.combat.baseArmorClass + (character.combat.shieldOfFaithActive ? 2 : 0);
-      await LoggerService.logEvent(character.id, 'RESOURCE_REGAIN', `Adicionado à mochila: ${item.name}`, getHpSummary(character.hp, totalAC));
+      const totalAC = CharacterService.calculateTotalAC(updatedChar);
+      await LoggerService.logEvent(character.id, 'RESOURCE_REGAIN', `Adicionado à mochila: ${item.name}`, CharacterService.getHpSummary(character.hp, totalAC));
       const logList = await LoggerService.getLogs(character.id);
       setLogs(logList);
     } catch (error: any) {
@@ -618,7 +594,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       style: 'destructive',
       onPress: async () => {
         const updatedEquipment = character.equipment.filter(item => item.id !== itemId);
-        const newBaseAC = calculateBaseAC(character.baseStats, updatedEquipment);
+        const newBaseAC = CharacterService.calculateBaseAC(character.baseStats, updatedEquipment);
         const updatedCombat = {
           ...character.combat,
           baseArmorClass: newBaseAC
@@ -639,11 +615,14 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
           },
           preparedSpells: updatedPreparedSpells
         };
+
         try {
           await StorageService.saveCharacter(updatedChar);
           setCharacter(updatedChar);
-          const totalAC = newBaseAC + (character.combat.shieldOfFaithActive ? 2 : 0);
-          await LoggerService.logEvent(character.id, 'HP_DAMAGE', `Descartado item: ${itemToDelete.name}`, getHpSummary(character.hp, totalAC));
+          const totalAC = CharacterService.calculateTotalAC(updatedChar);
+          const hpSummary = CharacterService.getHpSummary(character.hp, totalAC);
+          const detail = `Removido: ${itemToDelete.name}`;
+          await LoggerService.logEvent(character.id, 'ITEM_REMOVED', detail, hpSummary);
           const logList = await LoggerService.getLogs(character.id);
           setLogs(logList);
         } catch (error: any) {
@@ -673,8 +652,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       const updatedChar = { ...character, xp: newXP };
       await StorageService.saveCharacter(updatedChar);
       setCharacter(updatedChar);
-      const totalAC = character.combat.baseArmorClass + (character.combat.shieldOfFaithActive ? 2 : 0);
-      await LoggerService.logEvent(character.id, 'XP_GAIN', `+${amount} XP (Total: ${newXP.toLocaleString('pt-BR')})`, getHpSummary(character.hp, totalAC));
+      const totalAC = CharacterService.calculateTotalAC(updatedChar);
+      await LoggerService.logEvent(character.id, 'XP_GAIN', `+${amount} XP (Total: ${newXP.toLocaleString('pt-BR')})`, CharacterService.getHpSummary(character.hp, totalAC));
       const logList = await LoggerService.getLogs(character.id);
       setLogs(logList);
       // Check if leveled up
@@ -752,8 +731,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       };
       await StorageService.saveCharacter(updatedChar);
       setCharacter(updatedChar);
-      const totalAC = character.combat.baseArmorClass + (character.combat.shieldOfFaithActive ? 2 : 0);
-      await LoggerService.logEvent(character.id, 'HP_HEAL', `💤 Descanso Curto: +${hpGained} HP (${hitDiceUsed}x ${dieType} gastos)`, getHpSummary(updatedChar.hp, totalAC));
+      const totalAC = CharacterService.calculateTotalAC(updatedChar);
+      await LoggerService.logEvent(character.id, 'HP_HEAL', `💤 Descanso Curto: +${hpGained} HP (${hitDiceUsed}x ${dieType} gastos)`, CharacterService.getHpSummary(updatedChar.hp, totalAC));
       const logList = await LoggerService.getLogs(character.id);
       setLogs(logList);
     } finally {
@@ -978,7 +957,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
 
         {activeTab === 'personagem' && <CharacterTab character={character} onUpdateProficiencies={handleUpdateProficiencies} />}
 
-        {activeTab === 'magias' && <ResourceTracker resources={character.resources} preparedSpells={character.preparedSpells} onUpdateResources={handleUpdateResources} onUpdatePreparedSpells={handleUpdatePreparedSpells} combat={character.combat} onUpdateCombat={handleUpdateCombat} hp={character.hp} onUpdateHP={handleUpdateHP} onLogAction={handleLogAction} hpSummary={getHpSummary(character.hp, character.combat.baseArmorClass + (character.combat.shieldOfFaithActive ? 2 : 0))} characterClass={character.characterClass} level={character.level} stats={character.baseStats} key={JSON.stringify(character.resources.spellSlots)} />}
+        {activeTab === 'magias' && <ResourceTracker resources={character.resources} preparedSpells={character.preparedSpells} onUpdateResources={handleUpdateResources} onUpdatePreparedSpells={handleUpdatePreparedSpells} combat={character.combat} onUpdateCombat={handleUpdateCombat} hp={character.hp} onUpdateHP={handleUpdateHP} onLogAction={handleLogAction} hpSummary={CharacterService.getHpSummary(character.hp, character.combat.baseArmorClass + (character.combat.shieldOfFaithActive ? 2 : 0))} characterClass={character.characterClass} level={character.level} stats={character.baseStats} key={JSON.stringify(character.resources.spellSlots)} />}
 
         {activeTab === 'equipamentos' && <EquipmentTracker equipment={character.equipment} onToggleEquip={handleToggleEquip} onAddItem={handleAddItem} onDeleteItem={handleDeleteItem} characterClass={character.characterClass} />}
 

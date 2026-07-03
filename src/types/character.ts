@@ -73,10 +73,13 @@ export interface Character {
   characterClass: string;
   level: number;
   baseStats: BaseStats;
+  spellcastingAbility?: keyof BaseStats;
   hp: HP;
   combat: CombatConfig;
   resources: Resources;
   proficiencies: string[];
+  skills: Record<string, boolean>;
+  savingThrows: Record<string, boolean>;
   preparedSpells: string[];
   equipment: EquipmentItem[];
   background?: string;
