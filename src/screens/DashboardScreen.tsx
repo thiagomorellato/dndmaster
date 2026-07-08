@@ -530,8 +530,12 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
     type: 'weapon' | 'armor' | 'shield' | 'ring' | 'other' | 'ammunition';
     acBonus?: number;
     dmgDice?: string;
+    dmgType?: string;
+    handedness?: string;
+    properties?: string[];
     isMagic?: boolean;
     magicBonus?: number;
+    dmgBonus?: number;
     rarity?: 'Comum' | 'Incomum' | 'Raro' | 'Muito Raro' | 'Lendário';
     description?: string;
     customResourceName?: string;
@@ -577,8 +581,12 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
         equipped: false,
         acBonus: item.acBonus,
         dmgDice: item.dmgDice,
+        dmgType: item.dmgType,
+        handedness: item.handedness as any,
+        properties: item.properties,
         isMagic: item.isMagic,
         magicBonus: item.magicBonus,
+        dmgBonus: item.dmgBonus,
         rarity: item.rarity,
         description: item.description,
         customResourceName: item.customResourceName,

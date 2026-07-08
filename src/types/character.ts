@@ -58,6 +58,7 @@ export interface EquipmentItem {
   properties?: string[];
   isMagic?: boolean;
   magicBonus?: number; // e.g., +1, +2, +3 em ataque e dano
+  dmgBonus?: number; // bônus fixo extra apenas no dano (ex: +2)
   rarity?: 'Comum' | 'Incomum' | 'Raro' | 'Muito Raro' | 'Lendário';
   description?: string;
   customResourceName?: string;

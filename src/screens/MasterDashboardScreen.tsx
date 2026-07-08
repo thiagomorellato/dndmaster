@@ -426,8 +426,9 @@ export const MasterDashboardScreen: React.FC<MasterDashboardScreenProps> = ({ on
                   const mod = isRanged ? dexMod : isFinesse ? Math.max(strMod, dexMod) : strMod;
                   const magicMatch = w.name.match(/\+(\d+)/);
                   const magicBonus = w.magicBonus !== undefined ? Number(w.magicBonus) : (magicMatch ? parseInt(magicMatch[1], 10) : 0);
+                  const extraDmgBonus = w.dmgBonus !== undefined ? Number(w.dmgBonus) : 0;
                   const baseDice = (w.dmgDice || '1d4').replace(/^(\d+d\d+).*/, '$1');
-                  const dmgMod = mod + magicBonus;
+                  const dmgMod = mod + magicBonus + extraDmgBonus;
                   const dmgModStr = dmgMod > 0 ? `+${dmgMod}` : dmgMod < 0 ? `${dmgMod}` : '';
                   const dmgText = `${baseDice}${dmgModStr}`;
                   const bId = `${item.userId || item.characterId}-w-${idx}`;

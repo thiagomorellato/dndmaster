@@ -785,8 +785,9 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
                       const magicBonus = item.magicBonus !== undefined ? Number(item.magicBonus) : (magicMatch ? parseInt(magicMatch[1], 10) : 0);
                       const atkBonus = mod + (isProficient ? proficiencyBonus : 0) + magicBonus;
                       const atkBonusStr = atkBonus >= 0 ? `+${atkBonus}` : `${atkBonus}`;
+                      const extraDmgBonus = item.dmgBonus !== undefined ? Number(item.dmgBonus) : 0;
                       let baseDice = (item.dmgDice || '1d4').replace(/^(\d+d\d+).*/, '$1');
-                      const dmgMod = mod + magicBonus;
+                      const dmgMod = mod + magicBonus + extraDmgBonus;
                       const dmgModStr = dmgMod > 0 ? `+${dmgMod}` : dmgMod < 0 ? `${dmgMod}` : '';
                       return <WeaponCard key={item.id} styles={styles} item={item} atkBonusStr={atkBonusStr} currentDmg={`${baseDice}${dmgModStr}`} rangeText="1.5m" getSvgIcon={getSvgIcon} />;
                     })}

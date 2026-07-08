@@ -30,6 +30,7 @@ interface EquipmentTrackerProps {
     properties?: string[];
     isMagic?: boolean;
     magicBonus?: number;
+    dmgBonus?: number;
     rarity?: 'Comum' | 'Incomum' | 'Raro' | 'Muito Raro' | 'Lendário';
     description?: string;
     customResourceName?: string;
@@ -63,6 +64,7 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
   const [type, setType] = useState<ItemType>('weapon');
   const [acBonus, setAcBonus] = useState('');
   const [magicBonus, setMagicBonus] = useState('');
+  const [dmgBonus, setDmgBonus] = useState('');
   const [dmgDice, setDmgDice] = useState('');
   const [dmgType, setDmgType] = useState('');
   const [handedness, setHandedness] = useState('');
@@ -174,6 +176,7 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
     setType(item.type || 'weapon');
     setAcBonus(item.acBonus !== undefined ? String(item.acBonus) : '');
     setMagicBonus(item.magicBonus !== undefined ? String(item.magicBonus) : '');
+    setDmgBonus(item.dmgBonus !== undefined ? String(item.dmgBonus) : '');
     setDmgDice(item.dmgDice || '');
     setDmgType(item.dmgType || '');
     setHandedness(item.handedness || '');
@@ -220,6 +223,10 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
           newItem.magicBonus = mBonus;
           newItem.isMagic = true;
           newItem.rarity = 'Incomum';
+        }
+        const dBonus = parseInt(dmgBonus, 10);
+        if (!isNaN(dBonus) && dBonus !== 0) {
+          newItem.dmgBonus = dBonus;
         }
       } else if (type === 'ammunition') {
         newItem.customResourceName = name;
@@ -297,6 +304,7 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
     setType('weapon');
     setAcBonus('');
     setMagicBonus('');
+    setDmgBonus('');
     setDmgDice('');
     setDmgType('');
     setHandedness('');
@@ -410,6 +418,11 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
             {item.magicBonus ? (
               <Text style={[styles.itemStat, { backgroundColor: '#2563eb', color: '#ffffff', fontWeight: 'bold' }]}>
                 +{item.magicBonus}
+              </Text>
+            ) : null}
+            {item.dmgBonus ? (
+              <Text style={[styles.itemStat, { backgroundColor: '#b91c1c', color: '#ffffff', fontWeight: 'bold' }]}>
+                +{item.dmgBonus} Dano
               </Text>
             ) : null}
             
@@ -623,6 +636,18 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
                         keyboardType="numeric"
                         value={magicBonus}
                         onChangeText={setMagicBonus}
+                      />
+                    </View>
+
+                    <View style={{ marginTop: 8, marginBottom: 4 }}>
+                      <Text style={styles.inputLabel}>Dano Bônus Fixo (+ Dano extra sem mudar acerto)</Text>
+                      <TextInput
+                        style={styles.textInput}
+                        placeholder="ex: 2 (para somar +2 no dano final)"
+                        placeholderTextColor="#475569"
+                        keyboardType="numeric"
+                        value={dmgBonus}
+                        onChangeText={setDmgBonus}
                       />
                     </View>
                     

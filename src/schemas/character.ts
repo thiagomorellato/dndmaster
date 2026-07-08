@@ -57,6 +57,8 @@ export const EquipmentItemSchema = z.object({
   handedness: z.enum(['1 Mão', '2 Mãos', 'Versátil']).optional(),
   properties: z.array(z.string()).optional(),
   isMagic: z.boolean().optional(),
+  magicBonus: z.number().int().optional(),
+  dmgBonus: z.number().int().optional(),
   rarity: z.enum(['Comum', 'Incomum', 'Raro', 'Muito Raro', 'Lendário']).optional(),
   description: z.string().optional(),
   customResourceName: z.string().optional(),
