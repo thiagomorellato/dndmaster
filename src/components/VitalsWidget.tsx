@@ -782,7 +782,7 @@ export const VitalsWidget: React.FC<VitalsWidgetProps> = ({
                       const dexMod = Math.floor((stats.dex - 10) / 2);
                       let mod = isRanged ? dexMod : isFinesse ? Math.max(strMod, dexMod) : strMod;
                       const magicMatch = item.name.match(/\+(\d+)/);
-                      const magicBonus = magicMatch ? parseInt(magicMatch[1], 10) : 0;
+                      const magicBonus = item.magicBonus !== undefined ? Number(item.magicBonus) : (magicMatch ? parseInt(magicMatch[1], 10) : 0);
                       const atkBonus = mod + (isProficient ? proficiencyBonus : 0) + magicBonus;
                       const atkBonusStr = atkBonus >= 0 ? `+${atkBonus}` : `${atkBonus}`;
                       let baseDice = (item.dmgDice || '1d4').replace(/^(\d+d\d+).*/, '$1');

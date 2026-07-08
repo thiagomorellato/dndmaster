@@ -30,6 +30,7 @@ export const CustomResourceSchema = z.object({
   name: z.string().min(1),
   current: z.number().int().min(0),
   max: z.number().int().min(0),
+  resetOn: z.enum(['short', 'long', 'shortRest', 'longRest']).optional(),
 });
 
 export const ResourcesSchema = z.object({
@@ -53,7 +54,7 @@ export const EquipmentItemSchema = z.object({
   acBonus: z.number().int().optional(),
   dmgDice: z.string().optional(),
   dmgType: z.string().optional(),
-  handedness: z.string().optional(),
+  handedness: z.enum(['1 Mão', '2 Mãos', 'Versátil']).optional(),
   properties: z.array(z.string()).optional(),
   isMagic: z.boolean().optional(),
   rarity: z.enum(['Comum', 'Incomum', 'Raro', 'Muito Raro', 'Lendário']).optional(),
@@ -91,4 +92,5 @@ export const CharacterSchema = z.object({
   xp: z.number().int().min(0).default(0),
   conditions: z.array(z.string()).default([]),
   journal: z.string().optional(),
+  lastProcessedRestAt: z.string().optional(),
 });

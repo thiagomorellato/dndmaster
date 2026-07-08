@@ -16,6 +16,8 @@ export interface HP {
 export interface CombatConfig {
   baseArmorClass: number;
   shieldOfFaithActive: boolean;
+  mageArmorActive?: boolean;
+  barkskinActive?: boolean;
 }
 
 export interface SpellSlot {
@@ -28,6 +30,7 @@ export interface CustomResource {
   name: string;
   current: number;
   max: number;
+  resetOn?: 'short' | 'long' | 'shortRest' | 'longRest';
 }
 
 export interface Resources {
@@ -54,6 +57,7 @@ export interface EquipmentItem {
   handedness?: '1 Mão' | '2 Mãos' | 'Versátil';
   properties?: string[];
   isMagic?: boolean;
+  magicBonus?: number; // e.g., +1, +2, +3 em ataque e dano
   rarity?: 'Comum' | 'Incomum' | 'Raro' | 'Muito Raro' | 'Lendário';
   description?: string;
   customResourceName?: string;
@@ -71,6 +75,7 @@ export interface Character {
   id: string;
   name: string;
   characterClass: string;
+  subclass?: string;
   level: number;
   baseStats: BaseStats;
   spellcastingAbility?: keyof BaseStats;
@@ -91,6 +96,7 @@ export interface Character {
   xp?: number;
   conditions?: string[];
   journal?: string;
+  lastProcessedRestAt?: string;
 }
 
 export type ActionType = 

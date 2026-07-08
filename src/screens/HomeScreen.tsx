@@ -19,9 +19,10 @@ import { useTheme, ThemeColors } from '../context/ThemeContext';
 interface HomeScreenProps {
   onSelectCharacter: (id: string) => void;
   onCreateCharacter: () => void;
+  onNavigateToAdventure?: () => void;
 }
 
-export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCreateCharacter }) => {
+export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCreateCharacter, onNavigateToAdventure }) => {
   const { colors, theme, toggleTheme } = useTheme();
   const styles = useMemo(() => createStyles(colors), [colors]);
 
@@ -195,6 +196,53 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
         <Text style={styles.headerTitle}>D&D 5e Tactical Manager</Text>
         <Text style={styles.headerSubtitle}>Data Architecture Portfólio (NoSQL + Event Sourcing)</Text>
       </View>
+
+      {/* Botão de Acesso Rápido para Modo Multijogador (Mestre / Jogador) */}
+      <TouchableOpacity 
+        style={{
+          marginHorizontal: 20,
+          marginBottom: 16,
+          backgroundColor: colors.surfaceSecondary,
+          borderRadius: 12,
+          padding: 14,
+          borderWidth: 1,
+          borderColor: colors.accentAmber,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          shadowColor: colors.accentAmber,
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.2,
+          shadowRadius: 4,
+          elevation: 4
+        }}
+        onPress={onNavigateToAdventure}
+      >
+        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+          <View style={{
+            width: 44,
+            height: 44,
+            borderRadius: 22,
+            backgroundColor: colors.surface,
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight: 12,
+            borderWidth: 1,
+            borderColor: colors.accentAmber
+          }}>
+            <Ionicons name="shield-checkmark" size={24} color={colors.accentAmber} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={{ color: colors.textMain, fontSize: 16, fontWeight: '800' }}>
+              Modo Multijogador (Mestre / Jogadores)
+            </Text>
+            <Text style={{ color: colors.textMuted, fontSize: 12, marginTop: 2 }}>
+              Sincronia Firebase RTDB • Ficha de Leitura • Snapshots
+            </Text>
+          </View>
+        </View>
+        <Ionicons name="chevron-forward" size={20} color={colors.accentAmber} />
+      </TouchableOpacity>
 
       {characters.length === 0 ? (
         <View style={styles.emptyContainer}>

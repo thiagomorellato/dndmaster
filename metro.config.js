@@ -14,6 +14,10 @@ module.exports = (() => {
     assetExts: resolver.assetExts.filter((ext) => ext !== "svg"),
     sourceExts: [...resolver.sourceExts, "svg"]
   };
+  config.server = {
+    ...config.server,
+    port: 8082
+  };
 
   return config;
 })();

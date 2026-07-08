@@ -29,9 +29,15 @@ interface EquipmentTrackerProps {
     handedness?: string;
     properties?: string[];
     isMagic?: boolean;
+    magicBonus?: number;
     rarity?: 'Comum' | 'Incomum' | 'Raro' | 'Muito Raro' | 'Lendário';
     description?: string;
+    customResourceName?: string;
+    customResourceMax?: number;
+    linkedSpellName?: string;
+    weight?: number;
   }) => void;
+  onEditItem?: (item: EquipmentItem) => void;
   onDeleteItem: (itemId: string) => void;
   characterClass: string;
 }
@@ -42,6 +48,7 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
   equipment = [],
   onToggleEquip,
   onAddItem,
+  onEditItem,
   onDeleteItem,
   characterClass,
 }) => {
@@ -49,11 +56,13 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
   const styles = useStyles(colors);
   const [modalVisible, setModalVisible] = useState(false);
   const [creationMode, setCreationMode] = useState<'custom' | 'magic'>('custom');
+  const [editingItem, setEditingItem] = useState<EquipmentItem | null>(null);
   
   // Custom item states
   const [name, setName] = useState('');
   const [type, setType] = useState<ItemType>('weapon');
   const [acBonus, setAcBonus] = useState('');
+  const [magicBonus, setMagicBonus] = useState('');
   const [dmgDice, setDmgDice] = useState('');
   const [dmgType, setDmgType] = useState('');
   const [handedness, setHandedness] = useState('');
@@ -158,6 +167,25 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
     }
   };
 
+  const startEditingItem = (item: EquipmentItem) => {
+    setEditingItem(item);
+    setCreationMode('custom');
+    setName(item.name || '');
+    setType(item.type || 'weapon');
+    setAcBonus(item.acBonus !== undefined ? String(item.acBonus) : '');
+    setMagicBonus(item.magicBonus !== undefined ? String(item.magicBonus) : '');
+    setDmgDice(item.dmgDice || '');
+    setDmgType(item.dmgType || '');
+    setHandedness(item.handedness || '');
+    setPropertiesText(item.properties ? item.properties.join(', ') : '');
+    setDescription(item.description || '');
+    setCustomResourceName(item.customResourceName || '');
+    setCustomResourceMax(item.customResourceMax !== undefined ? String(item.customResourceMax) : '');
+    setLinkedSpellName(item.linkedSpellName || '');
+    setWeight(item.weight !== undefined ? String(item.weight) : '');
+    setModalVisible(true);
+  };
+
   const handleSave = () => {
     if (creationMode === 'custom') {
       if (!name.trim()) {
@@ -186,6 +214,12 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
         }
         if (propertiesText.trim()) {
           newItem.properties = propertiesText.split(',').map(p => p.trim()).filter(Boolean);
+        }
+        const mBonus = parseInt(magicBonus, 10);
+        if (!isNaN(mBonus) && mBonus !== 0) {
+          newItem.magicBonus = mBonus;
+          newItem.isMagic = true;
+          newItem.rarity = 'Incomum';
         }
       } else if (type === 'ammunition') {
         newItem.customResourceName = name;
@@ -219,7 +253,16 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
         newItem.rarity = 'Incomum';
       }
 
-      onAddItem(newItem);
+      if (editingItem && onEditItem) {
+        onEditItem({
+          ...editingItem,
+          ...newItem,
+          id: editingItem.id,
+          equipped: editingItem.equipped,
+        });
+      } else {
+        onAddItem(newItem);
+      }
     } else {
       if (!selectedMagicItem) {
         Alert.alert('Aviso', 'Por favor, selecione um item mágico da lista.');
@@ -236,13 +279,24 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
         dmgDice: selectedMagicItem.dmgDice,
       };
 
-      onAddItem(newItem);
+      if (editingItem && onEditItem) {
+        onEditItem({
+          ...editingItem,
+          ...newItem,
+          id: editingItem.id,
+          equipped: editingItem.equipped,
+        });
+      } else {
+        onAddItem(newItem);
+      }
     }
 
     // Reset Form
+    setEditingItem(null);
     setName('');
     setType('weapon');
     setAcBonus('');
+    setMagicBonus('');
     setDmgDice('');
     setDmgType('');
     setHandedness('');
@@ -361,6 +415,11 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
                 size={20}
                 color={item.equipped ? colors.accentAmber : "#475569"}
               />
+            </TouchableOpacity>
+
+            {/* Edit Item Button */}
+            <TouchableOpacity onPress={() => startEditingItem(item)} style={{ marginLeft: 8, padding: 4 }}>
+              <Ionicons name="create-outline" size={18} color={colors.accentSky} />
             </TouchableOpacity>
 
             {/* Delete Item Button */}

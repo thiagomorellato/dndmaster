@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, Alert, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme, ThemeColors } from '../context/ThemeContext';
 import { Character, Resources, HP } from '../types/character';
@@ -11,6 +11,7 @@ interface RestModalProps {
   onClose: () => void;
   onShortRest: (hpGained: number, hitDiceUsed: number) => void;
   onLongRest: () => void;
+  initialRestType?: 'choose' | 'short' | 'long';
 }
 
 export const RestModal: React.FC<RestModalProps> = ({
@@ -19,11 +20,22 @@ export const RestModal: React.FC<RestModalProps> = ({
   onClose,
   onShortRest,
   onLongRest,
+  initialRestType,
 }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
   const [restType, setRestType] = useState<'choose' | 'short' | 'long'>('choose');
   const [dicesToSpend, setDicesToSpend] = useState(1);
+  const [useManualHp, setUseManualHp] = useState(false);
+  const [manualHpInput, setManualHpInput] = useState('');
+
+  useEffect(() => {
+    if (visible && initialRestType) {
+      setRestType(initialRestType);
+    } else if (visible && !initialRestType) {
+      setRestType('choose');
+    }
+  }, [visible, initialRestType]);
 
   // 1. Fallbacks rígidos para proteger a renderização e cálculos
   const level = character?.level ?? 1;
@@ -90,6 +102,23 @@ export const RestModal: React.FC<RestModalProps> = ({
       console.error("Erro ao rolar descanso:", error);
       Alert.alert("Erro", "Falha ao calcular o descanso. Verifique os status do personagem.");
     }
+  };
+
+  const applyManualShortRest = () => {
+    const hpValue = parseInt(manualHpInput, 10);
+    if (isNaN(hpValue) || hpValue < 0) {
+      Alert.alert('Valor Inválido', 'Digite uma quantidade válida de PVs recuperados.');
+      return;
+    }
+    const actualDice = Math.min(dicesToSpend, hitDiceAvailable);
+    if (onShortRest) onShortRest(hpValue, actualDice);
+    setRestType('choose');
+    setUseManualHp(false);
+    setManualHpInput('');
+    onClose();
+    setTimeout(() => {
+      Alert.alert('💤 Descanso Curto Aplicado', `Você recuperou +${hpValue} HP gastando ${actualDice} dado(s) de vida.`);
+    }, 300);
   };
 
   const handleLongRest = () => {
@@ -166,24 +195,91 @@ export const RestModal: React.FC<RestModalProps> = ({
                 </TouchableOpacity>
               </View>
 
-              <Text style={styles.healPreview}>
-                Cura estimada: ~{Math.round(
-                  dicesToSpend * ((parseInt(hitDieType.replace('d', ''), 10) || 8) / 2 + 0.5 + conMod)
-                )} HP
-                {conMod !== 0 ? ` (${conMod > 0 ? '+' : ''}${conMod} CON por dado)` : ''}
-              </Text>
+              <View style={{ flexDirection: 'row', backgroundColor: colors.surfaceSecondary, borderRadius: 10, padding: 4, marginVertical: 14 }}>
+                <TouchableOpacity
+                  style={{
+                    flex: 1,
+                    paddingVertical: 8,
+                    borderRadius: 8,
+                    alignItems: 'center',
+                    backgroundColor: !useManualHp ? colors.accentAmber : 'transparent',
+                  }}
+                  onPress={() => setUseManualHp(false)}
+                >
+                  <Text style={{ fontSize: 13, fontWeight: '700', color: !useManualHp ? '#FFF' : colors.textSecondary }}>
+                    🎲 Rolar no App
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    flex: 1,
+                    paddingVertical: 8,
+                    borderRadius: 8,
+                    alignItems: 'center',
+                    backgroundColor: useManualHp ? colors.accentAmber : 'transparent',
+                  }}
+                  onPress={() => setUseManualHp(true)}
+                >
+                  <Text style={{ fontSize: 13, fontWeight: '700', color: useManualHp ? '#FFF' : colors.textSecondary }}>
+                    ✍️ Cura Físicas (Mesa)
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              {!useManualHp ? (
+                <Text style={styles.healPreview}>
+                  Cura estimada: ~{Math.round(
+                    dicesToSpend * ((parseInt(hitDieType.replace('d', ''), 10) || 8) / 2 + 0.5 + conMod)
+                  )} HP
+                  {conMod !== 0 ? ` (${conMod > 0 ? '+' : ''}${conMod} CON por dado)` : ''}
+                </Text>
+              ) : (
+                <View style={{ marginBottom: 16 }}>
+                  <Text style={{ color: colors.textSecondary, fontSize: 13, marginBottom: 8 }}>
+                    Role {dicesToSpend}x {hitDieType} {conMod !== 0 ? `+ ${conMod * dicesToSpend} CON` : ''} na mesa e digite os PVs recuperados:
+                  </Text>
+                  <TextInput
+                    style={{
+                      backgroundColor: colors.surfaceSecondary,
+                      borderWidth: 1,
+                      borderColor: colors.accentAmber,
+                      borderRadius: 10,
+                      padding: 12,
+                      color: colors.textMain,
+                      fontSize: 16,
+                      fontWeight: '700',
+                      textAlign: 'center',
+                    }}
+                    placeholder="Ex: 14"
+                    placeholderTextColor={colors.textMuted}
+                    keyboardType="number-pad"
+                    value={manualHpInput}
+                    onChangeText={setManualHpInput}
+                  />
+                </View>
+              )}
 
               <View style={styles.actionRow}>
                 <TouchableOpacity style={styles.cancelBtn} onPress={() => setRestType('choose')}>
                   <Text style={styles.cancelBtnText}>Voltar</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.confirmBtn, { backgroundColor: colors.accentAmber }]}
-                  onPress={rollShortRest}
-                >
-                  <Ionicons name="dice" size={16} color="#FFF" style={{ marginRight: 6 }} />
-                  <Text style={styles.confirmBtnText}>Rolar e Descansar</Text>
-                </TouchableOpacity>
+                {!useManualHp ? (
+                  <TouchableOpacity
+                    style={[styles.confirmBtn, { backgroundColor: colors.accentAmber }]}
+                    onPress={rollShortRest}
+                  >
+                    <Ionicons name="dice" size={16} color="#FFF" style={{ marginRight: 6 }} />
+                    <Text style={styles.confirmBtnText}>Rolar e Descansar</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={[styles.confirmBtn, { backgroundColor: colors.accentAmber }]}
+                    onPress={applyManualShortRest}
+                  >
+                    <Ionicons name="checkmark" size={16} color="#FFF" style={{ marginRight: 6 }} />
+                    <Text style={styles.confirmBtnText}>Aplicar Cura</Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           )}

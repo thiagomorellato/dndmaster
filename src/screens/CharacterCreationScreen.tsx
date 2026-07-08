@@ -356,8 +356,16 @@ export const CharacterCreationScreen: React.FC<CharacterCreationScreenProps> = (
       });
     }
 
-    return CharacterService.calculateBaseAC(currentStats, equipment);
+    return CharacterService.calculateBaseAC({
+      baseStats: currentStats,
+      characterClass: selectedClass,
+      subclass: selectedSubclass,
+      level: level,
+      equipment: equipment,
+      combat: { baseArmorClass: 10, shieldOfFaithActive: false },
+    } as any);
   };
+
   const handleSaveCharacter = async () => {
     if (!name.trim()) {
       Alert.alert('Erro', 'Por favor, digite o nome do personagem.');

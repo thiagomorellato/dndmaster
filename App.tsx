@@ -19,9 +19,12 @@ import { HomeScreen } from './src/screens/HomeScreen';
 import { DashboardScreen } from './src/screens/DashboardScreen';
 import { CharacterCreationScreen } from './src/screens/CharacterCreationScreen';
 import { ThemeProvider } from './src/context/ThemeContext';
+import { AdventureProvider } from './src/context/AdventureContext';
+import { AdventureLobbyScreen } from './src/screens/AdventureLobbyScreen';
+import { MasterDashboardScreen } from './src/screens/MasterDashboardScreen';
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState<'home' | 'dashboard' | 'create'>('home');
+  const [currentScreen, setCurrentScreen] = useState<'home' | 'dashboard' | 'create' | 'adventure-lobby' | 'master-dashboard'>('home');
   const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>(null);
 
   const [fontsLoaded, fontError] = useFonts({
@@ -53,22 +56,38 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <View style={styles.container}>
-        <StatusBar style="light" />
-        {currentScreen === 'home' ? (
-          <HomeScreen 
-            onSelectCharacter={handleSelectCharacter} 
-            onCreateCharacter={() => setCurrentScreen('create')} 
-          />
-        ) : currentScreen === 'create' ? (
-          <CharacterCreationScreen 
-            onBack={handleBackToHome} 
-            onSuccess={handleBackToHome} 
-          />
-        ) : (
-          <DashboardScreen characterId={selectedCharacterId!} onBack={handleBackToHome} />
-        )}
-      </View>
+      <AdventureProvider>
+        <View style={styles.container}>
+          <StatusBar style="light" />
+          {currentScreen === 'home' ? (
+            <HomeScreen 
+              onSelectCharacter={handleSelectCharacter} 
+              onCreateCharacter={() => setCurrentScreen('create')}
+              onNavigateToAdventure={() => setCurrentScreen('adventure-lobby')}
+            />
+          ) : currentScreen === 'create' ? (
+            <CharacterCreationScreen 
+              onBack={handleBackToHome} 
+              onSuccess={handleBackToHome} 
+            />
+          ) : currentScreen === 'adventure-lobby' ? (
+            <AdventureLobbyScreen
+              onBack={handleBackToHome}
+              onNavigateToMaster={() => setCurrentScreen('master-dashboard')}
+              onNavigateToDashboard={(charId) => {
+                setSelectedCharacterId(charId);
+                setCurrentScreen('dashboard');
+              }}
+            />
+          ) : currentScreen === 'master-dashboard' ? (
+            <MasterDashboardScreen
+              onBack={handleBackToHome}
+            />
+          ) : (
+            <DashboardScreen characterId={selectedCharacterId!} onBack={handleBackToHome} />
+          )}
+        </View>
+      </AdventureProvider>
     </ThemeProvider>
   );
 }

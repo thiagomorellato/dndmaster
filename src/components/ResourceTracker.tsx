@@ -24,6 +24,14 @@ interface ResourceTrackerProps {
   stats: BaseStats;
 }
 
+const isAlwaysReadySpell = (spell: Spell): boolean => {
+  return (
+    spell.level === 0 ||
+    spell.name.includes('Canalizar Divindade') ||
+    spell.name.includes('Destruição Divina')
+  );
+};
+
 export const ResourceTracker: React.FC<ResourceTrackerProps> = ({
   resources,
   preparedSpells = [],
@@ -189,6 +197,24 @@ export const ResourceTracker: React.FC<ResourceTrackerProps> = ({
       setSmiteModalVisible(true);
       return;
     }
+
+    if (spellName.includes('Canalizar Divindade')) {
+      const channelResIdx = (resources.customResources || []).findIndex((r: any) => r.name.toLowerCase().includes('canalizar'));
+      if (channelResIdx !== -1) {
+        const res = resources.customResources[channelResIdx];
+        if (res.current <= 0) {
+          Alert.alert('Canalizar Divindade Esgotado', 'Você já utilizou seu Canalizar Divindade. Descanse para recarregá-lo!');
+          return;
+        }
+        const updatedRes = [...resources.customResources];
+        updatedRes[channelResIdx] = { ...res, current: res.current - 1 };
+        onUpdateResources({ ...resources, customResources: updatedRes });
+      }
+      onLogAction('ACTION', `Usou ${spellName} em ${target}`, `Alvo: ${target}`);
+      Alert.alert('Habilidade Ativada', `Você ativou ${spellName} em ${target}!`);
+      return;
+    }
+
     const slotKey = `L${spellLevel}`;
     const isCantrip = spellLevel === 0;
     let nextCurrent = 0;
@@ -421,7 +447,8 @@ export const ResourceTracker: React.FC<ResourceTrackerProps> = ({
                   s.name.toLowerCase().includes(searchQuery.toLowerCase())
                 )
                 .map(spell => {
-                  const isPrepared = preparedSpells.includes(spell.name);
+                  const isAlwaysReady = isAlwaysReadySpell(spell);
+                  const isPrepared = isAlwaysReady || preparedSpells.includes(spell.name);
                   const isCantrip = spell.level === 0;
                   const isExpanded = expandedPrepSpell === spell.name;
 
@@ -431,7 +458,7 @@ export const ResourceTracker: React.FC<ResourceTrackerProps> = ({
                       <View style={styles.spellHeaderRow}>
                         {/* Botão de Checkbox (Prepara a Magia) */}
                         <TouchableOpacity 
-                          onPress={() => handleTogglePrepareSpell(spell.name)}
+                          onPress={() => isAlwaysReady ? Alert.alert('Sempre Pronta', 'Truques e habilidades especiais não precisam ser preparados e estão sempre prontos para uso.') : handleTogglePrepareSpell(spell.name)}
                           style={styles.checkboxTouchTarget}
                         >
                           <Ionicons 
@@ -475,8 +502,8 @@ export const ResourceTracker: React.FC<ResourceTrackerProps> = ({
             /* Modo Conjuração: Filtra baseado na aba selecionada */
             <View>
             {classSpells.filter(s => 
-              (preparedSpells.includes(s.name) || s.name === 'Divine Smite (Destruição Divina)') && 
-              (selectedLevelFilter === 'all' || s.level === selectedLevelFilter) // Ajuste aqui
+              (isAlwaysReadySpell(s) || preparedSpells.includes(s.name)) && 
+              (selectedLevelFilter === 'all' || s.level === selectedLevelFilter)
             ).length === 0 ? (
               <Text style={styles.emptySpellsText}>
                 {selectedLevelFilter === 'all' 
@@ -487,8 +514,8 @@ export const ResourceTracker: React.FC<ResourceTrackerProps> = ({
               <View style={styles.spellGridContainer}>
                 {classSpells
                   .filter(spell => 
-                    (preparedSpells.includes(spell.name) || spell.name === 'Divine Smite (Destruição Divina)') && 
-                    (selectedLevelFilter === 'all' || spell.level === selectedLevelFilter) // Ajuste aqui
+                    (isAlwaysReadySpell(spell) || preparedSpells.includes(spell.name)) && 
+                    (selectedLevelFilter === 'all' || spell.level === selectedLevelFilter)
                   )
                   .map(spell => {
                       const targetVal = targets[spell.name] || '';

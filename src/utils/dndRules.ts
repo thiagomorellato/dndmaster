@@ -770,7 +770,7 @@ export const WEAPON_TEMPLATES: WeaponTemplate[] = [
     "rangeType": "Corpo-a-corpo"
   },
   {
-    "name": "Light Hammer",
+    "name": "Martelo Leve",
     "dmgDice": "1d4",
     "handedness": "1 Mão",
     "dmgType": "Cortante",
@@ -1150,67 +1150,67 @@ export const WEAPON_TEMPLATES: WeaponTemplate[] = [
 
 export const ARMOR_TEMPLATES: ArmorTemplate[] = [
   {
-    "name": "Leather",
+    "name": "Couro",
     "acBonus": 11,
     "type": "armor",
     "stealthDisadvantage": false
   },
   {
-    "name": "Padded",
+    "name": "Acolchoada",
     "acBonus": 11,
     "type": "armor",
     "stealthDisadvantage": false
   },
   {
-    "name": "Studded Leather",
+    "name": "Couro Batido",
     "acBonus": 12,
     "type": "armor",
     "stealthDisadvantage": false
   },
   {
-    "name": "Breastplate",
+    "name": "Peitoral",
     "acBonus": 14,
     "type": "armor",
     "stealthDisadvantage": false
   },
   {
-    "name": "Chain Shirt",
+    "name": "Camisa de Malha",
     "acBonus": 13,
     "type": "armor",
     "stealthDisadvantage": false
   },
   {
-    "name": "Half Plate",
+    "name": "Meia Placa",
     "acBonus": 15,
     "type": "armor",
     "stealthDisadvantage": false
   },
   {
-    "name": "Hide",
+    "name": "Gibão",
     "acBonus": 12,
     "type": "armor",
     "stealthDisadvantage": false
   },
   {
-    "name": "Scale mail",
+    "name": "Cota de Escamas",
     "acBonus": 14,
     "type": "armor",
     "stealthDisadvantage": false
   },
   {
-    "name": "Chain Mail",
+    "name": "Cota de Malha",
     "acBonus": 16,
     "type": "armor",
     "stealthDisadvantage": false
   },
   {
-    "name": "Ring Mail",
+    "name": "Loriga de Anéis",
     "acBonus": 14,
     "type": "armor",
     "stealthDisadvantage": false
   },
   {
-    "name": "Shield",
+    "name": "Escudo",
     "acBonus": 2,
     "type": "shield",
     "stealthDisadvantage": false
@@ -1449,87 +1449,87 @@ export interface MagicItemTemplate {
 
 export const MAGIC_ITEMS_LIST: MagicItemTemplate[] = [
   {
-    "name": "Plate",
+    "name": "Armadura de Placas",
     "type": "armor",
     "acBonus": 18,
     "rarity": "Raro",
-    "description": "Plate consists of shaped, interlocking metal plates to cover the entire body. A suit of plate includes gauntlets, heavy leather boots, a visored helmet, and thick layers of padding underneath the armor. Buckles and straps distribute the weight over the body."
+    "description": "A armadura de placas consiste em placas de metal moldadas e intertravadas que cobrem todo o corpo. Um conjunto de placas inclui manoplas, botas de couro pesado, um elmo com viseira e camadas espessas de enchimento sob a armadura. Fivelas e tiras distribuem o peso pelo corpo."
   },
   {
-    "name": "Splint",
+    "name": "Cota de Malha Segmentada",
     "type": "armor",
     "acBonus": 17,
     "rarity": "Incomum",
-    "description": "This armor is made of narrow vertical strips of metal riveted to a backing of leather that is worn over cloth padding. Flexible chain mail protects the joints."
+    "description": "Esta armadura é feita de tiras verticais estreitas de metal rebitadas em um fundo de couro que é usado sobre um enchimento de tecido. Uma cota de malha flexível protege as articulações."
   },
   {
-    "name": "Spyglass",
+    "name": "Luneta",
     "type": "other",
     "rarity": "Raro",
-    "description": "Objects viewed through a spyglass are magnified to twice their size."
+    "description": "Objetos visualizados através de uma luneta são ampliados para o dobro de seu tamanho."
   },
   {
-    "name": "Assassin’s Blood",
+    "name": "Sangue de Assassino",
     "type": "other",
     "rarity": "Incomum",
-    "description": "A creature subjected to this poison must make a DC 10 Constitution saving throw. On a failed save, it takes 6 (1d12) poison damage and is poisoned for 24 hours. On a successful save, the creature takes half damage and isn’t poisoned."
+    "description": "Uma criatura submetida a este veneno deve fazer um teste de resistência de Constituição CD 10. Em caso de falha, ela sofre 6 (1d12) de dano de veneno e fica envenenada por 24 horas. Em caso de sucesso, a criatura sofre metade do dano e não fica envenenada."
   },
   {
-    "name": "Burnt Othur Fumes",
+    "name": "Fumos de Othur Queimados",
     "type": "other",
     "rarity": "Incomum",
-    "description": "A creature subjected to this poison must succeed on a DC 13 Constitution saving throw or take 10 (3d6) poison damage, and must repeat the saving throw at the start of each of its turns. On each successive failed save, the character takes 3 (1d6) poison damage. After three successful saves, the poison ends."
+    "description": "Uma criatura submetida a este veneno deve ser bem-sucedida em um teste de resistência de Constituição CD 13 ou sofrer 10 (3d6) de dano de veneno, e deve repetir o teste de resistência no início de cada um de seus turnos. Em cada falha subsequente, o personagem sofre 3 (1d6) de dano de veneno. Após três sucessos, o veneno termina."
   },
   {
-    "name": "Crawler Mucus",
+    "name": "Muco de Rastreador",
     "type": "other",
     "rarity": "Incomum",
-    "description": "This poison must be harvested from a dead or incapacitated crawler. A creature subjected to this poison must succeed on a DC 13 Constitution saving throw or be poisoned for 1 minute. The poisoned creature is paralyzed. The creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+    "description": "Este veneno deve ser colhido de um rastreador morto ou incapacitado. Uma criatura submetida a este veneno deve ser bem-sucedida em um teste de resistência de Constituição CD 13 ou ficar envenenada por 1 minuto. A criatura envenenada fica paralisada. A criatura pode repetir o teste de resistência no final de cada um de seus turnos, encerrando o efeito em si mesma em caso de sucesso."
   },
   {
-    "name": "Drow Poison",
+    "name": "Veneno de Drow",
     "type": "other",
     "rarity": "Incomum",
-    "description": "This poison is typically made only by the drow, and only in a place far removed from sunlight. A creature subjected to this poison must succeed on a DC 13 Constitution saving throw or be poisoned for 1 hour. If the saving throw fails by 5 or more, the creature is also unconscious while poisoned in this way. The creature wakes up if it takes damage or if another creature takes an action to shake it awake."
+    "description": "Este veneno é tipicamente feito apenas pelos drow, e apenas em um lugar longe da luz do sol. Uma criatura submetida a este veneno deve ser bem-sucedida em um teste de resistência de Constituição CD 13 ou ficar envenenada por 1 hora. Se o teste de resistência falhar por 5 ou mais, a criatura também fica inconsciente enquanto estiver envenenada desta forma. A criatura acorda se sofrer dano ou se outra criatura usar uma ação para acordá-la."
   },
   {
-    "name": "Essence of Ether",
+    "name": "Essência de Éter",
     "type": "other",
     "rarity": "Incomum",
-    "description": "A creature subjected to this poison must succeed on a DC 15 Constitution saving throw or become poisoned for 8 hours. The poisoned creature is unconscious. The creature wakes up if it takes damage or if another creature takes an action to shake it awake."
+    "description": "Uma criatura submetida a este veneno deve ser bem-sucedida em um teste de resistência de Constituição CD 15 ou ficar envenenada por 8 horas. A criatura envenenada fica inconsciente. A criatura acorda se sofrer dano ou se outra criatura usar uma ação para acordá-la."
   },
   {
-    "name": "Malice",
+    "name": "Malícia",
     "type": "other",
     "rarity": "Incomum",
-    "description": "A creature subjected to this poison must succeed on a DC 15 Constitution saving throw or become poisoned for 1 hour. The poisoned creature is blinded."
+    "description": "Uma criatura submetida a este veneno deve ser bem-sucedida em um teste de resistência de Constituição CD 15 ou ficar envenenada por 1 hora. A criatura envenenada fica cega."
   },
   {
-    "name": "Midnight Tears",
+    "name": "Lágrimas da Meia-Noite",
     "type": "other",
     "rarity": "Raro",
-    "description": "A creature that ingests this poison suffers no effect until the stroke of midnight. If the poison has not been neutralized before then, the creature must succeed on a DC 17 Constitution saving throw, taking 31 (9d6) poison damage on a failed save, or half as much damage on a successful one."
+    "description": "Uma criatura que ingere este veneno não sofre efeito até a meia-noite. Se o veneno não tiver sido neutralizado antes disso, a criatura deve ser bem-sucedida em um teste de resistência de Constituição CD 17, sofrendo 31 (9d6) de dano de veneno em caso de falha, ou metade do dano em caso de sucesso."
   },
   {
-    "name": "Oil of Taggit",
+    "name": "Óleo de Taggit",
     "type": "other",
     "rarity": "Incomum",
-    "description": "A creature subjected to this poison must succeed on a DC 13 Constitution saving throw or become poisoned for 24 hours. The poisoned creature is unconscious. The creature wakes up if it takes damage."
+    "description": "Uma criatura submetida a este veneno deve ser bem-sucedida em um teste de resistência de Constituição CD 13 ou ficar envenenada por 24 horas. A criatura envenenada fica inconsciente. A criatura acorda se sofrer dano."
   },
   {
-    "name": "Pale Tincture",
+    "name": "Tintura Pálida",
     "type": "other",
     "rarity": "Incomum",
     "description": "A creature subjected to this poison must succeed on a DC 16 Constitution saving throw or take 3 (1d6) poison damage and become poisoned. The poisoned creature must repeat the saving throw every 24 hours, taking 3 (1d6) poison damage on a failed save. Until this poison ends, the damage the poison deals can’t be healed by any means. After seven successful saving throws, the effect ends and the creature can heal normally."
   },
   {
-    "name": "Purple Worm Poison",
+    "name": "Veneno de Verme Púrpura",
     "type": "other",
     "rarity": "Raro",
     "description": "This poison must be harvested from a dead or incapacitated purple worm. A creature subjected to this poison must make a DC 19 Constitution saving throw, taking 42 (12d6) poison damage on a failed save, or half as much damage on a successful one."
   },
   {
-    "name": "Serpent Venom",
+    "name": "Veneno de Serpente",
     "type": "other",
     "rarity": "Incomum",
     "description": "This poison must be harvested from a dead or incapacitated giant poisonous snake. A creature subjected to this poison must succeed on a DC 11 Constitution saving throw, taking 10 (3d6) poison damage on a failed save, or half as much damage on a successful one."
@@ -1541,13 +1541,13 @@ export const MAGIC_ITEMS_LIST: MagicItemTemplate[] = [
     "description": "A creature subjected to this poison must succeed on a DC 15 Constitution saving throw or become poisoned for 4d6 hours. The poisoned creature is incapacitated."
   },
   {
-    "name": "Truth Serum",
+    "name": "Soro da Verdade",
     "type": "other",
     "rarity": "Incomum",
     "description": "A creature subjected to this poison must succeed on a DC 11 Constitution saving throw or become poisoned for 1 hour. The poisoned creature can’t knowingly speak a lie, as if under the effect of a zone of truth spell."
   },
   {
-    "name": "Wyvern Poison",
+    "name": "Veneno de Wyvern",
     "type": "other",
     "rarity": "Raro",
     "description": "This poison must be harvested from a dead or incapacitated wyvern. A creature subjected to this poison must make a DC 15 Constitution saving throw, taking 24 (7d6) poison damage on a failed save, or half as much damage on a successful one."

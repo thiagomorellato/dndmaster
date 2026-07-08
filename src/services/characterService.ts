@@ -37,23 +37,48 @@ export class CharacterService {
   }
 
   /**
-   * Calculates the base Armor Class (AC) considering equipped items.
+   * Calculates the base Armor Class (AC) considering equipped items, class features, and subclasses.
    */
-  static calculateBaseAC(baseStats: BaseStats, equipment: EquipmentItem[]): number {
+  static calculateBaseAC(character: Character): number {
+    const { baseStats, characterClass, subclass, equipment, combat } = character;
     const dexMod = this.getAbilityModifier(baseStats.dex);
 
     // Find equipped armor
     const equippedArmor = equipment.find(item => item.type === 'armor' && item.equipped);
-    let ac = 10 + dexMod;
+    let ac = 0;
+
     if (equippedArmor) {
       const category = getArmorCategory(equippedArmor.name);
-      const baseAC = equippedArmor.acBonus || 10;
+      const armorBonus = equippedArmor.acBonus || 10;
       if (category === 'heavy') {
-        ac = baseAC;
+        ac = armorBonus;
       } else if (category === 'medium') {
-        ac = baseAC + Math.min(2, dexMod);
+        ac = armorBonus + Math.min(2, dexMod);
       } else {
-        ac = baseAC + dexMod;
+        ac = armorBonus + dexMod;
+      }
+    } else {
+      // No armor equipped
+      let base = 10;
+
+      if (combat.mageArmorActive || combat.barkskinActive) {
+        base = 13;
+      }
+
+      ac = base + dexMod;
+
+      // Class/Subclass modifiers for Unarmored Defense
+      const normalizedClass = characterClass.toLowerCase();
+      const normalizedSubclass = subclass?.toLowerCase() || '';
+
+      if (normalizedClass.includes('monk')) {
+        ac += this.getAbilityModifier(baseStats.wis);
+      } else if (normalizedClass.includes('barbarian')) {
+        ac += this.getAbilityModifier(baseStats.con);
+      }
+
+      if (normalizedSubclass.includes('draconic')) {
+        ac += 1;
       }
     }
 
@@ -71,7 +96,7 @@ export class CharacterService {
    * Calculates the total Armor Class including active effects like Shield of Faith.
    */
   static calculateTotalAC(character: Character): number {
-    const baseAC = this.calculateBaseAC(character.baseStats, character.equipment);
+    const baseAC = this.calculateBaseAC(character);
     const shieldBonus = character.combat.shieldOfFaithActive ? 2 : 0;
     return baseAC + shieldBonus;
   }

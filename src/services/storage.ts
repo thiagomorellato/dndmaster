@@ -153,4 +153,44 @@ export class StorageService {
       throw error;
     }
   }
+
+  /**
+   * Salva a sessão da aventura ativa na Camada 2 (AsyncStorage / Local NoSQL)
+   */
+  static async saveActiveAdventure(
+    adventureId: string, 
+    role: 'master' | 'player', 
+    characterId?: string
+  ): Promise<void> {
+    try {
+      const data = JSON.stringify({ adventureId, role, characterId });
+      await AsyncStorage.setItem('DND_ACTIVE_ADVENTURE_SESSION', data);
+    } catch (error) {
+      console.error('Error saving active adventure session:', error);
+    }
+  }
+
+  /**
+   * Recupera a sessão da aventura ativa da Camada 2
+   */
+  static async getActiveAdventure(): Promise<{ adventureId: string; role: 'master' | 'player'; characterId?: string } | null> {
+    try {
+      const str = await AsyncStorage.getItem('DND_ACTIVE_ADVENTURE_SESSION');
+      return str ? JSON.parse(str) : null;
+    } catch (error) {
+      console.error('Error getting active adventure session:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Remove a sessão da aventura ativa da Camada 2
+   */
+  static async clearActiveAdventure(): Promise<void> {
+    try {
+      await AsyncStorage.removeItem('DND_ACTIVE_ADVENTURE_SESSION');
+    } catch (error) {
+      console.error('Error clearing active adventure session:', error);
+    }
+  }
 }

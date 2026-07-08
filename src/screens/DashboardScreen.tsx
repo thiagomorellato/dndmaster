@@ -15,6 +15,8 @@ import { DiceRollerWidget } from '../components/DiceRollerWidget';
 import { RestModal } from '../components/RestModal';
 import { StatusConditions } from '../components/StatusConditions';
 import { Ionicons } from '@expo/vector-icons';
+import { useAdventureSync } from '../hooks/useAdventureSync';
+import { useAdventure } from '../context/AdventureContext';
 import { getHitDieType, getArmorCategory, getSpellSlotsForClass, XP_THRESHOLDS } from '../utils/dndRules';
 import Svg, { Circle } from 'react-native-svg';
 if (Platform.OS === 'android') {
@@ -27,7 +29,7 @@ interface DashboardScreenProps {
   onBack: () => void;
 }
 type TabType = 'tatico' | 'personagem' | 'magias' | 'equipamentos' | 'logs';
-const getCharacterBackground = (characterClass: string, isMobile: boolean) => {
+export const getCharacterBackground = (characterClass: string, isMobile: boolean) => {
   const normalized = characterClass.trim().toLowerCase();
   if (isMobile) {
     if (normalized.includes('barbarian') || normalized.includes('bárbaro')) return require('../../assets/barbarian_bgmob.jpg');
@@ -78,6 +80,23 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
   const [logs, setLogs] = useState<CombatLogEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const { isConnected, syncStatus, adventureName, adventureCode } = useAdventureSync(
+    character,
+    async (updatedChar, restType) => {
+      setCharacter(updatedChar);
+      await StorageService.saveCharacter(updatedChar);
+      if (restType === 'LONG_REST') {
+        Alert.alert(
+          '🌙 Descanso Longo (Mestre)',
+          'O Mestre concedeu um Descanso Longo para a mesa! Seu HP, espaços de magia e recursos foram totalmente restaurados.'
+        );
+      } else {
+        setRestModalInitialType('short');
+        setRestModalVisible(true);
+      }
+    }
+  );
+  const { leaveAdventure } = useAdventure();
   const [activeTab, setActiveTab] = useState<TabType>('tatico');
   const [journalText, setJournalText] = useState('');
     useEffect(() => {
@@ -86,6 +105,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
     }
   }, [character]);
   const [restModalVisible, setRestModalVisible] = useState(false);
+  const [restModalInitialType, setRestModalInitialType] = useState<'choose' | 'short' | 'long' | undefined>(undefined);
   const [xpDetailsModalVisible, setXpDetailsModalVisible] = useState(false);
   const promptCastSpell = (spellName: string) => {
     if (!character) return;
@@ -443,7 +463,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
     if (!toggledItem) return;
 
     // Dynamically calculate new base AC
-    const newBaseAC = CharacterService.calculateBaseAC(character.baseStats, updatedEquipment);
+    const newBaseAC = CharacterService.calculateBaseAC({ ...character, equipment: updatedEquipment });
     const updatedCombat = {
       ...character.combat,
       baseArmorClass: newBaseAC
@@ -511,6 +531,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
     acBonus?: number;
     dmgDice?: string;
     isMagic?: boolean;
+    magicBonus?: number;
     rarity?: 'Comum' | 'Incomum' | 'Raro' | 'Muito Raro' | 'Lendário';
     description?: string;
     customResourceName?: string;
@@ -557,6 +578,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
         acBonus: item.acBonus,
         dmgDice: item.dmgDice,
         isMagic: item.isMagic,
+        magicBonus: item.magicBonus,
         rarity: item.rarity,
         description: item.description,
         customResourceName: item.customResourceName,
@@ -579,9 +601,29 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       const logList = await LoggerService.getLogs(character.id);
       setLogs(logList);
     } catch (error: any) {
-      Alert.alert('Erro ao adicionar item', error.message);
+      Alert.alert('Error adding item', error.message);
     }
   };
+
+  const handleEditItem = async (editedItem: EquipmentItem) => {
+    if (!character) return;
+    const updatedEquipment = character.equipment.map(e => e.id === editedItem.id ? editedItem : e);
+    const updatedChar = {
+      ...character,
+      equipment: updatedEquipment
+    };
+    try {
+      await StorageService.saveCharacter(updatedChar);
+      setCharacter(updatedChar);
+      const totalAC = CharacterService.calculateTotalAC(updatedChar);
+      await LoggerService.logEvent(character.id, 'RESOURCE_REGAIN', `Item editado: ${editedItem.name}`, CharacterService.getHpSummary(character.hp, totalAC));
+      const logList = await LoggerService.getLogs(character.id);
+      setLogs(logList);
+    } catch (error: any) {
+      Alert.alert('Error editing item', error.message);
+    }
+  };
+
   const handleDeleteItem = async (itemId: string) => {
     if (!character) return;
     const itemToDelete = character.equipment.find(item => item.id === itemId);
@@ -594,7 +636,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       style: 'destructive',
       onPress: async () => {
         const updatedEquipment = character.equipment.filter(item => item.id !== itemId);
-        const newBaseAC = CharacterService.calculateBaseAC(character.baseStats, updatedEquipment);
+        const newBaseAC = CharacterService.calculateBaseAC({ ...character, equipment: updatedEquipment });
         const updatedCombat = {
           ...character.combat,
           baseArmorClass: newBaseAC
@@ -915,6 +957,54 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
         </View>
       </View>
 
+      {/* Banner de Sincronização em Tempo Real (CQRS Write-Side) */}
+      {isConnected && (
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          backgroundColor: colors.surfaceSecondary,
+          paddingHorizontal: 16,
+          paddingVertical: 10,
+          borderBottomWidth: 1,
+          borderBottomColor: colors.borderHighlight,
+        }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+            <View style={{
+              width: 10,
+              height: 10,
+              borderRadius: 5,
+              backgroundColor: syncStatus === 'error' ? colors.accentRed : syncStatus === 'syncing' ? colors.accentAmber : colors.accentEmerald,
+              marginRight: 8
+            }} />
+            <Text style={{ color: colors.textMain, fontSize: 13, fontWeight: '700' }} numberOfLines={1}>
+              Sala do Mestre: <Text style={{ color: colors.accentAmber }}>{adventureName} ({adventureCode})</Text>
+            </Text>
+          </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            {syncStatus === 'error' && (
+              <Text style={{ color: colors.accentRed, fontSize: 11, marginRight: 12, fontWeight: '600' }}>
+                Falha na Sync
+              </Text>
+            )}
+            <TouchableOpacity 
+              style={{ backgroundColor: colors.surface, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, borderWidth: 1, borderColor: colors.accentRed }}
+              onPress={() => {
+                Alert.alert(
+                  'Desconectar da Aventura',
+                  'Deseja sair da sala do Mestre? Seu personagem voltará ao modo solo local.',
+                  [
+                    { text: 'Cancelar', style: 'cancel' },
+                    { text: 'Desconectar', style: 'destructive', onPress: leaveAdventure }
+                  ]
+                );
+              }}>
+              <Text style={{ color: colors.accentRed, fontSize: 11, fontWeight: '700' }}>Sair da Sala</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+
       {/* Main Content Area */}
 <ScrollView contentContainerStyle={styles.scrollContent}>
         {activeTab === 'tatico' && <>
@@ -959,7 +1049,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
 
         {activeTab === 'magias' && <ResourceTracker resources={character.resources} preparedSpells={character.preparedSpells} onUpdateResources={handleUpdateResources} onUpdatePreparedSpells={handleUpdatePreparedSpells} combat={character.combat} onUpdateCombat={handleUpdateCombat} hp={character.hp} onUpdateHP={handleUpdateHP} onLogAction={handleLogAction} hpSummary={CharacterService.getHpSummary(character.hp, character.combat.baseArmorClass + (character.combat.shieldOfFaithActive ? 2 : 0))} characterClass={character.characterClass} level={character.level} stats={character.baseStats} key={JSON.stringify(character.resources.spellSlots)} />}
 
-        {activeTab === 'equipamentos' && <EquipmentTracker equipment={character.equipment} onToggleEquip={handleToggleEquip} onAddItem={handleAddItem} onDeleteItem={handleDeleteItem} characterClass={character.characterClass} />}
+        {activeTab === 'equipamentos' && <EquipmentTracker equipment={character.equipment} onToggleEquip={handleToggleEquip} onAddItem={handleAddItem} onEditItem={handleEditItem} onDeleteItem={handleDeleteItem} characterClass={character.characterClass} />}
 
         {activeTab === 'logs' && <View style={styles.logCard}>
           {/* Bloco do Diário Persistente */}
@@ -1215,9 +1305,13 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       <RestModal
         visible={restModalVisible}
         character={character}
-        onClose={() => setRestModalVisible(false)}
+        onClose={() => {
+          setRestModalVisible(false);
+          setRestModalInitialType(undefined);
+        }}
         onShortRest={handleShortRest}
         onLongRest={handleLongRest}
+        initialRestType={restModalInitialType}
       />
       {/* Detalhes de XP e Nível Modal */}
       <Modal animationType="fade" transparent visible={xpDetailsModalVisible} onRequestClose={() => setXpDetailsModalVisible(false)}>
