@@ -407,6 +407,11 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
                 {item.dmgDice}
               </Text>
             )}
+            {item.magicBonus ? (
+              <Text style={[styles.itemStat, { backgroundColor: '#2563eb', color: '#ffffff', fontWeight: 'bold' }]}>
+                +{item.magicBonus}
+              </Text>
+            ) : null}
             
             {/* Toggle Status Indicator */}
             <TouchableOpacity onPress={() => onToggleEquip(item.id)} style={{ marginLeft: 12 }}>
@@ -588,6 +593,37 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
                           onChangeText={setPropertiesText}
                         />
                       </View>
+                    </View>
+
+                    <View style={{ marginTop: 12, marginBottom: 4 }}>
+                      <Text style={styles.inputLabel}>Bônus Mágico (+ Ataque e Dano)</Text>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
+                        {[0, 1, 2, 3].map(b => (
+                          <TouchableOpacity
+                            key={b}
+                            style={[
+                              styles.templateBtn,
+                              magicBonus === (b === 0 ? '' : String(b)) && { backgroundColor: '#3b82f6', borderColor: '#60a5fa' }
+                            ]}
+                            onPress={() => setMagicBonus(b === 0 ? '' : String(b))}
+                          >
+                            <Text style={[
+                              styles.templateBtnText,
+                              magicBonus === (b === 0 ? '' : String(b)) && { color: '#ffffff', fontWeight: 'bold' }
+                            ]}>
+                              {b === 0 ? 'Normal (+0)' : `+${b} Mágico`}
+                            </Text>
+                          </TouchableOpacity>
+                        ))}
+                      </View>
+                      <TextInput
+                        style={styles.textInput}
+                        placeholder="Ou digite o número do bônus mágico (ex: 1)"
+                        placeholderTextColor="#475569"
+                        keyboardType="numeric"
+                        value={magicBonus}
+                        onChangeText={setMagicBonus}
+                      />
                     </View>
                     
                     <Text style={[styles.inputLabel, { marginTop: 16 }]}>Ou selecione uma Arma Padrão:</Text>
