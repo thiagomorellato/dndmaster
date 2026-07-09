@@ -196,66 +196,33 @@ export const EquipmentTracker: React.FC<EquipmentTrackerProps> = ({
         return;
       }
 
+      const parsedWeight = parseFloat(weight.replace(',', '.'));
+      const mBonus = parseInt(magicBonus, 10);
+      const dBonus = parseInt(dmgBonus, 10);
+      const acBon = parseInt(acBonus, 10);
+      const resMax = parseInt(customResourceMax, 10);
+
       const newItem: any = {
         name: name.trim(),
         type,
         isMagic: false,
+        weight: (!isNaN(parsedWeight) && parsedWeight > 0) ? parsedWeight : undefined,
+        dmgDice: type === 'weapon' ? (dmgDice.trim() || undefined) : undefined,
+        dmgType: type === 'weapon' ? (dmgType.trim() || undefined) : undefined,
+        handedness: type === 'weapon' ? (handedness.trim() || undefined) : undefined,
+        properties: (type === 'weapon' && propertiesText.trim())
+          ? propertiesText.split(',').map(p => p.trim()).filter(Boolean)
+          : undefined,
+        magicBonus: (type === 'weapon' && !isNaN(mBonus) && mBonus !== 0) ? mBonus : undefined,
+        dmgBonus: (type === 'weapon' && !isNaN(dBonus) && dBonus !== 0) ? dBonus : undefined,
+        acBonus: (type !== 'weapon' && type !== 'ammunition' && !isNaN(acBon) && acBon !== 0) ? acBon : undefined,
+        description: description.trim() || undefined,
+        customResourceName: type === 'ammunition' ? name.trim() : (customResourceName.trim() || undefined),
+        customResourceMax: type === 'ammunition' ? (parseInt(dmgDice, 10) || 20) : (!isNaN(resMax) && resMax > 0 ? resMax : undefined),
+        linkedSpellName: linkedSpellName.trim() || undefined,
       };
 
-      const parsedWeight = parseFloat(weight.replace(',', '.'));
-      if (!isNaN(parsedWeight) && parsedWeight > 0) newItem.weight = parsedWeight;
-
-      if (type === 'weapon') {
-        if (dmgDice.trim()) {
-          newItem.dmgDice = dmgDice.trim();
-        }
-        if (dmgType.trim()) {
-          newItem.dmgType = dmgType.trim();
-        }
-        if (handedness.trim()) {
-          newItem.handedness = handedness.trim();
-        }
-        if (propertiesText.trim()) {
-          newItem.properties = propertiesText.split(',').map(p => p.trim()).filter(Boolean);
-        }
-        const mBonus = parseInt(magicBonus, 10);
-        if (!isNaN(mBonus) && mBonus !== 0) {
-          newItem.magicBonus = mBonus;
-          newItem.isMagic = true;
-          newItem.rarity = 'Incomum';
-        }
-        const dBonus = parseInt(dmgBonus, 10);
-        if (!isNaN(dBonus) && dBonus !== 0) {
-          newItem.dmgBonus = dBonus;
-        }
-      } else if (type === 'ammunition') {
-        newItem.customResourceName = name;
-        newItem.customResourceMax = parseInt(dmgDice, 10) || 20;
-      } else {
-        const bonus = parseInt(acBonus, 10);
-        if (!isNaN(bonus) && bonus !== 0) {
-          newItem.acBonus = bonus;
-        }
-      }
-
-      if (description.trim()) {
-        newItem.description = description.trim();
-        newItem.isMagic = true;
-        newItem.rarity = 'Incomum';
-      }
-
-      if (customResourceName.trim() && customResourceMax.trim()) {
-        const maxVal = parseInt(customResourceMax, 10);
-        if (!isNaN(maxVal) && maxVal > 0) {
-          newItem.customResourceName = customResourceName.trim();
-          newItem.customResourceMax = maxVal;
-          newItem.isMagic = true;
-          newItem.rarity = 'Incomum';
-        }
-      }
-
-      if (linkedSpellName.trim()) {
-        newItem.linkedSpellName = linkedSpellName.trim();
+      if (newItem.magicBonus || newItem.description || newItem.customResourceName || newItem.linkedSpellName) {
         newItem.isMagic = true;
         newItem.rarity = 'Incomum';
       }
