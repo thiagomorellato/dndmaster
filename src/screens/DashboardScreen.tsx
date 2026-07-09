@@ -1027,8 +1027,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
               backgroundColor: syncStatus === 'error' ? colors.accentRed : syncStatus === 'syncing' ? colors.accentAmber : colors.accentEmerald,
               marginRight: 8
             }} />
-            <Text style={{ color: colors.textMain, fontSize: 13, fontWeight: '700' }} numberOfLines={1}>
-              Sala do Mestre: <Text style={{ color: colors.accentAmber }}>{adventureName} ({adventureCode})</Text>
+            <Text style={{ color: colors.accentAmber, fontSize: 13, fontWeight: '700' }} numberOfLines={1}>
+              {adventureName} ({adventureCode})
             </Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -1047,30 +1047,14 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
                 paddingVertical: 5,
                 borderRadius: 6,
                 borderWidth: 1,
-                borderColor: colors.accentAmber,
-                marginRight: 8
+                borderColor: colors.accentAmber
               }}
               onPress={() => setPartyModalVisible(true)}
             >
               <Ionicons name="people" size={14} color={colors.accentAmber} style={{ marginRight: 5 }} />
-              <Text style={{ color: colors.accentAmber, fontSize: 11, fontWeight: '700' }}>
-                {playersList.length} {playersList.length === 1 ? 'Jogador' : 'Jogadores'}
+              <Text style={{ color: colors.accentAmber, fontSize: 12, fontWeight: '800' }}>
+                {playersList.length}
               </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-              style={{ backgroundColor: colors.surface, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, borderWidth: 1, borderColor: colors.accentRed }}
-              onPress={() => {
-                Alert.alert(
-                  'Desconectar da Aventura',
-                  'Deseja sair da sala do Mestre? Seu personagem voltará ao modo solo local.',
-                  [
-                    { text: 'Cancelar', style: 'cancel' },
-                    { text: 'Desconectar', style: 'destructive', onPress: leaveAdventure }
-                  ]
-                );
-              }}>
-              <Text style={{ color: colors.accentRed, fontSize: 11, fontWeight: '700' }}>Sair da Sala</Text>
             </TouchableOpacity>
           </View>
         </View>
