@@ -96,7 +96,8 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
       }
     }
   );
-  const { leaveAdventure } = useAdventure();
+  const { leaveAdventure, playersList } = useAdventure();
+  const [partyModalVisible, setPartyModalVisible] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('tatico');
   const [journalText, setJournalText] = useState('');
     useEffect(() => {
@@ -1036,6 +1037,27 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
                 Falha na Sync
               </Text>
             )}
+
+            <TouchableOpacity 
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: colors.surface,
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+                borderRadius: 6,
+                borderWidth: 1,
+                borderColor: colors.accentAmber,
+                marginRight: 8
+              }}
+              onPress={() => setPartyModalVisible(true)}
+            >
+              <Ionicons name="people" size={14} color={colors.accentAmber} style={{ marginRight: 5 }} />
+              <Text style={{ color: colors.accentAmber, fontSize: 11, fontWeight: '700' }}>
+                {playersList.length} {playersList.length === 1 ? 'Jogador' : 'Jogadores'}
+              </Text>
+            </TouchableOpacity>
+
             <TouchableOpacity 
               style={{ backgroundColor: colors.surface, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, borderWidth: 1, borderColor: colors.accentRed }}
               onPress={() => {
@@ -1548,6 +1570,129 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
                 <Text style={styles.saveBtnText}>Salvar PV</Text>
               </TouchableOpacity>
             </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Party Members (Jogadores na Sala) Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={partyModalVisible}
+        onRequestClose={() => setPartyModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={[styles.modalContent, { maxHeight: '85%' }]}>
+            <View style={styles.modalHeader}>
+              <View>
+                <Text style={styles.modalTitle}>Jogadores na Sala</Text>
+                <Text style={{ color: colors.textMuted, fontSize: 13, marginTop: 2 }}>
+                  {playersList.length} {playersList.length === 1 ? 'aventureiro conectado' : 'aventureiros conectados'} na mesa
+                </Text>
+              </View>
+              <TouchableOpacity onPress={() => setPartyModalVisible(false)}>
+                <Ionicons name="close" size={22} color={colors.textMuted} />
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView style={{ flexShrink: 1, marginTop: 12 }}>
+              {playersList.length === 0 ? (
+                <Text style={{ color: colors.textMuted, textAlign: 'center', marginVertical: 24 }}>
+                  Nenhum outro jogador encontrado na sala.
+                </Text>
+              ) : (
+                playersList.map((player) => {
+                  const snap = player.statusSnapshot || {};
+                  const hp = snap.hp || { current: 0, max: 1, temp: 0 };
+                  const hpPct = Math.min(100, Math.max(0, (hp.current / (hp.max || 1)) * 100));
+                  const hpColor = hpPct > 50 ? colors.accentEmerald : hpPct > 25 ? colors.accentAmber : colors.accentRed;
+                  const isMe = player.characterId === character?.id;
+
+                  return (
+                    <View
+                      key={player.userId || player.characterId}
+                      style={{
+                        backgroundColor: colors.surface,
+                        borderRadius: 12,
+                        padding: 14,
+                        marginBottom: 12,
+                        borderWidth: 1,
+                        borderColor: isMe ? colors.accentAmber : colors.borderHighlight,
+                      }}
+                    >
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                        <View style={{ flex: 1, marginRight: 8 }}>
+                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                            <Text style={{ color: colors.textMain, fontSize: 16, fontWeight: '800' }}>
+                              {player.characterName || 'Sem Nome'}
+                            </Text>
+                            {isMe && (
+                              <View style={{ backgroundColor: colors.accentAmber, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4 }}>
+                                <Text style={{ color: '#000', fontSize: 10, fontWeight: '800' }}>VOCÊ</Text>
+                              </View>
+                            )}
+                          </View>
+                          <Text style={{ color: colors.textMuted, fontSize: 13, marginTop: 2 }}>
+                            {player.characterClass || 'Aventureiro'} • Nível {player.characterLevel || 1}
+                          </Text>
+                        </View>
+
+                        <View style={{
+                          backgroundColor: colors.surfaceSecondary,
+                          borderWidth: 1,
+                          borderColor: colors.borderHighlight,
+                          borderRadius: 8,
+                          paddingHorizontal: 8,
+                          paddingVertical: 4,
+                          alignItems: 'center'
+                        }}>
+                          <Text style={{ color: colors.textMuted, fontSize: 9, fontWeight: '700' }}>CA</Text>
+                          <Text style={{ color: colors.textMain, fontSize: 14, fontWeight: '800' }}>
+                            {snap.ac || 10}
+                          </Text>
+                        </View>
+                      </View>
+
+                      {/* HP Bar & Number */}
+                      <View style={{ marginTop: 12 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 }}>
+                          <Text style={{ color: colors.textMuted, fontSize: 12, fontWeight: '600' }}>Pontos de Vida</Text>
+                          <Text style={{ color: hpColor, fontSize: 12, fontWeight: '800' }}>
+                            {hp.current} / {hp.max} {hp.temp ? `(+${hp.temp} temp)` : ''}
+                          </Text>
+                        </View>
+                        <View style={{ height: 6, backgroundColor: colors.surfaceSecondary, borderRadius: 3, overflow: 'hidden' }}>
+                          <View style={{ width: `${hpPct}%`, height: '100%', backgroundColor: hpColor }} />
+                        </View>
+                      </View>
+
+                      {/* Conditions */}
+                      {snap.conditions && snap.conditions.length > 0 && (
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 10 }}>
+                          {snap.conditions.map((cond, cIdx) => (
+                            <View
+                              key={cIdx}
+                              style={{
+                                backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                                borderColor: colors.accentRed,
+                                borderWidth: 1,
+                                borderRadius: 6,
+                                paddingHorizontal: 6,
+                                paddingVertical: 2,
+                              }}
+                            >
+                              <Text style={{ color: colors.accentRed, fontSize: 11, fontWeight: '700' }}>
+                                {cond}
+                              </Text>
+                            </View>
+                          ))}
+                        </View>
+                      )}
+                    </View>
+                  );
+                })
+              )}
+            </ScrollView>
           </View>
         </View>
       </Modal>
