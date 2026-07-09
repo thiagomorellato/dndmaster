@@ -658,9 +658,9 @@ export const getSubclassMinLevel = (characterClass: string): number => {
 export const getStartingCustomResources = (className: string, level: number, stats: BaseStats): CustomResource[] => {
   const resources: CustomResource[] = [];
 
-  if (className === 'Paladino') {
+  if (className === 'Paladino' || className === 'Paladin' || className.includes('Palad')) {
     resources.push(
-      { id: 'lay_on_hands', name: 'Mãos Milagrosas (HP)', current: level * 5, max: level * 5 },
+      { id: 'lay_on_hands', name: 'Curar pelas Mãos (HP)', current: level * 5, max: level * 5 },
       { id: 'channel_divinity', name: 'Canalizar Divindade', current: 1, max: 1 }
     );
   } else if (className === 'Guerreiro') {

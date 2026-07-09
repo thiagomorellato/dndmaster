@@ -44,7 +44,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectCharacter, onCre
         L2: { current: 2, max: 2 },
       },
       customResources: [
-        { id: 'lay_on_hands', name: 'Lay on Hands', current: 25, max: 25 },
+        { id: 'lay_on_hands', name: 'Curar pelas Mãos (HP)', current: 25, max: 25 },
         { id: 'channel_divinity', name: 'Channel Divinity', current: 1, max: 1 },
       ],
     },

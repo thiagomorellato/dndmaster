@@ -177,6 +177,32 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
         onBack();
         return;
       }
+
+      // Auto-correct Paladin resource name and max charges (level * 5)
+      let hasChanges = false;
+      const updatedCustomResources = (char.resources?.customResources || []).map(r => {
+        if (char.characterClass?.toLowerCase().includes('palad') && (r.id === 'lay_on_hands' || r.name?.includes('Mãos Milagrosas') || r.name?.includes('Curar pelas Mãos') || r.name?.includes('Lay on Hands'))) {
+          const correctMax = char.level * 5;
+          if (r.max !== correctMax || r.name !== 'Curar pelas Mãos (HP)') {
+            hasChanges = true;
+            const diff = correctMax - r.max;
+            return {
+              ...r,
+              id: 'lay_on_hands',
+              name: 'Curar pelas Mãos (HP)',
+              max: correctMax,
+              current: Math.min(correctMax, Math.max(0, r.current + (diff > 0 ? diff : 0)))
+            };
+          }
+        }
+        return r;
+      });
+
+      if (hasChanges) {
+        char.resources.customResources = updatedCustomResources;
+        await StorageService.saveCharacter(char);
+      }
+
       setCharacter(char);
       const logList = await LoggerService.getLogs(characterId);
       setLogs(logList);
@@ -743,11 +769,26 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
     const normClass = getNormClass(baseClass);
     const newSpellSlots = getSpellSlotsForClass(normClass, newLevel);
 
+    const updatedCustomResources = (character.resources?.customResources || []).map(r => {
+      if (normClass === 'Paladino' && (r.id === 'lay_on_hands' || r.name?.includes('Mãos Milagrosas') || r.name?.includes('Curar pelas Mãos') || r.name?.includes('Lay on Hands'))) {
+        const correctMax = newLevel * 5;
+        const diff = correctMax - r.max;
+        return {
+          ...r,
+          id: 'lay_on_hands',
+          name: 'Curar pelas Mãos (HP)',
+          max: correctMax,
+          current: Math.min(correctMax, Math.max(0, r.current + (diff > 0 ? diff : 0)))
+        };
+      }
+      return r;
+    });
+
     const updatedChar: Character = {
       ...character,
       level: newLevel,
       hp: { ...character.hp, max: character.hp.max + hpGain, current: character.hp.current + hpGain },
-      resources: { ...character.resources, spellSlots: newSpellSlots },
+      resources: { ...character.resources, spellSlots: newSpellSlots, customResources: updatedCustomResources },
       hitDice: { current: (character.hitDice?.current ?? character.level) + 1, dieType },
     };
     setIsSaving(true);
