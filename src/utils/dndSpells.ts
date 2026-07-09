@@ -180,8 +180,6 @@ export const SPELLS_DATABASE: Spell[] = [
       "Feiticeiro",
       "Bruxo",
       "Mago"
-    ,
-      "Paladino"
     ],
     "school": "Necromancia",
     "castingTime": "1 ação",
